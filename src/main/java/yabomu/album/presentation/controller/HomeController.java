@@ -8,10 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-	@RequestMapping(path="/", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(path="/home", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView init(ModelAndView mv) {
 
-		mv.setViewName("index.html");
+		mv.setViewName("home.html");
 		return mv;
 	}
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TODOリスト</title>
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+<link rel="stylesheet" th:href="@{/css/todolist.css}" />
+</head>
+<body>
+	<header>
+		<h2>TODOリスト</h2>
+	</header>
+	<nav>
+	</nav>
+	<main>
+		<section class="todolist">
+			<div th:each="form,it : ${formlist}">
+				<div class="todolist" th:classappend="${it.index}">
+					<p class="title">
+						<label th:classappend="'js-title' + ${it.index}" class="label">
+							<th:block th:text="${form}"></th:block>
+						</label>
+						<input type="text" th:classappend="'js-title' + ${it.index}" class="text hidden" th:value="${form}" />
+					</p>
+					<ul class="checklist">
+						<li><input type="checkbox"  /><th:block th:text="${form}"></th:block></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- 新規TODO作成 -->
+		<section class="new_todo">
+			<button type="button">＋新しいTODOリスト</button>
+		</section>
+		<div class="edit_newtodo hidden">
+				<p>
+					<input type="text" id="js-newtodo_title" class="title" />
+				</p>
+				<p>
+					<input type="text" id="js-newtodo_checklist" class="checklist" placeholder="例：◯◯を買う" />
+				</p>
+				<button type="button" id="js-btn-add_checklist">追加</button>
+				<button type="button" id="js-btn-create_todo">保存</button>
+				<button type="button" id="js-btn-newtodo_cancel">キャンセル</button>
+		</div>
+	</main>
+	<footer>
+	</footer>
+</body>
+</html>

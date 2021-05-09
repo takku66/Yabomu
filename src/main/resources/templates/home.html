@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>HOME</title>
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+<script th:src="@{/js/home.js}"></script>
+</head>
+<body>
+	<header>
+		<form>
+			<h2>やぼむ</h2>
+		</form>
+	</header>
+	<nav>
+		<form>
+		</form>
+	</nav>
+	<main>
+		<form name="mainForm">
+			<section class="calendar">
+				<article>
+				カレンダー
+				<div>
+				</div>
+				</article>
+				<button type="button" id="js-btn-add_plan" class="add_plan">＋プランを追加</button>
+			</section>
+			<section class="show_album">
+				<article>
+				直近のアルバム
+				<div>
+				</div>
+				</article>
+				<button type="button" id="js-btn-add_album" class="add_album">＋アルバムを追加</button>
+			</section>
+			<section class="todolist">
+				<article>
+				TODOリスト
+				<div>
+				</div>
+				</article>
+				<button type="button" id="js-btn-edit_todolist" class="edit_todolist">TODOリストを編集</button>
+			</section>
+		</form>
+	</main>
+	<footer>
+		<form>
+		</form>
+	</footer>
+</body>
+</html>
