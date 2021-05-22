@@ -1,7 +1,7 @@
 /**
- *
+ *DOM要素が読み込み完了だったらOKな処理
  */
-window.addEventListener("load",function(){
+window.addEventListener("DOMContentLoaded",function(){
 	init();
 }, false);
 

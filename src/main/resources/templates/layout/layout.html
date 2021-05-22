@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- 		th:fragment="layout (title,  body)"> -->
+<!-- ↑Thymeleaf layout dialectを使用するための追加 -->
+<head>
+<meta charset="UTF-8">
+<!-- タイトルを切り替えるため -->
+<title>content</title>
+<!-- 横幅をデバイスに合わせる、ズームは１倍 -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<!-- <link th:replace="${css}" /> -->
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+</head>
+<body>
+	<!-- ヘッダーパーツ -->
+	<div layout:replace="~{layout/header::frg-header}"></div>
+	<!-- ナビゲーションパーツ -->
+	<div layout:replace="~{layout/navigation::frg-nav}"></div>
+	<!-- 各画面のメインパーツ -->
+	<div layout:fragment="content"></div>
+	<!-- フッターパーツ -->
+	<div layout:replace="~{layout/footer::frg-footer}"></div>
+</body>
+</html>

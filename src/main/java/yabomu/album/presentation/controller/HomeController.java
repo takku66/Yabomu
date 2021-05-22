@@ -5,6 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * <pre>
+ * home用のコントローラー
+ * </pre>
+ * @author takku66
+ * @version 1.0
+ */
 @Controller
 public class HomeController {
 

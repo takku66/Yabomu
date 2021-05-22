@@ -1,32 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/layout.html}">
 <head>
-<meta charset="UTF-8">
 <title>TODOリスト</title>
-<link rel="stylesheet" th:href="@{/css/common.css}" />
 <link rel="stylesheet" th:href="@{/css/todolist.css}" />
 </head>
-<body>
-	<header>
-		<h2>TODOリスト</h2>
-	</header>
-	<nav>
-	</nav>
+<body layout:fragment="content" th:remove="tag">
+	<h2>TODOリスト</h2>
 	<main>
+<!-- 	TODOリスト -->
 		<section class="todolist">
-			<div th:each="form,it : ${formlist}">
+
+			<th:block th:each="vForm,it : ${formlist}">
 				<div class="todolist" th:classappend="${it.index}">
+					<input type="hidden" th:value="${vForm.todoId}" />
+<!-- 					タイトル -->
 					<p class="title">
-						<label th:classappend="'js-title' + ${it.index}" class="label">
-							<th:block th:text="${form}"></th:block>
+						<label th:data-idx="${it.index}" class="js-title label">
+							<th:block th:text="${vForm.title}"></th:block>
 						</label>
-						<input type="text" th:classappend="'js-title' + ${it.index}" class="text hidden" th:value="${form}" />
+						<input type="text" class="js-title text hidden"
+								th:data-idx="${it.index}" th:value="${vForm.title}" />
 					</p>
-					<ul class="checklist">
-						<li><input type="checkbox"  /><th:block th:text="${form}"></th:block></li>
+<!-- 					内容 -->
+					<p class="content">
+						<label th:data-idx="${it.index}" class="js-content label">
+							<th:block th:text="${vForm.content}"></th:block>
+						</label>
+						<input type="text" class="js-content text hidden"
+								th:data-idx="${it.index}" th:value="${vForm.content}" />
+					</p>
+<!-- 					チェックリスト -->
+					<p>チェックリスト</p>
+					<ul th:each="vCheckList,clIt : ${vForm.checkList}"
+						class="checklist">
+
+						<li>
+							<input type="checkbox" th:value="${vCheckList.completed}" />
+							<th:block th:text="${vCheckList.content}"></th:block>
+						</li>
 					</ul>
+<!-- 					リマインダー設定 -->
+					<p class="reminder">
+						<label th:data-idx="${it.index}" class="js-reminder label">
+							リマインダー
+						</label>
+						<span>時間</span>
+						<select class="js-reminder text"
+								th:value="${vForm.reminderTime.code}">
+							<option th:each="value : ${reminderTimeList}"
+									th:value="${value.code}"
+									th:text="${value.discription}"
+									th:selected="${value.code == vForm.reminderTime.code}">
+							</option>
+						</select>
+						<span>リピート設定</span>
+						<select class="js-reminder text"
+								th:value="${vForm.reminderRepeat.code}">
+							<option th:each="value : ${reminderRepeatList}"
+									th:value="${value.code}"
+									th:text="${value.discription}"
+									th:selected="${value.code == vForm.reminderRepeat.code}">
+							</option>
+						</select>
+					</p>
+<!-- 					予定開始日 -->
+
 				</div>
-			</div>
+			</th:block>
 		</section>
 
 		<!-- 新規TODO作成 -->
@@ -45,7 +87,5 @@
 				<button type="button" id="js-btn-newtodo_cancel">キャンセル</button>
 		</div>
 	</main>
-	<footer>
-	</footer>
 </body>
 </html>
