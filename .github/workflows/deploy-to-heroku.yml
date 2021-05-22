@@ -26,7 +26,7 @@ jobs:
         HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
     - name: Add remote
       run: git remote add heroku https://git.heroku.com/${{secrets.HEROKU_APP_NAME}}.git
-#    - name: Deploy to Heroku
+    - name: Deploy to Heroku
 #      run: git push heroku main
       uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
