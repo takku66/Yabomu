@@ -1,4 +1,4 @@
-package yabomu.album.presentation.viewadapter;
+package yabomu.album.presentation.todolist.viewadapter;
 
 /**
  * <pre>

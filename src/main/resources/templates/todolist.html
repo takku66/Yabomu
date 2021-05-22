@@ -46,6 +46,7 @@
 						<label th:data-idx="${it.index}" class="js-reminder label">
 							リマインダー
 						</label>
+
 						<span>時間</span>
 						<select class="js-reminder text"
 								th:value="${vForm.reminderTime.code}">
@@ -55,6 +56,7 @@
 									th:selected="${value.code == vForm.reminderTime.code}">
 							</option>
 						</select>
+
 						<span>リピート設定</span>
 						<select class="js-reminder text"
 								th:value="${vForm.reminderRepeat.code}">
@@ -66,7 +68,13 @@
 						</select>
 					</p>
 <!-- 					予定開始日 -->
-
+					<p class="scheduled_start_date_time">
+						<label th:data-idx="${it.index}" class="js-scheduled_start_date_time label">
+							<th:block th:text="${vForm.scheduledStartDateTime}"></th:block>
+						</label>
+						<input type="date" class="js-scheduled_start_date text hidden"
+								th:data-idx="${it.index}" th:value="${vForm.scheduledStartDateTime}" />
+					</p>
 				</div>
 			</th:block>
 		</section>

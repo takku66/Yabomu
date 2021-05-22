@@ -1,4 +1,4 @@
-package yabomu.album.presentation.controller;
+package yabomu.album.presentation.home.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

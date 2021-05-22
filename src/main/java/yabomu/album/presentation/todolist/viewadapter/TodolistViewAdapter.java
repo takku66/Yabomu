@@ -1,4 +1,4 @@
-package yabomu.album.presentation.viewadapter;
+package yabomu.album.presentation.todolist.viewadapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import yabomu.album.presentation.controller.HomeController;
+import yabomu.album.presentation.home.controller.HomeController;
 
 @SpringBootTest
 class HomeControllerTest {

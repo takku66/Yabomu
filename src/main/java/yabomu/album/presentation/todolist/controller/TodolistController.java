@@ -1,4 +1,4 @@
-package yabomu.album.presentation.controller;
+package yabomu.album.presentation.todolist.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import yabomu.album.domain.model.todolist.ReminderConfig;
-import yabomu.album.presentation.viewadapter.CheckListViewAdapter;
-import yabomu.album.presentation.viewadapter.TodolistViewAdapter;
+import yabomu.album.presentation.todolist.viewadapter.CheckListViewAdapter;
+import yabomu.album.presentation.todolist.viewadapter.TodolistViewAdapter;
 
 /**
  * <pre>
