@@ -28,18 +28,19 @@ jobs:
       run: git remote add heroku https://git.heroku.com/${{secrets.HEROKU_APP_NAME}}.git
     - name: Check remote
       run: git remote -v
-    - name: Deploy to Heroku
+    - name: Setting
       env: 
         GITHUB_USERNAME: ${{ github.actor }}
       run: |
         git config --global user.email "${GITHUB_USERNAME}@users.noreply.github.com"
         git config --global user.name "${GITHUB_USERNAME}"
-        git push heroku main
+#        git push heroku main
     - name: echo github context
       run: echo "$GITHUB_CONTEXT"
-#      uses: AkhileshNS/heroku-deploy@v3.12.12
-#      with:
-#        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-#        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-#        heroku_email: ${{secrets.HEROKU_EMAIL}}
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+        heroku_email: ${{secrets.HEROKU_EMAIL}}
 
