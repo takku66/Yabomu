@@ -14,15 +14,11 @@ jobs:
       with: 
         fetch-depth: 0 
     - name: Add remote
-      env:
-        HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
-        HEROKU_API_TOKEN: ${{secrets.HEROKU_API_TOKEN}}
       run: |
-        git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git
+        git remote add heroku https://heroku:${{secrets.HEROKU_API_TOKEN}}@git.heroku.com/${{secrets.HEROKU_APP_NAME}}.git
     - uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
         heroku_email: ${{secrets.HEROKU_EMAIL}}
-        justlogin: true
 
