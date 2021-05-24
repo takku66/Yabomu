@@ -17,10 +17,13 @@ jobs:
     - name: Add remote 
       run: |
         git remote add heroku https://heroku:${{secrets.HEROKU_API_TOKEN}}@git.heroku.com/${{secrets.HEROKU_APP_NAME}}.git
-    - uses: AkhileshNS/heroku-deploy@v3.12.12
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
         heroku_email: ${{secrets.HEROKU_EMAIL}}
-        justlogin: false
+        justlogin: true
+      run: |
+        git push heroku main
 
