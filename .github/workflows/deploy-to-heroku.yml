@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
       with: 
         fetch-depth: 0 
-    - name: Add remote
+    - name: Add remote 
       run: |
         git remote add heroku https://heroku:${{secrets.HEROKU_API_TOKEN}}@git.heroku.com/${{secrets.HEROKU_APP_NAME}}.git
     - uses: AkhileshNS/heroku-deploy@v3.12.12
