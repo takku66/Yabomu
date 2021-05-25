@@ -1,7 +1,7 @@
 package yabomu.album.domain.model.user;
 
-import yabomu.album.shared.valueobject.UserId;
-import yabomu.album.shared.valueobject.UserName;
+import yabomu.album.domain.valueobject.UserId;
+import yabomu.album.domain.valueobject.UserName;
 
 /**
  * <pre>

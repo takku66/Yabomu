@@ -17,12 +17,12 @@ import yabomu.album.domain.model.todolist.ReminderConfig;
  * @author takku66
  * @version 1.0
  */
-public class TodolistViewAdapter {
+public class TodoListViewAdapter {
 
 	private String todoId;
 	private String title;
 	private String content;
-	private List<CheckListViewAdapter> checkList;
+	private List<CheckItemViewAdapter> checkList;
 	private ReminderConfig.Time reminderTime;
 	private ReminderConfig.Repeat reminderRepeat;
 	private String scheduledStartDateTime;
@@ -36,8 +36,8 @@ public class TodolistViewAdapter {
 	 * デフォルトコンストラクタ
 	 * </pre>
 	 */
-	public TodolistViewAdapter() {
-		this.checkList = new ArrayList<CheckListViewAdapter>();
+	public TodoListViewAdapter() {
+		this.checkList = new ArrayList<CheckItemViewAdapter>();
 	}
 	/*
 	 * MYNOTE:コンストラクタの引数にパラメータ指定したバージョンも作っていたけど、
@@ -95,41 +95,47 @@ public class TodolistViewAdapter {
 	public String getCreateDateTime() {
 		return createDateTime;
 	}
-
 	public void setCreateDateTime(String createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-
 	public String getUpdateDateTime() {
 		return updateDateTime;
 	}
-
 	public void setUpdateDateTime(String updateDateTime) {
 		this.updateDateTime = updateDateTime;
 	}
-
-	public List<CheckListViewAdapter> getCheckList() {
+	public List<CheckItemViewAdapter> getCheckList() {
 		return checkList;
 	}
 
-	public void setCheckList(List<CheckListViewAdapter> checkList) {
+	public void setCheckList(List<CheckItemViewAdapter> checkList) {
 		this.checkList = checkList;
 	}
 
+
+	/*
+	 * ReminderConfig.Time
+	 */
 	public ReminderConfig.Time getReminderTime() {
 		return reminderTime;
 	}
-
-	public void setReminderTime(int num) {
-		this.reminderTime = ReminderConfig.Time.selectBy(num);
+	public void setReminderTime(int code) {
+		this.reminderTime = ReminderConfig.Time.selectBy(code);
 	}
-
+	public void setReminderTime(ReminderConfig.Time reminderTime) {
+		this.reminderTime = reminderTime;
+	}
+	/*
+	 * ReminderConfig.Repeat
+	 */
 	public ReminderConfig.Repeat getReminderRepeat() {
 		return reminderRepeat;
 	}
-
-	public void setReminderRepeat(int num) {
-		this.reminderRepeat = ReminderConfig.Repeat.selectBy(num);
+	public void setReminderRepeat(int code) {
+		this.reminderRepeat = ReminderConfig.Repeat.selectBy(code);
+	}
+	public void setReminderRepeat(ReminderConfig.Repeat reminderRepeat) {
+		this.reminderRepeat = reminderRepeat;
 	}
 
 

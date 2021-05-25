@@ -24,7 +24,4 @@ jobs:
         heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         justlogin: true
-    - name: Push to Heroku
-      run: |
-        git push heroku main
 

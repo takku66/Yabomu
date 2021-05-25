@@ -6,17 +6,36 @@ section.todolist {
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-items: flex-start;
+	gap: 0.5em;
 }
 
-section.todolist div{
-	width: 120px;
+section.todolist>.todo-box{
+	min-width: 220px;
+	height: 400px;
+	box-shadow: 0 0 1px 1px silver;
+	overflow: hidden;
+	padding: 0.2em;
 }
 
-p.title {
-	padding: 0.7em;
+.todo-box>*{
+	margin-bottom: 0.2em;
+	border-radius: 5px;
+	background-color: rgb(240,240,240);
 }
 
-.checklist{
+.todo-box .title {
+	padding: 0.5em;
+}
+
+.todo-box .content {
+	padding: 0.3em;
+}
+
+.todo-box .checklist{
 	list-style: none;
 	padding: 0.3em;
+}
+
+.new_todo {
+	padding: 0.5em 0;
 }

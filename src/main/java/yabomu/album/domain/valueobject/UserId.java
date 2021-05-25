@@ -1,4 +1,4 @@
-package yabomu.album.shared.valueobject;
+package yabomu.album.domain.valueobject;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
  * </pre>
  * @version 1.0
  */
-public class UserId implements YBM_VO {
+public class UserId {
 
 	private String id;
 
@@ -25,6 +25,10 @@ public class UserId implements YBM_VO {
 	 */
 	public UserId(String id) {
 		this.id = id;
+	}
+
+	public String value() {
+		return this.id;
 	}
 
 	@Override

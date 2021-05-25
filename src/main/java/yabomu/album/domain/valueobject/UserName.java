@@ -1,4 +1,4 @@
-package yabomu.album.shared.valueobject;
+package yabomu.album.domain.valueobject;
 
 /**
  * <pre>
@@ -6,7 +6,7 @@ package yabomu.album.shared.valueobject;
  * </pre>
  * @version 1.0
  */
-public class UserName implements YBM_VO {
+public class UserName {
 
 	private String name;
 
@@ -20,6 +20,10 @@ public class UserName implements YBM_VO {
 			throw new IllegalArgumentException("ユーザー名がnull、もしくは空です。");
 		}
 		this.name = name;
+	}
+
+	public String value() {
+		return this.name;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package yabomu.album.shared.valueobject;
+package yabomu.album.domain.valueobject;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,11 +10,11 @@ import java.time.format.DateTimeParseException;
  * </pre>
  * @version 1.0
  */
-public class YbmDate implements YBM_VO {
+public class YbmDate {
 
 	private LocalDate date ;
 
-	public enum FmtPtn {
+	static public enum FmtPtn {
 		HYPHEN_DATE("uuuu-MM-dd"),
 		SLASH_DATE("uuuu/MM/dd"),
 		NONMARK_DATE("uuuuMMdd"),
@@ -46,7 +46,24 @@ public class YbmDate implements YBM_VO {
 			e.printStackTrace();
 		}
 	}
+	/**<pre>
+	 * 日付を設定する
+	 * </pre>
+	 */
+	public YbmDate(LocalDate date, FmtPtn pattern) {
+		if(date == null) {
+			date = null;
+		}
+		this.date = date;
+	}
 
+
+	public String valueOf(FmtPtn ptn) {
+		return date.format(DateTimeFormatter.ofPattern(ptn.getPtn()));
+	}
+	public String toNonmarkDate() {
+		return date.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE.getPtn()));
+	}
 	public String toHyphenDate() {
 		return date.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE.getPtn()));
 	}

@@ -8,9 +8,9 @@ package yabomu.album.presentation.todolist.viewadapter;
  * @author takku66
  * @version 1.0
  */
-public class CheckListViewAdapter {
+public class CheckItemViewAdapter {
 
-	private String listId;
+	private String checkListId;
 	private String content;
 	private boolean completed;
 
@@ -19,7 +19,7 @@ public class CheckListViewAdapter {
 	 * デフォルトコンストラクタ
 	 * </pre>
 	 */
-	public CheckListViewAdapter() {
+	public CheckItemViewAdapter() {
 	}
 
 	/**
@@ -30,20 +30,20 @@ public class CheckListViewAdapter {
 	 * @param content
 	 * @param completed
 	 */
-	public CheckListViewAdapter(String listId,
+	public CheckItemViewAdapter(String listId,
 								String content,
 								boolean completed) {
-		this.listId = listId;
+		this.checkListId = listId;
 		this.content = content;
 		this.completed = completed;
 	}
 
-	public String getListId() {
-		return listId;
+	public String getCheckListId() {
+		return checkListId;
 	}
 
-	public void setListId(String listId) {
-		this.listId = listId;
+	public void setCheckListId(String checkListId) {
+		this.checkListId = checkListId;
 	}
 
 	public String getContent() {
