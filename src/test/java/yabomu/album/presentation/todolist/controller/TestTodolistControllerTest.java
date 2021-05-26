@@ -1,8 +1,8 @@
-package yabomu.album.controller;
+package yabomu.album.presentation.todolist.controller;
 
 import org.junit.jupiter.api.Test;
 
-class TodolistControllerTest {
+class TestTodolistControllerTest {
 
 	@Test
 	void testInit() {

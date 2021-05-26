@@ -31,14 +31,17 @@ public class UserId {
 		return this.id;
 	}
 
-	@Override
 	public int hashCode() {
 		return id.hashCode();
 	}
 
-	@Override
 	public String toString() {
 		return this.id;
+	}
+
+	public boolean equals(Object object) {
+		UserId userId = (UserId)object;
+		return this.id.equals(userId.value());
 	}
 
 }

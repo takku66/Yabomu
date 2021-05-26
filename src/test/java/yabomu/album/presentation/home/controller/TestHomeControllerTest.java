@@ -1,4 +1,4 @@
-package yabomu.album.controller;
+package yabomu.album.presentation.home.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -11,10 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import yabomu.album.presentation.home.controller.HomeController;
-
 @SpringBootTest
-class HomeControllerTest {
+class TestHomeControllerTest {
 
 	private MockMvc mockMvc;
 

@@ -37,9 +37,9 @@ public class TodoListFactory {
 											new UserName("登録者名前" + i)),
 								new YbmUser(new UserId(UUID.randomUUID().toString()),
 											new UserName("更新者名前" + i)),
-								new YbmDate(LocalDate.now().plusDays(i), YbmDate.FmtPtn.NONMARK_DATE),
-								new YbmDate(LocalDate.now().plusDays(i), YbmDate.FmtPtn.NONMARK_DATE),
-								new YbmDate(LocalDate.now().plusDays(i), YbmDate.FmtPtn.NONMARK_DATE));
+								new YbmDate(LocalDate.now().plusDays(i)),
+								new YbmDate(LocalDate.now().plusDays(i)),
+								new YbmDate(LocalDate.now().plusDays(i)));
 			testlist.add(todo);
 		}
 		return testlist;

@@ -63,6 +63,7 @@
 					</p>
 <!-- 					予定開始日 -->
 					<p class="scheduled_start_date_time">
+					開始予定日
 						<label th:data-idx="${it.index}" class="js-scheduled_start_date_time label">
 							<th:block th:text="${vForm.scheduledStartDateTime}"></th:block>
 						</label>
@@ -77,7 +78,8 @@
 		<section class="new_todo">
 			<button type="button">＋新しいTODOリスト</button>
 		</section>
-		<div class="edit_newtodo hidden">
+		<div class="js-base_filter filter hidden">
+			<div class="edit_newtodo hidden">
 				<p>
 					<input type="text" id="js-newtodo_title" class="title" />
 				</p>
@@ -87,6 +89,7 @@
 				<button type="button" id="js-btn-add_checklist">追加</button>
 				<button type="button" id="js-btn-create_todo">保存</button>
 				<button type="button" id="js-btn-newtodo_cancel">キャンセル</button>
+			</div>
 		</div>
 	</main>
 </body>

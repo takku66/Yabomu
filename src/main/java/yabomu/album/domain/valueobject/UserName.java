@@ -26,14 +26,17 @@ public class UserName {
 		return this.name;
 	}
 
-	@Override
 	public int hashCode() {
 		return name.hashCode();
 	}
 
-	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	public boolean equals(Object object) {
+		UserName userName = (UserName)object;
+		return this.name.equals(userName.value());
 	}
 
 }

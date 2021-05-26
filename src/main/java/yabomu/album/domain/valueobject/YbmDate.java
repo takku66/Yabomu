@@ -15,11 +15,11 @@ public class YbmDate {
 	private LocalDate date ;
 
 	static public enum FmtPtn {
+		NONMARK_DATE("uuuuMMdd"),
 		HYPHEN_DATE("uuuu-MM-dd"),
 		SLASH_DATE("uuuu/MM/dd"),
-		NONMARK_DATE("uuuuMMdd"),
 		JP_DATE("uuuu年MM月dd日"),
-		JPG_DATE("uu年MM月dd日");
+		;
 		String ptn;
 		FmtPtn(String ptn){
 			this.ptn = ptn;
@@ -36,7 +36,7 @@ public class YbmDate {
 	public YbmDate(String date, FmtPtn pattern) {
 		// スペース文字含む空文字はnullにする
 		if(date == null || date.isBlank()) {
-			date = null;
+			throw new IllegalArgumentException("指定された日付が空です。");
 		}
 		// SimpleDateFormatterだとエラーにならない文字も、これだといけるらしい
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern.getPtn());
@@ -44,15 +44,19 @@ public class YbmDate {
 			this.date = LocalDate.parse(date, dtf);
 		}catch(DateTimeParseException e) {
 			e.printStackTrace();
+			throw new IllegalArgumentException("指定された日付のパースに失敗しました。" +
+												"[date=" + date.toString() +
+												", pattern=" + pattern.getPtn() +
+												"]");
 		}
 	}
 	/**<pre>
 	 * 日付を設定する
 	 * </pre>
 	 */
-	public YbmDate(LocalDate date, FmtPtn pattern) {
+	public YbmDate(LocalDate date) {
 		if(date == null) {
-			date = null;
+			throw new IllegalArgumentException("指定された日付が空です。");
 		}
 		this.date = date;
 	}
@@ -74,14 +78,27 @@ public class YbmDate {
 		return date.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE.getPtn()));
 	}
 
-	@Override
+	public LocalDate value() {
+		return this.date;
+	}
+
 	public int hashCode() {
 		return date.hashCode();
 	}
 
-	@Override
+	/**
+	 * <pre>
+	 * ハイフン付きの日付を返す
+	 * 例：2021-01-01
+	 * </pre>
+	 */
 	public String toString() {
 		return this.date.toString();
+	}
+
+	public boolean equals(Object object) {
+		YbmDate date = (YbmDate)object;
+		return this.date.equals(date.value());
 	}
 
 }
