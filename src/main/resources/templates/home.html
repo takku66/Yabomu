@@ -9,24 +9,32 @@
 <script th:src="@{/js/home.js}"></script>
 </head>
 <body layout:fragment="content" th:remove="tag">
-	<h2>やぼむ</h2>
+	<h2>YaBom</h2>
 	<main>
 		<form name="mainForm">
 			<section class="calendar">
 				<article>
 					カレンダー
-					<div>
+					<div id="calendar_area" class="calendar_area">
+						<div id="calendar_title" class="title">
+							2021/6/5
+						</div>
+						<button type="button" id="btn-prev_month" class="prev_month"> < </button>
+						<button type="button" id="btn-next_month" class="next_month"> > </button>
+						<div id="calendar" class="">
+						</div>
 					</div>
 				</article>
-				<button type="button" id="js-btn-add_plan" class="add_plan">＋プランを追加</button>
+				<button type="button" id="btn-add_plan" class="add_plan">＋プランを追加</button>
 			</section>
 			<section class="show_album">
 				<article>
 					直近のアルバム
 					<div>
+
 					</div>
 				</article>
-				<button type="button" id="js-btn-add_album" class="add_album">＋アルバムを追加</button>
+				<button type="button" id="btn-add_album" class="add_album">＋アルバムを追加</button>
 			</section>
 			<section class="todolist">
 				<article>
@@ -34,7 +42,7 @@
 					<div>
 					</div>
 				</article>
-				<button type="button" id="js-btn-edit_todolist" class="edit_todolist">TODOリストを編集</button>
+				<button type="button" id="btn-edit_todolist" class="edit_todolist">TODOリストを編集</button>
 			</section>
 		</form>
 	</main>

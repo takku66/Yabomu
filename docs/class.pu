@@ -1,0 +1,31 @@
+@startuml
+
+package presentation {
+    class HomeController {
+
+    }
+    class TodolistController {
+        
+    }
+}
+
+package domain {
+    package Todolist {
+        
+    }
+
+    package ValueObject {
+
+    }
+}
+
+package infrastructure {
+    
+}
+
+package usecase {
+    
+}
+
+
+@enduml

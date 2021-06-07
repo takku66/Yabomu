@@ -28,10 +28,16 @@ public class YbmDate {
 			return this.ptn;
 		}
 	}
-
-	/**<pre>
+	/**
+	 * <pre>
 	 * 日付を設定する
+	 * e.g:
+	 * new YbmDate("20210101", YbmDate.FmtPtn.NONMARK_DATE) -> OK
+	 * new YbmDate("2021/01/01", YbmDate.FmtPtn.SLASH_DATE) -> OK
+	 * new YbmDate("20210101", YbmDate.FmtPtn.SLASH_DATE) -> NG
 	 * </pre>
+	 * @param date 設定する日付文字列
+	 * @param pattern 設定する日付のフォーマット
 	 */
 	public YbmDate(String date, FmtPtn pattern) {
 		// スペース文字含む空文字はnullにする
@@ -44,10 +50,7 @@ public class YbmDate {
 			this.date = LocalDate.parse(date, dtf);
 		}catch(DateTimeParseException e) {
 			e.printStackTrace();
-			throw new IllegalArgumentException("指定された日付のパースに失敗しました。" +
-												"[date=" + date.toString() +
-												", pattern=" + pattern.getPtn() +
-												"]");
+			throw e;
 		}
 	}
 	/**<pre>

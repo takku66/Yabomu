@@ -22,9 +22,9 @@ function configureSubmitEvent(){
 	// ボタン-URL定義
 	// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 	const requestMap = {
-		"js-btn-add_plan":"/plan/add",
-		"js-btn-add_album":"/album/add",
-		"js-btn-edit_todolist":"/todolist/edit"
+		"btn-add_plan":"/plan/add",
+		"btn-add_album":"/album/add",
+		"btn-edit_todolist":"/todolist/edit"
 	}
 
 	// 各ボタンに、submit用のイベントを付与する

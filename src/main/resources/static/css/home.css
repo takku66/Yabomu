@@ -1,2 +1,16 @@
 @charset "UTF-8";
 
+#calendar_area {
+	width: 300px;
+}
+#calendar_area .title {
+	display: inline-block;
+	text-align: center;
+	width: 80%;
+}
+#calendar_area .prev_month {
+	display: inline-block;
+}
+#calendar_area .next_month {
+	display: inline-block;
+}

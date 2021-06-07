@@ -54,6 +54,10 @@ public class YbmUser {
 		return tellNo;
 	}
 
+	public void changeName(UserName name) {
+		this.name = name;
+	}
+
 	public void changeEmail(String email) {
 		this.email = email;
 	}

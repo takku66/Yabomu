@@ -24,6 +24,9 @@ public class UserId {
 	 * </pre>
 	 */
 	public UserId(String id) {
+		if(id == null || id.isBlank()) {
+			throw new IllegalArgumentException("ユーザーIDが空です。");
+		}
 		this.id = id;
 	}
 

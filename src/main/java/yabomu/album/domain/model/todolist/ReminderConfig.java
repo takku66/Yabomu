@@ -89,10 +89,10 @@ public class ReminderConfig {
 
 	public enum Repeat {
 		NONE				(-1, "設定なし"),
-		REPEAT_EVERY_DAY	(1, "1日毎"),
-		REPEAT_EVERY_WEEK	(7, "1週間毎"),
-		REPEAT_EVERY_MONTH	(30, "１ヶ月毎"),
-		REPEAT_EVERY_YEAR	(365, "1年毎"),
+		REPEAT_EVERY_DAY	(1, "1日おき"),
+		REPEAT_EVERY_WEEK	(7, "1週間おき"),
+		REPEAT_EVERY_MONTH	(30, "1ヶ月おき"),
+		REPEAT_EVERY_YEAR	(365, "1年おき"),
 		;
 
 		int code;
