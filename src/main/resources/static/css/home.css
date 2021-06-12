@@ -14,3 +14,41 @@
 #calendar_area .next_month {
 	display: inline-block;
 }
+
+/**************/
+/* アルバム
+/**************/
+#area-recently_album_slideshow {
+	position: relative;
+	display: inline-block;
+	padding: 0.7em;
+}
+#area-recently_album_slideshow
+.left_arrow,
+.right_arrow {
+	opacity: 0;
+	width: 25px;
+	cursor: pointer;
+	position: absolute;
+	top: 45%;
+}
+#area-recently_album_slideshow
+.left_arrow {
+	left: 5%;
+}
+#area-recently_album_slideshow
+.right_arrow {
+	right: 5%;
+}
+#area-recently_album_slideshow
+.left_arrow:hover,
+.right_arrow:hover {
+	opacity: 0.5;
+	transition: all 0.3s ease 0s;
+}
+#area-recently_album_slideshow
+.pickup_album{
+	width: 300px;
+	cursor: pointer;
+	box-shadow: 0 0 1px 1px lightgray;
+}

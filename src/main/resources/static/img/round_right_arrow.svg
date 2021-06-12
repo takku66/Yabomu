@@ -1,0 +1,8 @@
+<svg id="round_right_arrow" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <rect id="Area" width="50" height="50" fill="#fcfcfc" opacity="0"/>
+  <g id="Icon-2" data-name="Icon" transform="translate(6.188 6.188)">
+    <circle id="Path" cx="20.833" cy="20.833" r="20.833" transform="translate(-2.021 -2.021)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.167"/>
+    <path id="Path-2" data-name="Path" d="M25,33.333,33.333,25,25,16.667" transform="translate(-6.188 -6.188)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.167"/>
+    <line id="Line" x2="16.667" transform="translate(10.479 18.813)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.167"/>
+  </g>
+</svg>

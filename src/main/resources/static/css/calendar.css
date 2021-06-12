@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#table-calendar {
+
+}
+
+#table-calendar th {
+	padding: 0.5em;
+	text-align: center;
+}
+
+#table-calendar td {
+	padding: 0 0.5em;
+	text-align: center;
+}
+
+#table-calendar td.last-month, td.next-month {
+	color: lightgray;
+}

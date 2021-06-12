@@ -6,11 +6,20 @@ window.addEventListener("DOMContentLoaded",function(){
 }, false);
 
 /**
+ * home画面上で保持するグローバルオブジェクト
+ */
+const HOME = {
+	calendar: null
+};
+
+
+/**
  * 初期化処理
  * @returns
  */
 function init(){
 	configureSubmitEvent();
+	createCalendar();
 }
 
 /**
@@ -23,7 +32,6 @@ function configureSubmitEvent(){
 	// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 	const requestMap = {
 		"btn-add_plan":"/plan/add",
-		"btn-add_album":"/album/add",
 		"btn-edit_todolist":"/todolist/edit"
 	}
 
@@ -37,4 +45,8 @@ function configureSubmitEvent(){
 			form.submit();
 		}, false);
 	}
+}
+
+function createCalendar(){
+	HOME.calendar = YbmCalendar.create("calendar_area");
 }
