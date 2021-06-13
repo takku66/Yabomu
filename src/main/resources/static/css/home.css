@@ -65,10 +65,18 @@ section.schedule {
 #calendar-area caption {
 	font-size: 1.5em;
 }
+#calendar-area table td:hover {
+	background-color: rgb(220, 255, 255);
+}
+#calendar-area table td div {
+	font-size: 0.8em;
+	width: 3.0em;
+	height: 3.0em;
+	vertical-align: top;
+	text-align: left;
+}
 
-/**************/
-/* カレンダー内のz-index
-/**************/
+/* カレンダー内のz-index */
 section.calendar {
 	z-index: 300;
 }

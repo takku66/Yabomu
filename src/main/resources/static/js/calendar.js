@@ -88,6 +88,7 @@ var YbmCalendar = YbmCalendar || {};
 				},
 				inputThisMonth: function(tbody, year, month, info){
 					let cell;
+					let content;
 					let showDate = 1;
 					let firstDayOfWeek = info.firstDayOfWeek;
 					// 当月分のカレンダーを作成する
@@ -97,9 +98,11 @@ var YbmCalendar = YbmCalendar || {};
 						for(let j = firstDayOfWeek + this.beginningDay,
 								jlen = 7 + this.beginningDay; j < jlen; j++){
 							cell = document.createElement("td");
+							content = document.createElement("div");
 							cell.classList.add("this-month");
 							cell.classList.add(`${year}-${month+1}-${showDate}`);
-							cell.textContent = showDate;
+							content.textContent = showDate;
+							cell.appendChild(content);
 							row.appendChild(cell);
 							// 当月末日まできたら、作成を終える
 							if(showDate === info.daysInThisMonth) {
@@ -116,14 +119,17 @@ var YbmCalendar = YbmCalendar || {};
 				prependLastMonth: function(tbody, year, month, info){
 					// 差分があれば、前月分からHTMLを構築する
 					let row = tbody.rows[0];
+					let content;
 					let cell;
 					let firstDayOfWeek = info.firstDayOfWeek;
 					if(firstDayOfWeek != 0){
 						for(let i = 0, ilen = firstDayOfWeek - this.beginningDay; i < ilen; i++){
 							cell = document.createElement("td");
+							content = document.createElement("div");
 							cell.classList.add("last-month");
 							cell.classList.add(`${year}-${month}-${info.daysInLastMonth - i}`);
-							cell.textContent = info.daysInLastMonth - i;
+							content.textContent = info.daysInLastMonth - i;
+							cell.appendChild(content);
 							row.prepend(cell);
 						}
 					}
@@ -135,6 +141,7 @@ var YbmCalendar = YbmCalendar || {};
 					if(row.cells.length === 7){
 						row = document.createElement("tr");
 					}
+					let content;
 					let cell;
 					let showDate = 1;
 					let startDayOfWeek = totalDays % 7;
@@ -142,9 +149,11 @@ var YbmCalendar = YbmCalendar || {};
 						for(let j = startDayOfWeek,
 								jlen = 7 + this.beginningDay; j < jlen; j++){
 							cell = document.createElement("td");
+							content = document.createElement("div");
 							cell.classList.add("next-month");
 							cell.classList.add(`${year}-${month+2}-${showDate}`);
-							cell.textContent = showDate;
+							content.textContent = showDate;
+							cell.appendChild(content);
 							row.appendChild(cell);
 							showDate++;
 							totalDays++;

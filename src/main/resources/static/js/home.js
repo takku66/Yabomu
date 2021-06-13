@@ -3,6 +3,8 @@
  */
 window.addEventListener("DOMContentLoaded",function(){
 	HOME.init();
+	HOME.configureSubmitEvent();
+	HOME.CALENDAR.configureEvent();
 }, false);
 
 /**
@@ -13,9 +15,7 @@ const HOME = {
 	// 初期化処理
 	init: function(){
 		this.calendarArea = document.getElementById("calendar-area");
-		this.configureSubmitEvent();
 		this.CALENDAR.create();
-		this.CALENDAR.configureEvent();
 	},
 	// リクエスト送信イベントの定義処理
 	configureSubmitEvent: function(){
@@ -47,24 +47,24 @@ const HOME = {
 			const nextBtn = document.getElementById("btn-next_month");
 
 			prevBtn.addEventListener("click", function(){
-				this.previousCalendar();
+				HOME.CALENDAR.previous();
 			});
 			nextBtn.addEventListener("click", function(){
-				this.nextCalendar();
+				HOME.CALENDAR.next();
 			});
 		},
 
 		create: function(){
-			this.calendar = YbmCalendar.create("calendar-area");
+			HOME.CALENDAR.calendar = YbmCalendar.create("calendar-area");
 		},
 		previous: function(){
-			this.calendar.prev();
+			HOME.CALENDAR.calendar.prev();
 		},
 		next: function(){
-			this.calendar.next();
+			HOME.CALENDAR.calendar.next();
 		},
 		move: function(year, month){
-			this.calendar.move(year, month);
+			HOME.CALENDAR.calendar.move(year, month);
 		}
 
 	}
