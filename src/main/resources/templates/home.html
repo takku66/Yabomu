@@ -12,9 +12,9 @@
 </head>
 <body layout:fragment="content" th:remove="tag">
 	<main>
-		<form name="mainForm">
+		<form name="mainForm" class="mainForm">
 
-			<section class="show_album">
+			<section class="album">
 				<article>
 					<div id="area-recently_album_slideshow">
 						<img th:src="@{/img/sample_album.svg}" id="img-pickup_album" class="pickup_album" />
@@ -26,14 +26,12 @@
 
 			<section class="calendar">
 				<article>
-					カレンダー
-					<div id="calendar_area" class="calendar_area">
-						<div id="calendar_title" class="title">
-							2021/6/5
+					<div class="calendar-container">
+						<div class="calendar-btn">
+							<button type="button" id="btn-prev_month" class="prev_month"> < </button>
+							<button type="button" id="btn-next_month" class="next_month"> > </button>
 						</div>
-						<button type="button" id="btn-prev_month" class="prev_month"> < </button>
-						<button type="button" id="btn-next_month" class="next_month"> > </button>
-						<div id="calendar" class="">
+						<div id="calendar-area" class="calendar-box">
 						</div>
 					</div>
 				</article>
@@ -43,7 +41,7 @@
 			<section class="todolist">
 				<article>
 					TODOリスト
-					<div>
+					<div id="todolist-container" class="todolist-container">
 					</div>
 				</article>
 				<button type="button" id="btn-edit_todolist" class="edit_todolist">TODOリストを編集</button>

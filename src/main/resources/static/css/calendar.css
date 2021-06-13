@@ -1,19 +1,40 @@
 @charset "UTF-8";
 
-#table-calendar {
-
+table.calendar {
+	border-collapse: collapse;
 }
 
-#table-calendar th {
-	padding: 0.5em;
+table.calendar thead tr {
+	border-bottom: 1px solid lightgray;
+}
+
+table.calendar th {
 	text-align: center;
 }
 
-#table-calendar td {
-	padding: 0 0.5em;
+table.calendar td {
+	padding: 0.3em 0.7em;
 	text-align: center;
 }
+table.calendar td:hover {
+	background-color: rgb(220, 255, 255);
+}
 
-#table-calendar td.last-month, td.next-month {
+table.calendar td.last-month, td.next-month {
 	color: lightgray;
 }
+
+div._calDiv {
+	display: flex;
+	flex-direction: row;
+}
+
+div._calDiv th:nth-of-type(1),
+div._calDiv td:nth-of-type(1):not(.last-month):not(.next-month) {
+	color: red;
+}
+div._calDiv th:nth-of-type(7),
+div._calDiv td:nth-of-type(7):not(.last-month):not(.next-month) {
+	color: blue;
+}
+

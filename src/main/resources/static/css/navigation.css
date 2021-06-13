@@ -16,22 +16,99 @@
 #nav-container li:hover {
 	text-shadow: 0.5px 0.5px silver;
 }
-
+#nav-container li.active {
+	border-bottom: 2px solid hsl(20, 40%, 40%);
+}
 
 /**************/
 /* PC版設定
 /**************/
-#nav-container ul {
-	flex-direction: row;
-}
-#nav-container ul {
-	box-shadow: 0 1px 1px 1px silver;
-}
-#nav-container li.is_showing {
-	border-bottom: 2px solid hsl(20, 40%, 40%);
+@media screen and (min-width:601px) {
+	#nav-container ul {
+		flex-direction: row;
+	}
+	#nav-container ul {
+		border-bottom: 2px solid silver;
+	}
+	#nav-container .hamburger {
+		display: none;
+	}
 }
 
 
 /**************/
 /* スマホ版設定
 /**************/
+@media screen and (max-width:600px) {
+	#nav-container ul {
+		flex-direction: column;
+	}
+
+	/**************/
+	/* CLOSED!
+	/**************/
+	/* メニュー押下時の表示画面（全体） */
+	#g-navigation {
+		position: fixed;
+		transform: translateX(-500px);
+		top: 0;
+		width: 300px; /* スマホに収まるくらい */
+		height: 100vh;
+		padding-top: 40px;
+		background-color: rgba(250,250,250, 0.9);
+		transition: all .4s;
+		z-index: 900;
+		overflow-y: auto; /* メニューが多くなったらスクロールできるように */
+	}
+	/* クリック用のハンバーガー図 */
+	.hamburger {
+		position: fixed;
+		display: block;
+		left: 0;
+		top: 0;
+		width: 36px; /* クリックしやすいようにちゃんと幅を指定する */
+		height: 34px; /* クリックしやすいようにちゃんと高さを指定する */
+		cursor: pointer;
+		z-index: 909;
+	}
+	.hamburger_line {
+		position: absolute;
+		left: 10px;
+		width: 18px;
+		height: 2px;
+		background-color: rgb(50, 50, 50);
+		transition: all .6s;
+	}
+	.hamburger_line-1 {
+		top: 10px;
+	}
+	.hamburger_line-2 {
+		top: 16px;
+	}
+	.hamburger_line-3 {
+		top: 22px;
+	}
+	#nav-container ul {
+		width: 70%;
+	}
+
+	/**************/
+	/* OPENED!
+	/**************/
+	/* メニュー押下時の表示画面（全体） */
+	#g-navigation.open {
+		transform: translateX(0px);
+	}
+	.hamburger.open .hamburger_line-1 {
+		top: 15px;
+		transform: rotate(225deg);
+	}
+	.hamburger.open .hamburger_line-2 {
+		width: 0;
+		left: 50%;
+	}
+	.hamburger.open .hamburger_line-3 {
+		top: 15px;
+		transform: rotate(315deg);
+	}
+}

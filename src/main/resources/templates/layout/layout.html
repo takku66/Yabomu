@@ -16,12 +16,15 @@
 <link rel="stylesheet" th:href="@{/css/navigation.css}" media="screen"/>
 <link rel="stylesheet" th:href="@{/css/common.css}" media="screen" />
 <script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/navigation.js}"></script>
 </head>
 <body>
 	<!-- ヘッダーパーツ -->
 	<div layout:replace="~{layout/header::frg-header}"></div>
 	<!-- ナビゲーションパーツ -->
 	<div layout:replace="~{layout/navigation::frg-nav}"></div>
+	<!-- ナビゲーションパーツ -->
+	<div layout:replace="~{layout/navigation::frg-nav-hbgr}"></div>
 	<!-- 各画面のメインパーツ -->
 	<div layout:fragment="content"></div>
 	<!-- フッターパーツ -->

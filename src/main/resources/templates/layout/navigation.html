@@ -6,14 +6,22 @@
 	<nav id="g-navigation" layout:fragment="frg-nav">
 		<div id="nav-container" class="nav-container">
 			<ul>
-				<li class="nav-item home is_showing">HOME</li>
-				<li class="nav-item album">アルバム</li>
-				<li class="nav-item spot">見どころ！</li>
-				<li class="nav-item traffic">交通</li>
-				<li class="nav-item todo">TODO</li>
-				<li class="nav-item schedule">スケジュール</li>
+				<li class="nav-item home" data-nav-name="home">HOME</li>
+				<li class="nav-item album" data-nav-name="album">アルバム</li>
+				<li class="nav-item spot" data-nav-name="spot">見どころ！</li>
+				<li class="nav-item traffic" data-nav-name="traffic">交通</li>
+				<li class="nav-item todo" data-nav-name="todo">TODO</li>
+				<li class="nav-item schedule" data-nav-name="schedule">スケジュール</li>
 			</ul>
 		</div>
+		<input type="hidden" id="now-showing-item" />
+
 	</nav>
+	<div class="hamburger" id="hamburger" layout:fragment="frg-nav-hbgr">
+		<span class="hamburger_line hamburger_line-1"></span>
+		<span class="hamburger_line hamburger_line-2"></span>
+		<span class="hamburger_line hamburger_line-3"></span>
+	</div>
+
 </body>
 </html>

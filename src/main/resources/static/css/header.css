@@ -1,10 +1,14 @@
 @charset "UTF-8";
 
+header {
+	padding: 0.3em;
+}
+
 h2 {
 	font-family: "Economica", sans-serif;
-	font-size: 2.7rem;
-	box-shadow: 0 1px 2px 1px silver;
-	padding: 0.7rem;
+	font-size: 2.0rem;
+	border-bottom: 2px solid silver;
 	text-align: center;
+	margin: 0;
 }
 

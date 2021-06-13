@@ -1,23 +1,91 @@
 @charset "UTF-8";
+/**************/
+/* メインレイアウト
+/**************/
+/** PC用 */
+@media screen and (min-width:601px) {
+	.mainForm {
+		display: grid;
+		grid-template-areas:
+			"a a d"
+			"b c d";
+		grid-gap: 1.7rem;
+	}
+}
+@media screen and (max-width:601px) {
+	/** SP用 */
+	.mainForm {
+		display: flex;
+		flex-direction: column;
+	}
+}
+section.album {
+	grid-area: a;
+	max-width: 600px;
+}
+section.calendar {
+	grid-area: b;
+}
+section.todolist {
+	grid-area: c;
+}
+section.schedule {
+	grid-area: d;
+}
 
-#calendar_area {
-	width: 300px;
+/**************/
+/* カレンダー
+/**************/
+.calendar-container {
+	position: relative;
+	width: 18em;
+	overflow: hidden;
 }
-#calendar_area .title {
-	display: inline-block;
-	text-align: center;
-	width: 80%;
+
+.calendar-btn {
+	position: absolute;
+	top: 2px;
+	right: 2px;
 }
-#calendar_area .prev_month {
+
+.calendar-btn button {
+	border: 0;
+	background-color: white;
+	cursor: pointer;
+	font-size: 1.0em;
+	box-shadow: 0 0 1px 1px silver;
 	display: inline-block;
 }
-#calendar_area .next_month {
-	display: inline-block;
+.calendar-btn button:hover {
+	box-shadow: 0 0 2px 2px silver;
+}
+.calendar-btn button:active {
+	box-shadow: 0 0 1px 1px silver;
+}
+#calendar-area caption {
+	font-size: 1.5em;
+}
+
+/**************/
+/* カレンダー内のz-index
+/**************/
+section.calendar {
+	z-index: 300;
+}
+#calendar-area table {
+	z-index: 301;
+}
+.calendar-btn {
+	z-index: 302;
 }
 
 /**************/
 /* アルバム
 /**************/
+section.album {
+	text-align: center;
+}
+
 #area-recently_album_slideshow {
 	position: relative;
 	display: inline-block;
@@ -48,7 +116,8 @@
 }
 #area-recently_album_slideshow
 .pickup_album{
-	width: 300px;
+	max-width: 300px;
+	width: 90%;
 	cursor: pointer;
 	box-shadow: 0 0 1px 1px lightgray;
 }
