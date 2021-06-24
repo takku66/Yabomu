@@ -22,17 +22,25 @@ const HOME = {
 		// ボタン-URL定義
 		// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 		const requestMap = {
-			"btn-add_plan":"/plan/add",
-			"btn-edit_todolist":"/todolist/edit"
+			"album_slideshow":{ url: "/album/edit",
+								nav: "album"
+			},
+			"btn-edit_todolist":{ url: "/todolist/edit",
+								  nav: "todo"
+			},
+			"btn-edit_schedule":{ url: "/schedule/edit",
+								  nav: "schedule"
+			}
 		}
 
 		// 各ボタンに、submit用のイベントを付与する
 		for(let elm of Object.keys(requestMap)){
 			const btn = document.getElementById(elm);
 			btn.addEventListener("click", function(){
+				NAV.activateMenuId(requestMap[elm].nav);
 				const form = document.mainForm;
 				form.method = "post";
-				form.action = requestMap[elm];
+				form.action = requestMap[elm].url;
 				form.submit();
 			}, false);
 		}

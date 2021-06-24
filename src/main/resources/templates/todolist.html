@@ -7,7 +7,6 @@
 <link rel="stylesheet" th:href="@{/css/todolist.css}" />
 </head>
 <body layout:fragment="content" th:remove="tag">
-	<h2>TODOリスト</h2>
 	<main>
 <!-- 	TODOリスト -->
 		<section class="todolist">
@@ -78,18 +77,18 @@
 		<section class="new_todo">
 			<button type="button">＋新しいTODOリスト</button>
 		</section>
-		<div class="base_filter filter hidden">
-			<div class="edit_newtodo hidden">
-				<p>
-					<input type="text" id="newtodo_title" class="title" />
-				</p>
-				<p>
-					<input type="text" id="newtodo_checklist" class="checklist" placeholder="例：◯◯を買う" />
-				</p>
-				<button type="button" id="btn-add_checklist">追加</button>
-				<button type="button" id="btn-create_todo">保存</button>
-				<button type="button" id="btn-newtodo_cancel">キャンセル</button>
-			</div>
+		<div class="edit_newtodo">
+			<p>
+				<input type="text" id="newtodo_title" class="title" />
+			</p>
+			<p>
+				<input type="text" id="newtodo_checklist" class="checklist" placeholder="例：◯◯を買う" />
+			</p>
+			<button type="button" id="btn-add_checklist">追加</button>
+			<button type="button" id="btn-create_todo">保存</button>
+			<button type="button" id="btn-newtodo_cancel">キャンセル</button>
+		</div>
+		<div class="base_filter filter">
 		</div>
 	</main>
 </body>

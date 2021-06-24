@@ -3,6 +3,17 @@
 	margin: 0;
 }
 
+:root {
+	--color-base		: white;
+	--color-main		: rgb(255, 186, 141);
+	--color-accent		: rgb(255, 200, 200);
+	--color-main_saturation-high	: hsl(210, 90%, 90%);
+	--color-main_brightness-low		: hsl(210, 75%, 75%);
+	--color-accent_saturation-high	: hsl(210, 90%, 90%);
+	--color-accent_brightness-low	: rgb(255, 200, 200);
+	--color-black		: rgb(50, 50, 50);
+}
+
 html {
 	font-family: "Hiragino Kaku Gothic Pro",
 				 "ヒラギノ角ゴ Pro",
@@ -13,6 +24,9 @@ html {
 				 "メイリオ",
 				 sans-serif;
 	overflow: hidden;
+	background-color: white;
+	color: var(--color-main-low);
+	font-size: 16px;
 }
 
 main {
@@ -20,7 +34,7 @@ main {
 	overflow: scroll;
 }
 body {
-	font-size: 16px;
+
 }
 
 .hidden{

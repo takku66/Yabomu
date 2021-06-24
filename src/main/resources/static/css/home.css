@@ -21,16 +21,27 @@
 }
 section.album {
 	grid-area: a;
-	max-width: 600px;
+	max-width: 300px;
+	min-width: 90%;
+	margin: 0 auto;
 }
 section.calendar {
 	grid-area: b;
+	max-width: 18em;
+	min-width: 18em;
+	margin: 0 auto;
 }
 section.todolist {
 	grid-area: c;
+	max-width: 18em;
+	min-width: 90%;
+	margin: 0 auto;
 }
 section.schedule {
 	grid-area: d;
+	max-width: 20em;
+	min-width: 90%;
+	margin: 0 auto;
 }
 
 /**************/
@@ -38,8 +49,8 @@ section.schedule {
 /**************/
 .calendar-container {
 	position: relative;
-	width: 18em;
 	overflow: hidden;
+	margin: 0 auto;
 }
 
 .calendar-btn {
@@ -65,8 +76,9 @@ section.schedule {
 #calendar-area caption {
 	font-size: 1.5em;
 }
-#calendar-area table td:hover {
-	background-color: rgb(220, 255, 255);
+#calendar-area table td div:hover {
+/* 	background-color: rgb(220, 255, 255); */
+/* 	box-shadow: 0 0 5px 1px silver; */
 }
 #calendar-area table td div {
 	font-size: 0.8em;
@@ -94,12 +106,12 @@ section.album {
 	text-align: center;
 }
 
-#area-recently_album_slideshow {
+#album_slideshow {
 	position: relative;
 	display: inline-block;
 	padding: 0.7em;
 }
-#area-recently_album_slideshow
+#album_slideshow
 .left_arrow,
 .right_arrow {
 	opacity: 0;
@@ -108,24 +120,100 @@ section.album {
 	position: absolute;
 	top: 45%;
 }
-#area-recently_album_slideshow
+#album_slideshow
 .left_arrow {
 	left: 5%;
 }
-#area-recently_album_slideshow
+#album_slideshow
 .right_arrow {
 	right: 5%;
 }
-#area-recently_album_slideshow
+#album_slideshow
 .left_arrow:hover,
 .right_arrow:hover {
 	opacity: 0.5;
 	transition: all 0.3s ease 0s;
 }
-#area-recently_album_slideshow
+#album_slideshow
 .pickup_album{
-	max-width: 300px;
-	width: 90%;
 	cursor: pointer;
 	box-shadow: 0 0 1px 1px lightgray;
+}
+
+/**************/
+/* TODOリスト
+/**************/
+#todolist-container {
+	text-align: center;
+}
+#todolist-container ul {
+	padding: 0;
+}
+#todolist-container li {
+	list-style: none;
+	text-align: left;
+	padding: 0.7em;
+	margin: 8px;
+	box-shadow: 0 0 1px 1px silver;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#todolist-container li:hover {
+	box-shadow: 0 0 2px 2px silver;
+}
+#btn-edit_todolist {
+	border: 0;
+	border-bottom: 2px solid silver;
+	background-color: white;
+	padding: 0;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+
+/**************/
+/* スケジュール
+/**************/
+#schedule-container {
+	box-shadow: 0 0 1px 1px silver;
+	padding: 0.5em;
+	border-radius: 5px;
+	width: 100%;
+	margin-top: 0.5em;
+}
+
+#schedule-container span.start-time,
+#schedule-container span.end-time {
+	display: inline-block;
+	width: 3em;
+}
+
+#schedule-container span.start-time {
+	display: inline-block;
+	width: 3em;
+}
+
+#schedule-container ul {
+	padding: 0;
+}
+
+#schedule-container li {
+	list-style: none;
+	text-align: left;
+	padding: 0.7em;
+	margin: 8px;
+	box-shadow: 0 0 2px 1px silver;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#schedule-container li:hover {
+	box-shadow: 0 0 2px 2px silver;
+}
+
+#btn-edit_schedule {
+	border: 0;
+	border-bottom: 2px solid silver;
+	background-color: white;
+	padding: 0;
+	vertical-align: bottom;
+	cursor: pointer;
 }

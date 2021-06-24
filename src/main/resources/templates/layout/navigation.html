@@ -4,24 +4,24 @@
 </head>
 <body>
 	<nav id="g-navigation" layout:fragment="frg-nav">
-		<div id="nav-container" class="nav-container">
-			<ul>
-				<li class="nav-item home" data-nav-name="home">HOME</li>
-				<li class="nav-item album" data-nav-name="album">アルバム</li>
-				<li class="nav-item spot" data-nav-name="spot">見どころ！</li>
-				<li class="nav-item traffic" data-nav-name="traffic">交通</li>
-				<li class="nav-item todo" data-nav-name="todo">TODO</li>
-				<li class="nav-item schedule" data-nav-name="schedule">スケジュール</li>
-			</ul>
-		</div>
-		<input type="hidden" id="now-showing-item" />
-
+		<form id="navForm" name="navForm">
+			<div id="nav-container" class="nav-container">
+				<ul>
+					<li id="nav-home" class="nav-item home" data-nav-name="home">HOME</li>
+					<li id="nav-album" class="nav-item album" data-nav-name="album">アルバム</li>
+					<li id="nav-spot" class="nav-item spot" data-nav-name="spot">見どころ！</li>
+					<li id="nav-traffic" class="nav-item traffic" data-nav-name="traffic">交通</li>
+					<li id="nav-todo" class="nav-item todo" data-nav-name="todo">TODO</li>
+					<li id="nav-schedule" class="nav-item schedule" data-nav-name="schedule">スケジュール</li>
+				</ul>
+			</div>
+			<input type="hidden" id="now-showing-item" name="nowShowingItem" th:value="${navForm.nowShowingItem}" />
+		</form>
 	</nav>
 	<div class="hamburger" id="hamburger" layout:fragment="frg-nav-hbgr">
-		<span class="hamburger_line hamburger_line-1"></span>
-		<span class="hamburger_line hamburger_line-2"></span>
-		<span class="hamburger_line hamburger_line-3"></span>
+		<span class="hamburger-line hamburger-line-1"></span>
+		<span class="hamburger-line hamburger-line-2"></span>
+		<span class="hamburger-line hamburger-line-3"></span>
 	</div>
-
 </body>
 </html>

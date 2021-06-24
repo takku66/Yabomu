@@ -17,7 +17,7 @@
 	text-shadow: 0.5px 0.5px silver;
 }
 #nav-container li.active {
-	border-bottom: 2px solid hsl(20, 40%, 40%);
+	border-bottom: 2px solid var(--color-accent);
 }
 
 /**************/
@@ -28,7 +28,7 @@
 		flex-direction: row;
 	}
 	#nav-container ul {
-		border-bottom: 2px solid silver;
+		border-bottom: 1px solid silver;
 	}
 	#nav-container .hamburger {
 		display: none;
@@ -64,28 +64,28 @@
 	.hamburger {
 		position: fixed;
 		display: block;
-		left: 0;
-		top: 0;
+		left: 5px;
+		top: 5px;
 		width: 36px; /* クリックしやすいようにちゃんと幅を指定する */
 		height: 34px; /* クリックしやすいようにちゃんと高さを指定する */
 		cursor: pointer;
 		z-index: 909;
 	}
-	.hamburger_line {
+	.hamburger-line {
 		position: absolute;
 		left: 10px;
 		width: 18px;
 		height: 2px;
-		background-color: rgb(50, 50, 50);
+		background-color: var(--color-black);
 		transition: all .6s;
 	}
-	.hamburger_line-1 {
+	.hamburger-line-1 {
 		top: 10px;
 	}
-	.hamburger_line-2 {
+	.hamburger-line-2 {
 		top: 16px;
 	}
-	.hamburger_line-3 {
+	.hamburger-line-3 {
 		top: 22px;
 	}
 	#nav-container ul {
@@ -99,15 +99,15 @@
 	#g-navigation.open {
 		transform: translateX(0px);
 	}
-	.hamburger.open .hamburger_line-1 {
+	.hamburger.open .hamburger-line-1 {
 		top: 15px;
 		transform: rotate(225deg);
 	}
-	.hamburger.open .hamburger_line-2 {
+	.hamburger.open .hamburger-line-2 {
 		width: 0;
 		left: 50%;
 	}
-	.hamburger.open .hamburger_line-3 {
+	.hamburger.open .hamburger-line-3 {
 		top: 15px;
 		transform: rotate(315deg);
 	}
