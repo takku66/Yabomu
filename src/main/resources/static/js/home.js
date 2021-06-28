@@ -26,7 +26,7 @@ const HOME = {
 								nav: "album"
 			},
 			"btn-edit_todolist":{ url: "/todolist/edit",
-								  nav: "todo"
+								  nav: "todolist"
 			},
 			"btn-edit_schedule":{ url: "/schedule/edit",
 								  nav: "schedule"

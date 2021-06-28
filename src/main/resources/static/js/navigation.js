@@ -15,7 +15,7 @@ const NAV = {
 	navList: null,
 	nowShowElm: null,
 	hdNowShowElm: null,
-	hdNowShowElmId: "now-showing-item",
+	hdNowShowElmId: "now-showing-menu",
 
 	// 初期化処理
 	init: function(){
@@ -44,9 +44,9 @@ const NAV = {
 		// ナビゲーション-URL定義
 		// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 		const requestMap = {
-			"nav-home":"/spot/edit",
+			"nav-home":"/home",
 			"nav-album":"/album/edit",
-			"nav-todo":"/todolist/edit",
+			"nav-todolist":"/todolist/edit",
 			"nav-spot":"/spot/edit",
 			"nav-traffic":"/traffic/edit",
 			"nav-schedule":"/schedule/edit"
@@ -54,9 +54,8 @@ const NAV = {
 		// ボタンを押すと、下線がついてsubmitされる
 		for(let elm of this.navList){
 			elm.addEventListener("click", function(){
-				if(this === NAV.nowShowElm){return;}
 				NAV.activateMenu(this);
-				const form = document.navForm;
+				const form = document.mainForm;
 				form.method = "post";
 				form.action = requestMap[elm.id];
 				form.submit();
@@ -77,13 +76,13 @@ const NAV = {
 	},
 	// 引数に指定されたメニューをアクティブ化する
 	activateMenu(elm){
-		// 渡された要素をアクティブ化する
-		elm.classList.add("active");
-
 		// 既に選択されていたものは、アクティブ化を解除する
 		if(NAV.nowShowElm){
 			NAV.nowShowElm.classList.remove("active");
 		}
+
+		// 渡された要素をアクティブ化する
+		elm.classList.add("active");
 
 		// NAVオブジェクトの現在表示中の要素を、渡された要素に更新する
 		NAV.nowShowElm = elm;

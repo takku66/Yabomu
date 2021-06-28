@@ -4,19 +4,22 @@
 </head>
 <body>
 	<nav id="g-navigation" layout:fragment="frg-nav">
-		<form id="navForm" name="navForm">
-			<div id="nav-container" class="nav-container">
-				<ul>
-					<li id="nav-home" class="nav-item home" data-nav-name="home">HOME</li>
-					<li id="nav-album" class="nav-item album" data-nav-name="album">アルバム</li>
-					<li id="nav-spot" class="nav-item spot" data-nav-name="spot">見どころ！</li>
-					<li id="nav-traffic" class="nav-item traffic" data-nav-name="traffic">交通</li>
-					<li id="nav-todo" class="nav-item todo" data-nav-name="todo">TODO</li>
-					<li id="nav-schedule" class="nav-item schedule" data-nav-name="schedule">スケジュール</li>
-				</ul>
-			</div>
-			<input type="hidden" id="now-showing-item" name="nowShowingItem" th:value="${navForm.nowShowingItem}" />
-		</form>
+		<div id="nav-container" class="nav-container">
+			<ul>
+				<li id="nav-home" class="nav-item home" data-nav-name="home">HOME</li>
+				<li id="nav-album" class="nav-item album" data-nav-name="album">アルバム</li>
+				<li id="nav-spot" class="nav-item spot" data-nav-name="spot">見どころ！</li>
+				<li id="nav-traffic" class="nav-item traffic" data-nav-name="traffic">交通</li>
+				<li id="nav-todolist" class="nav-item todolist" data-nav-name="todolist">TODO</li>
+				<li id="nav-schedule" class="nav-item schedule" data-nav-name="schedule">スケジュール</li>
+			</ul>
+		</div>
+<!-- 		<input type="text" name="test1" th:value="${#session.id}" /> -->
+<!-- 		<input type="text" name="test2" th:value="${#session.lastAccessedTime}" /> -->
+<!-- 		<input type="text" name="test3" th:value="${#session.getAttribute('nowShowingItem')}" /> -->
+<!-- 		<input type="text" name="test4" th:value="${session.nowShowingItem}" /> -->
+<!-- 		<input type="text" name="test5" th:value="${param.nowShowingItem}" /> -->
+		<input type="hidden" id="now-showing-menu" name="nowShowingMenu" th:value="${param.nowShowingMenu}" />
 	</nav>
 	<div class="hamburger" id="hamburger" layout:fragment="frg-nav-hbgr">
 		<span class="hamburger-line hamburger-line-1"></span>

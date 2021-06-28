@@ -17,6 +17,7 @@ var YbmCalendar = YbmCalendar || {};
 		const tableobj = calendar.createTable(year, month);
 		this.thead = tableobj.thead;
 		this.table = tableobj.table;
+		this.table.classList.add("active");
 		calendar.stock(year, month, tableobj.table);
 		calendar.append(this.table);
 		return calendar;
@@ -210,7 +211,7 @@ var YbmCalendar = YbmCalendar || {};
 			if( !this.isStocked(year)){
 				this.stockCalendars[year] = {};
 			}
-			this.stockCalendars[year][month] = {"html": table};
+			this.stockCalendars[year][month] = {"table": table};
 		},
 		resetShow: function(table){
 			this._calDiv.innerHTML = "";
@@ -238,82 +239,86 @@ var YbmCalendar = YbmCalendar || {};
 			}
 			return true;
 		},
+		// 引数に指定された年・月で、ストックしていたtableオブジェクトを取得する
 		fetchOf: function(year, month){
 			if(this.isStocked(year, month)){
 				return this.stockCalendars[year][month];
 			}
 			return null;
 		},
+		// 引数に指定された年・月をdomに反映させる
+		reflectDom: function(year, month){
+			let table;
+			// 引数に指定されたtableが既に作成済みであれば、それを返す
+			if(this.isStocked(year, month)){
+				const obj = this.fetchOf(year, month);
+				table = obj.table;
+				return obj.table;
+			}
+
+			// まだ作成されていなければ、作成する
+			const obj = this.createTable(year, month);
+			table = obj.table;
+
+			// 作成したtableはストックする
+			this.stock(year, month, table);
+
+			// 作成したtableをdomに反映させる
+			// 年をまたいでいなければ、月で比較
+			if(this.year == year){
+				if(this.month < month){
+					this.append(table);
+				}else{
+					this.prepend(table);
+				}
+			}else if(this.year < year){
+				// 年を越していた場合
+				this.append(table);
+			}else{
+				// 年をさかのぼった場合
+				this.prepend(table);
+			}
+		},
 		prev: function(){
 			// 前月の年月を取得する
 			const month = ((this.month-1) === -1) ? 11 : this.month-1;
 			const year = (month === 11) ? this.year-1 : this.year;
 
-			let table;
-			// 既にカレンダーが作成済みであれば、それを反映させる
-			if(this.isStocked(year, month)){
-				const obj = this.fetchOf(year, month);
-				table = obj.html;
-			}else{
-				// まだ作成されていなければ、作成する
-				const obj = this.createTable(year, month);
-				table = obj.table;
-				this.stock(year, month, table);
-				// カレンダーに反映させる
-				// 現在表示中の月をキープしておきたい
-				this.prepend(table);
-			}
+			// DOMにtableを反映させる
+			this.reflectDom(year, month);
+			// 表示するカレンダーを切り替える
 			this.switchCalendar(year, month);
-			this.year = year;
-			this.month = month;
 		},
 		next: function(){
 			// 次月の年月を取得する
 			const month = ((this.month+1) === 12) ? 0 : this.month+1;
 			const year = (month === 0) ? this.year+1 : this.year;
 
-			let table;
-			// 既にカレンダーが作成済みであれば、それを反映させる
-			if(this.isStocked(year, month)){
-				const obj = this.fetchOf(year, month);
-				table = obj.html;
-			}else{
-				// まだ作成されていなければ、作成する
-				const obj = this.createTable(year, month);
-				table = obj.table;
-				this.stock(year, month, table);
-				// カレンダーに反映させる
-				this.append(table);
-			}
+			// DOMにtableを反映させる
+			this.reflectDom(year, month);
+			// 表示するカレンダーを切り替える
 			this.switchCalendar(year, month);
-			this.year = year;
-			this.month = month;
 		},
 		move: function(year, month){
-			let table;
-			// 既にカレンダーが作成済みであれば、それを反映させる
-			if(this.isStocked(year, month)){
-				const obj = this.fetchOf(year, month);
-				table = obj.html;
-			}else{
-				// まだ作成されていなければ、作成する
-				const obj = this.createTable(year, month);
-				table = obj.table;
-			}
-			this.stock(year, month, table);
-			this.year = year;
-			this.month = month;
-			// カレンダーを反映させる
-			this.show(table);
-			this._includedGap = false;
+			// DOMにtableを反映させる
+			this.reflectDom(year, month);
+			// 表示するカレンダーを切り替える
+			this.switchCalendar(year, month);
+//			this._includedGap = false;
 		},
 		switchCalendar: function(targetYear, targetMonth){
-			const basePoint = (this._includedGap) ? 0 : this._calDiv.offsetLeft;
-			const targetTable = document.getElementById(`calendar-${targetYear}-${targetMonth}`)
+			const activeTable = this.fetchOf(this.year, this.month);
+			const targetTable = this.fetchOf(targetYear, targetMonth);
+			activeTable.table.classList.remove("active");
+//			const targetTable = document.getElementById(`calendar-${targetYear}-${targetMonth}`)
+			targetTable.table.classList.add("active");
+			this.table = targetTable.table;
+			this.year = targetYear;
+			this.month = targetMonth;
 //			const translateX = this._calDiv.offsetLeft - targetTable.offsetLeft;
-			const translateX = basePoint - targetTable.offsetLeft;
-			this._calDiv.style = `transform: translateX(${translateX}px);`;
-			this._includedGap = true;
+//			const translateX = basePoint - targetTable.offsetLeft;
+//			this._calDiv.style = `transform: translateX(${translateX}px);`;
+//			this._includedGap = true;
 		}
 	};
 

@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* TODOリスト */
 section.todolist {
 	display: flex;
 	flex-direction: row;
@@ -41,24 +42,37 @@ section.todolist>.todo-box{
 	overflow: hidden;
 }
 
+/* 新規TODOリストの作成エリア */
 .new_todo {
 	padding: 0.5em 0;
 }
-
-.edit_newtodo {
+.edit_todo-area {
 	display: none;
+}
+.edit_todo-area title {
+	font-size: 1.7em;
+}
+.edit_todo-area p {
+	margin: 0.5em;
 }
 .filter {
 	display: none;
 }
-.edit_newtodo.active {
+.edit_todo-area.active {
+	position: absolute;
 	top: 1.7em;
-	margin: 0 auto;
-	display: inline-block;
+	left: 50%;
+	transform: translateX(-50%);
+	display: block;
 	background-color: white;
-	box-shadow: 0 0 4px 1px silver;
+	box-shadow: 0 0 2px 1px silver;
 	border-radius: 5px;
-	width: 300px;
+	width: 40vw;
+	min-width: 300px;
+	height: 80vh;
+	min-height: 400px;
+	padding: 0.5em 2.0em;
+	z-index: 401;
 }
 
 .filter.active {

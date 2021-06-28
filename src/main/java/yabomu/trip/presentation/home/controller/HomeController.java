@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import yabomu.trip.presentation.NavigationForm;
 import yabomu.trip.presentation.session.YbmSession;
 
 /**
@@ -27,9 +26,6 @@ public class HomeController {
 
 	@RequestMapping(path="/home", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView init(ModelAndView mv) {
-		NavigationForm navForm = new NavigationForm();
-		navForm.setNowShowingItem("");
-		mv.addObject("navForm", navForm);
 		mv.setViewName("home.html");
 		return mv;
 	}

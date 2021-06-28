@@ -12,90 +12,87 @@
 </head>
 <body layout:fragment="content" th:remove="tag">
 	<main>
-		<form name="mainForm" class="mainForm">
+		<section class="album">
+			<article>
+				<div id="album_slideshow">
+					<img th:src="@{/img/sample_album.svg}" id="img-pickup_album" class="pickup_album" />
+					<img th:src="@{/img/round_left_arrow.svg}" id="btn-left_arrow" class="left_arrow" />
+					<img th:src="@{/img/round_right_arrow.svg}" id="btn-right_arrow" class="right_arrow" />
+				</div>
+			</article>
+		</section>
 
-			<section class="album">
-				<article>
-					<div id="album_slideshow">
-						<img th:src="@{/img/sample_album.svg}" id="img-pickup_album" class="pickup_album" />
-						<img th:src="@{/img/round_left_arrow.svg}" id="btn-left_arrow" class="left_arrow" />
-						<img th:src="@{/img/round_right_arrow.svg}" id="btn-right_arrow" class="right_arrow" />
+		<section class="calendar">
+			<article>
+				<div class="calendar-container">
+					<div class="calendar-btn">
+						<button type="button" id="btn-prev_month" class="prev_month"> < </button>
+						<button type="button" id="btn-next_month" class="next_month"> > </button>
 					</div>
-				</article>
-			</section>
-
-			<section class="calendar">
-				<article>
-					<div class="calendar-container">
-						<div class="calendar-btn">
-							<button type="button" id="btn-prev_month" class="prev_month"> < </button>
-							<button type="button" id="btn-next_month" class="next_month"> > </button>
-						</div>
-						<div id="calendar-area" class="calendar-box">
-						</div>
+					<div id="calendar-area" class="calendar-box">
 					</div>
-				</article>
-			</section>
+				</div>
+			</article>
+		</section>
 
-			<section class="todolist">
-				<article>
-					<button type="button"
-							id="btn-edit_todolist"
-							class="edit_todolist"
-							title="TODOリストを編集する">
-							TODOリスト
-					</button>
-					<div id="todolist-container" class="todolist-container">
-						<ul>
-							<li>
-								<input type="checkbox"></input>
-								<label>TODO1</label>
-							</li>
-							<li>
-								<input type="checkbox"></input>
-								<label>TODO222</label>
-							</li>
-							<li>
-								<input type="checkbox"></input>
-								<label>TODO33333</label>
-							</li>
-							<li>
-								<input type="checkbox"></input>
-								<label>TODO4444444</label>
-							</li>
-						</ul>
-					</div>
-				</article>
-			</section>
+		<section class="todolist">
+			<article>
+				<button type="button"
+						id="btn-edit_todolist"
+						class="edit_todolist"
+						title="TODOリストを編集する">
+						TODOリスト
+				</button>
+				<div id="todolist-container" class="todolist-container">
+					<ul>
+						<li>
+							<input type="checkbox"></input>
+							<label>TODO1</label>
+						</li>
+						<li>
+							<input type="checkbox"></input>
+							<label>TODO222</label>
+						</li>
+						<li>
+							<input type="checkbox"></input>
+							<label>TODO33333</label>
+						</li>
+						<li>
+							<input type="checkbox"></input>
+							<label>TODO4444444</label>
+						</li>
+					</ul>
+				</div>
+			</article>
+		</section>
 
-			<section class="schedule">
-				<article>
-					<button type="button"
-							id="btn-edit_schedule"
-							class="edit_schedule"
-							title="スケジュールを編集する">
-							スケジュール
-					</button>
-					<div id="schedule-container" class="schedule-container">
-						<ul>
-							<li>
-								<span class="start-time">9:00</span>
-								～
-								<span class="end-time">12:00</span>
-								<span class="task">移動</span>
-							</li>
-							<li>
-								<span class="start-time">12:00</span>
-								～
-								<span class="end-time">13:00</span>
-								<span class="task">食事</span>
-							</li>
-						</ul>
-					</div>
-				</article>
-			</section>
+		<section class="schedule">
+			<article>
+				<button type="button"
+						id="btn-edit_schedule"
+						class="edit_schedule"
+						title="スケジュールを編集する">
+						スケジュール
+				</button>
+				<div id="schedule-container" class="schedule-container">
+					<ul>
+						<li>
+							<span class="start_time">9:00</span>
+							～
+							<span class="end_time">12:00</span>
+							<span class="task">移動</span>
+						</li>
+						<li>
+							<span class="start_time">12:00</span>
+							～
+							<span class="end_time">13:00</span>
+							<span class="task">食事</span>
+						</li>
+					</ul>
+				</div>
+			</article>
+		</section>
 
-		</form>
 	</main>
 </body>
 </html>

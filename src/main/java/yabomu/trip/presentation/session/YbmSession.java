@@ -1,5 +1,7 @@
 package yabomu.trip.presentation.session;
 
+import java.io.Serializable;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -12,10 +14,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class YbmSession {
+public class YbmSession implements Serializable {
 
 	/** 現在表示中の画面 */
-	private String nowShowingItem;
+	private String nowShowingMenu;
 
 	public YbmSession() {
 
@@ -27,17 +29,17 @@ public class YbmSession {
 	 * </pre>
 	 * @return
 	 */
-	public String getNowShowingItem() {
-		return this.nowShowingItem;
+	public String getNowShowingMenu() {
+		return this.nowShowingMenu;
 	}
 	/**
 	 * <pre>
 	 * 現在表示中の画面IDを設定する
 	 * </pre>
-	 * @param nowShowingItem
+	 * @param nowShowingMenu
 	 */
-	public void setNowShowingItem(String nowShowingItem) {
-		this.nowShowingItem = nowShowingItem;
+	public void setNowShowingMenu(String nowShowingMenu) {
+		this.nowShowingMenu = nowShowingMenu;
 	}
 
 }

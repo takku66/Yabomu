@@ -4,7 +4,7 @@
 <!-- 		th:fragment="layout (title,  body)"> -->
 <!-- ↑Thymeleaf layout dialectを使用するための追加 -->
 <head>
-<meta charset="UTF-8">
+<meta lang="ja">
 <!-- タイトルを切り替えるため -->
 <title>content</title>
 <!-- 横幅をデバイスに合わせる、ズームは１倍 -->
@@ -14,20 +14,24 @@
 <link rel="stylesheet" th:href="@{/css/header.css}" media="screen"/>
 <link rel="stylesheet" th:href="@{/css/main.css}" media="screen"/>
 <link rel="stylesheet" th:href="@{/css/navigation.css}" media="screen"/>
+<link rel="stylesheet" th:href="@{/css/footer.css}" media="screen"/>
 <link rel="stylesheet" th:href="@{/css/common.css}" media="screen" />
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/navigation.js}"></script>
 </head>
 <body>
-	<!-- ヘッダーパーツ -->
-	<div layout:replace="~{layout/header::frg-header}"></div>
-	<!-- ナビゲーションパーツ -->
-	<div layout:replace="~{layout/navigation::frg-nav}"></div>
-	<!-- ナビゲーションパーツ -->
-	<div layout:replace="~{layout/navigation::frg-nav-hbgr}"></div>
-	<!-- 各画面のメインパーツ -->
-	<div layout:fragment="content"></div>
-	<!-- フッターパーツ -->
-	<div layout:replace="~{layout/footer::frg-footer}"></div>
+
+	<form name="mainForm" class="mainForm">
+		<!-- ヘッダーパーツ -->
+		<div layout:replace="~{layout/header::frg-header}"></div>
+		<!-- ナビゲーションパーツ -->
+		<div layout:replace="~{layout/navigation::frg-nav}"></div>
+		<!-- ナビゲーションパーツ（ハンバーガーメニュー部品） -->
+		<div layout:replace="~{layout/navigation::frg-nav-hbgr}"></div>
+		<!-- 各画面のメインパーツ -->
+		<div layout:fragment="content"></div>
+		<!-- フッターパーツ -->
+		<div layout:replace="~{layout/footer::frg-footer}"></div>
+	</form>
 </body>
 </html>

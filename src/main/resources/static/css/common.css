@@ -28,15 +28,6 @@ html {
 	color: var(--color-main-low);
 	font-size: 16px;
 }
-
-main {
-	height: 90vh;
-	overflow: scroll;
-}
-body {
-
-}
-
 .hidden{
 	display: none;
 }

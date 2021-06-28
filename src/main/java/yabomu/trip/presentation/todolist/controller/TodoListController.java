@@ -5,14 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import yabomu.trip.domain.model.todolist.ReminderConfig;
 import yabomu.trip.domain.model.todolist.Todo;
-import yabomu.trip.presentation.NavigationForm;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
@@ -42,18 +40,21 @@ public class TodoListController {
 
 	@RequestMapping(path=YbmUrls.TODOLIST_EDIT, method= RequestMethod.POST)
 	public ModelAndView init(final ModelAndView mv,
-								final TodoListViewAdapter todolistViewAdapter,
-								final @ModelAttribute("navForm") NavigationForm navForm) {
+								final TodoListViewAdapter todolistViewAdapter) {
+
+		// 全TODOリストを取得する
 		List<Todo> testlist = todoListService.findAll();
+
+		// view用のデータに変換する
 		List<TodoListViewAdapter> todolistView = TodoListViewConverter.convert(testlist);
+
+		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", todolistView);
 		mv.addObject("reminderTimeList", ReminderConfig.Time.values());
 		mv.addObject("reminderRepeatList", ReminderConfig.Repeat.values());
+
+		// 遷移先のhtml名を設定する
 		mv.setViewName("todolist.html");
-
-		this.session.setNowShowingItem(navForm.getNowShowingItem());
-		mv.addObject("navForm", navForm);
-
 		return mv;
 	}
 

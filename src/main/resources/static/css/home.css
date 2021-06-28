@@ -4,7 +4,7 @@
 /**************/
 /** PC用 */
 @media screen and (min-width:601px) {
-	.mainForm {
+	main {
 		display: grid;
 		grid-template-areas:
 			"a a d"
@@ -14,7 +14,7 @@
 }
 @media screen and (max-width:601px) {
 	/** SP用 */
-	.mainForm {
+	.main {
 		display: flex;
 		flex-direction: column;
 	}
@@ -27,8 +27,8 @@ section.album {
 }
 section.calendar {
 	grid-area: b;
-	max-width: 18em;
-	min-width: 18em;
+	max-width: 20em;
+	min-width: 20em;
 	margin: 0 auto;
 }
 section.todolist {
@@ -55,8 +55,8 @@ section.schedule {
 
 .calendar-btn {
 	position: absolute;
-	top: 2px;
-	right: 2px;
+	top: 0.2em;
+	right: 0.5em;
 }
 
 .calendar-btn button {
@@ -73,20 +73,11 @@ section.schedule {
 .calendar-btn button:active {
 	box-shadow: 0 0 1px 1px silver;
 }
-#calendar-area caption {
-	font-size: 1.5em;
-}
 #calendar-area table td div:hover {
 /* 	background-color: rgb(220, 255, 255); */
 /* 	box-shadow: 0 0 5px 1px silver; */
 }
-#calendar-area table td div {
-	font-size: 0.8em;
-	width: 3.0em;
-	height: 3.0em;
-	vertical-align: top;
-	text-align: left;
-}
+
 
 /* カレンダー内のz-index */
 section.calendar {
@@ -181,13 +172,13 @@ section.album {
 	margin-top: 0.5em;
 }
 
-#schedule-container span.start-time,
-#schedule-container span.end-time {
+#schedule-container span.start_time,
+#schedule-container span.end_time {
 	display: inline-block;
 	width: 3em;
 }
 
-#schedule-container span.start-time {
+#schedule-container span.start_time {
 	display: inline-block;
 	width: 3em;
 }

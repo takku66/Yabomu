@@ -1,19 +1,31 @@
 @charset "UTF-8";
 
-table.calendar {
+div._calDiv table.calendar {
 	border-collapse: collapse;
 }
 
-table.calendar thead tr {
+div._calDiv table.calendar thead tr {
 	border-bottom: 1px solid lightgray;
 }
 
-table.calendar th {
+div._calDiv table.calendar th {
 	text-align: center;
+	padding: 0.5em;
 }
 
-table.calendar td {
+div._calDiv table.calendar td {
 	text-align: center;
+	padding: 0.5em;
+}
+div._calDiv table td div {
+	font-size: 0.8em;
+	width: 2.2em;
+	height: 2.2em;
+	vertical-align: top;
+	text-align: left;
+}
+div._calDiv caption {
+	font-size: 1.5em;
 }
 
 table.calendar td.last-month, td.next-month {
@@ -23,6 +35,15 @@ table.calendar td.last-month, td.next-month {
 div._calDiv {
 	display: flex;
 	flex-direction: row;
+	padding: 0.2em;
+}
+
+div._calDiv table {
+	display: none;
+	box-shadow: 0 0 1px 1px silver;
+}
+div._calDiv table.active {
+	display: block;
 }
 
 div._calDiv th:nth-of-type(1),
