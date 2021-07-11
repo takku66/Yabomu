@@ -11,8 +11,8 @@ import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 /**
  * <pre>
  * TodoListオブジェクト用のリポジトリ
+ * （InMemory用）
  * </pre>
- * @author takku66
  * @version 1.0
  */
 @Repository("todoListRepository")

@@ -55,12 +55,16 @@ section.todolist>.todo-box{
 .edit_todo-area p {
 	margin: 0.5em;
 }
+textarea.content {
+	width: 100%;
+	height: 100px;
+}
 .filter {
 	display: none;
 }
 .edit_todo-area.active {
 	position: absolute;
-	top: 1.7em;
+	top: 2em;
 	left: 50%;
 	transform: translateX(-50%);
 	display: block;

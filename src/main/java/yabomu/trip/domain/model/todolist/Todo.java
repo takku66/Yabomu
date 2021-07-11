@@ -10,7 +10,6 @@ import yabomu.trip.domain.valueobject.YbmDate;
  * <pre>
  * TODOのデータ
  * </pre>
- * @author takku66
  * @version 1.0
  */
 public class Todo {

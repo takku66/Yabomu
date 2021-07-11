@@ -1,0 +1,15 @@
+DROP table authorizations;
+
+CREATE TABLE authorizations (
+	user_id integer,
+	created_at timestamp(3),
+	updated_at timestamp(6),
+	password varchar(200),
+	primary key (user_id)
+);
+
+comment on table authorizations is '認証情報';
+comment on column authorizations.user_id is 'ユーザーID';
+comment on column authorizations.created_at is '作成日時';
+comment on column authorizations.updated_at is '更新日時';
+comment on column authorizations.password is 'パスワード';

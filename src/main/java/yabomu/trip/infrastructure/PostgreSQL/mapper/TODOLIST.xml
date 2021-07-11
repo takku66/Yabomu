@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yabomu.trip.infrastructure.PostgreSQL.TodoListRepository" >
+
+	<sql id="Base_Column_List">
+	</sql>
+	
+	<resultMap id="SampleResultMap" type="com.example.entity.Actor" >
+		<id column="actor_id" property="actorId" jdbcType="SMALLINT" />
+		<result column="first_name" property="firstName" jdbcType="VARCHAR" />
+		<result column="last_name" property="lastName" jdbcType="VARCHAR" />
+		<result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectByParam" resultMap="SampleResultMap" parameterType="java.util.map" >
+		select
+			<include refid="Base_Column_List" />
+		from actor
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
+			order by ${orderByClause}
+		</if>
+	</select>
+
+</mapper>

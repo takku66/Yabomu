@@ -11,38 +11,57 @@
 			"b c d";
 		grid-gap: 1.7rem;
 	}
+	main>section {
+		margin: 0 auto;
+	}
+	section.album {
+		grid-area: a;
+		width: 20em;
+		min-width: 90%;
+	}
+	section.calendar {
+		grid-area: b;
+		width: 20em;
+		min-width: 20em;
+	}
+	section.todolist {
+		grid-area: c;
+		width: 20em;
+		min-width: 90%;
+	}
+	section.schedule {
+		grid-area: d;
+		width: 20em;
+		min-width: 90%;
+	}
 }
 @media screen and (max-width:601px) {
 	/** SP用 */
-	.main {
+	main {
 		display: flex;
 		flex-direction: column;
 	}
+	main>section {
+		margin: 2em auto;
+	}
+	section.album {
+		width: 20em;
+		min-width: 75%;
+	}
+	section.calendar {
+		width: 20em;
+		min-width: 20em;
+	}
+	section.todolist {
+		width: 20em;
+		min-width: 75%;
+	}
+	section.schedule {
+		width: 20em;
+		min-width: 75%;
+	}
 }
-section.album {
-	grid-area: a;
-	max-width: 300px;
-	min-width: 90%;
-	margin: 0 auto;
-}
-section.calendar {
-	grid-area: b;
-	max-width: 20em;
-	min-width: 20em;
-	margin: 0 auto;
-}
-section.todolist {
-	grid-area: c;
-	max-width: 18em;
-	min-width: 90%;
-	margin: 0 auto;
-}
-section.schedule {
-	grid-area: d;
-	max-width: 20em;
-	min-width: 90%;
-	margin: 0 auto;
-}
+
 
 /**************/
 /* カレンダー
