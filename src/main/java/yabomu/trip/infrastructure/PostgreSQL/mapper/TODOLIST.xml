@@ -3,13 +3,37 @@
 <mapper namespace="yabomu.trip.infrastructure.PostgreSQL.TodoListRepository" >
 
 	<sql id="Base_Column_List">
+		event_id,
+		todo_id,
+		created_at,
+		create_user,
+		updated_at,
+		update_user,
+		title,
+		content,
+		check_list_id,
+		reminder_type,
+		reminder_start_date
 	</sql>
-	
-	<resultMap id="SampleResultMap" type="com.example.entity.Actor" >
-		<id column="actor_id" property="actorId" jdbcType="SMALLINT" />
-		<result column="first_name" property="firstName" jdbcType="VARCHAR" />
-		<result column="last_name" property="lastName" jdbcType="VARCHAR" />
-		<result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+
+	<sql id="Base_Where_Clause">
+		<where>
+
+		</where>
+	</sql>
+
+	<resultMap id="TodoListResultMap" type="yabomu.trip.domain.entity.TodoEntity" >
+		<id column="event_id" property="eventId" jdbcType="INTEGER" />
+		<id column="todo_id" property="todoId" jdbcType="INTEGER" />
+		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
+		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="check_list_id" property="checkListId" jdbcType="INTEGER" />
+		<result column="reminder_type" property="reminderType" jdbcType="CHAR" />
+		<result column="reminder_start_date" property="reminderStartDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<select id="selectByParam" resultMap="SampleResultMap" parameterType="java.util.map" >
@@ -17,11 +41,32 @@
 			<include refid="Base_Column_List" />
 		from actor
 		<if test="_parameter != null" >
-			<include refid="Example_Where_Clause" />
+			<include refid="Base_Where_Clause" />
 		</if>
 		<if test="orderByClause != null" >
 			order by ${orderByClause}
 		</if>
 	</select>
+
+	<insert id="insert"
+		parameterType="yabomu.trip.domain.entity.TodoEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		keyProperty=""
+		keyColumn=""
+		useGeneratedKeys="false"
+		timeout="180">
+
+	<update id="update"
+		parameterType="yabomu.trip.domain.entity.TodoEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		timeout="180">
+
+	<delete id="delete"
+		parameterType="yabomu.trip.domain.entity.TodoEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		timeout="180">
 
 </mapper>

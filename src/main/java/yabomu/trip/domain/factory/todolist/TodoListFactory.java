@@ -20,26 +20,27 @@ public class TodoListFactory {
 		for(int i = 0; i < 10; i++) {
 			List<CheckItem> clvaList = new ArrayList<CheckItem>();
 			for(int j = 0; j < 10; j++) {
-				CheckItem clva = new CheckItem(
-									String.format("0000", i) + String.format("00", j),
-									"内容" + i + "-" + j,
-									i+j%3==0);
+				CheckItem clva = CheckItem.builder()
+									.checkListId(String.format("0000", i) + String.format("00", j))
+									.content("内容" + i + "-" + j)
+									.completed(i+j%3==0)
+									.build();
 				clvaList.add(clva);
 			}
 
-			Todo todo = new Todo(String.format("0000", i),
-								"タイトル" + i,
-								"内容" + i,
-								clvaList,
-								ReminderConfig.Time.selectBy(i*5),
-								ReminderConfig.Repeat.selectBy(i),
-								new YbmUser(new UserId(UUID.randomUUID().toString()),
-											new UserName("登録者名前" + i)),
-								new YbmUser(new UserId(UUID.randomUUID().toString()),
-											new UserName("更新者名前" + i)),
-								new YbmDate(LocalDate.now().plusDays(i)),
-								new YbmDate(LocalDate.now().plusDays(i)),
-								new YbmDate(LocalDate.now().plusDays(i)));
+			Todo todo = Todo.builder()
+							.todoId(String.format("%05d", i))
+							.title("タイトル" + i)
+							.content("内容" + i)
+							.checkList(clvaList)
+							.reminderTime(ReminderConfig.Time.selectBy(i*5))
+							.reminderRepeat(ReminderConfig.Repeat.selectBy(i))
+							.createUser(new YbmUser(new UserId(UUID.randomUUID().toString()), new UserName("登録者名前" + i)))
+							.createDateTime(new YbmDate(LocalDate.now().plusDays(i)))
+							.updateUser(new YbmUser(new UserId(UUID.randomUUID().toString()), new UserName("更新者名前" + i)))
+							.updateDateTime(new YbmDate(LocalDate.now().plusDays(i)))
+							.scheduledStartDateTime(new YbmDate(LocalDate.now().plusDays(i)))
+							.build();
 			testlist.add(todo);
 		}
 		return testlist;

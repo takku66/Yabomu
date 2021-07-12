@@ -14,7 +14,6 @@ import yabomu.trip.domain.model.todolist.ReminderConfig;
  * Javaアクセス修飾子のパッケージスコープは、
  * 階層が違うだけでもスコープ外になってしまう。。。
  * </pre>
- * @author takku66
  * @version 1.0
  */
 public class TodoListViewAdapter {
@@ -26,8 +25,10 @@ public class TodoListViewAdapter {
 	private ReminderConfig.Time reminderTime;
 	private ReminderConfig.Repeat reminderRepeat;
 	private String scheduledStartDateTime;
+	private String createUserId;
 	private String createUserName;
 	private String createDateTime;
+	private String updateUserId;
 	private String updateUserName;
 	private String updateDateTime;
 
@@ -112,6 +113,21 @@ public class TodoListViewAdapter {
 		this.checkList = checkList;
 	}
 
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
 
 	/*
 	 * ReminderConfig.Time

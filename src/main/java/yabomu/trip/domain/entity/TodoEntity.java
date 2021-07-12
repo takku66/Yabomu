@@ -7,15 +7,18 @@ import lombok.Data;
 
 @Data
 public class TodoEntity {
-	private String todoId;
+	private Integer eventId;
+	private Integer todoId;
+	private LocalDateTime createDateTime;
+	private String createUser;
+	private LocalDateTime updateDateTime;
+	private String updateUser;
 	private String title;
 	private String content;
-	private List<CheckItemEntity> checkList;
+	private Integer checkListId;
+	private String reminderType;
+	private LocalDateTime scheduledStartDateTime;
 	private Integer reminderTime;
 	private Integer reminderRepeat;
-	private String createUserId;
-	private String updateUserId;
-	private LocalDateTime createDateTime;
-	private LocalDateTime updateDateTime;
-	private LocalDateTime scheduledStartDateTime;
+	private List<CheckItemEntity> checkList;
 }

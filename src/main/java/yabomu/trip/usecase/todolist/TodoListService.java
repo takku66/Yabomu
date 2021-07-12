@@ -22,4 +22,8 @@ public class TodoListService {
 		return todoListRepository.findAll();
 	}
 
+	public List<Todo> save(Todo todo){
+		return todoListRepository.findAll();
+	}
+
 }

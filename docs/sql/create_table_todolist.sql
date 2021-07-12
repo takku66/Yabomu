@@ -4,7 +4,9 @@ CREATE TABLE todo_list (
 	event_id integer,
 	todo_id integer,
 	created_at timestamp(3),
+	create_user integer,
 	updated_at timestamp(6),
+	update_user integer,
 	title varchar(200),
 	content varchar(2000),
 	check_list_id integer,
@@ -17,9 +19,9 @@ comment on table todo_list is 'TODOリスト';
 comment on column todo_list.event_id is 'イベントID';
 comment on column todo_list.todo_id is 'TODOID';
 comment on column todo_list.created_at is '作成日時';
-comment on column todo_list.created_user is '作成者';
+comment on column todo_list.create_user is '作成者';
 comment on column todo_list.updated_at is '更新日時';
-comment on column todo_list.updated_user is '更新者';
+comment on column todo_list.update_user is '更新者';
 comment on column todo_list.title is 'タイトル';
 comment on column todo_list.content is '内容';
 comment on column todo_list.check_list_id is 'チェックリストID';

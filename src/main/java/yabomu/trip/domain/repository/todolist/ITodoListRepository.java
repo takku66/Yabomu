@@ -1,6 +1,7 @@
 package yabomu.trip.domain.repository.todolist;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +16,7 @@ public interface ITodoListRepository {
 	 * @return
 	 */
 	public List<Todo> findAll();
-	
+
 	/**
 	 * <pre>
 	 * 指定されたキーのTODOリストを取得する
@@ -23,12 +24,12 @@ public interface ITodoListRepository {
 	 * @return
 	 */
 	public Todo findById(String todoId);
-	
+
 	/**
 	 * <pre>
 	 * 条件付きでTODOリストを取得する
 	 * </pre>
 	 * @return
 	 */
-	public List<Todo> matching(Criteria criteria);
+	public List<Todo> matching(Map<String, Object> param);
 }

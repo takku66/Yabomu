@@ -1,28 +1,23 @@
 package yabomu.trip.domain.model.todolist;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 /**
  * <pre>
  * チェックリストのクラス
  * </pre>
- * @author takku66
  * @version 1.0
  */
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckItem {
 	private String checkListId;
 	private String content;
-	private boolean completed;
+	@Builder.Default
+	private boolean completed = false;
 
-	public CheckItem(String checkListId) {
-		this.checkListId = checkListId;
-		this.completed = false;
-	}
-	public CheckItem(String checkListId,
-					String content,
-					boolean completed) {
-		this.checkListId = checkListId;
-		this.content = content;
-		this.completed = completed;
-	}
 
 	public String checkListId() {
 		return this.checkListId;

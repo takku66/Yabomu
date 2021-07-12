@@ -1,10 +1,10 @@
 package yabomu.trip.presentation.todolist.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,7 +14,6 @@ import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
-import yabomu.trip.presentation.todolist.viewadapter.CheckItemViewAdapter;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListViewAdapter;
 import yabomu.trip.usecase.todolist.TodoListService;
 
@@ -46,7 +45,7 @@ public class TodoListController {
 		List<Todo> testlist = todoListService.findAll();
 
 		// view用のデータに変換する
-		List<TodoListViewAdapter> todolistView = TodoListViewConverter.convert(testlist);
+		List<TodoListViewAdapter> todolistView = TodoListViewConverter.toViewTodoList(testlist);
 
 		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", todolistView);
@@ -58,27 +57,26 @@ public class TodoListController {
 		return mv;
 	}
 
-	private List<TodoListViewAdapter> createTestList(){
-		List<TodoListViewAdapter> testlist = new ArrayList<TodoListViewAdapter>();
-		for(int i = 0; i < 10; i++) {
-			TodoListViewAdapter todolistViewAdapter = new TodoListViewAdapter();
-			todolistViewAdapter.setTodoId(String.format("0000", i));
-			todolistViewAdapter.setTitle("タイトル" + i);
-			todolistViewAdapter.setContent("内容" + i);
-			List<CheckItemViewAdapter> clvaList = new ArrayList<CheckItemViewAdapter>();
-			for(int j = 0; j < 10; j++) {
-				CheckItemViewAdapter clva = new CheckItemViewAdapter();
-				clva.setCheckListId(String.format("0000", i) + String.format("00", j));
-				clva.setContent("内容" + i + "-" + j);
-				clva.setCompleted(i+j%3==0);
-				clvaList.add(clva);
-			}
-			todolistViewAdapter.setCheckList(clvaList);
-			todolistViewAdapter.setReminderTime(i*5);
-			todolistViewAdapter.setReminderRepeat(i);
-			todolistViewAdapter.setScheduledStartDateTime(Integer.toString(20000000 + i));
-			testlist.add(todolistViewAdapter);
-		}
-		return testlist;
+	@RequestMapping(path=YbmUrls.TODOLIST_EDIT + "/{id}/save", method= RequestMethod.POST)
+	public ModelAndView save(final ModelAndView mv,
+								final TodoListViewAdapter todolistViewAdapter,
+								final @PathVariable("id") String topicsId) {
+		// Domain用のオブジェクトに変換する
+		Todo todo = TodoListViewConverter.toDomainTodoList(todolistViewAdapter);
+		// 全TODOリストを取得する
+		List<Todo> testlist = todoListService.save(todo);
+
+		// view用のデータに変換する
+		List<TodoListViewAdapter> todolistView = TodoListViewConverter.toViewTodoList(testlist);
+
+		// レスポンス用にパラメータを設定する
+		mv.addObject("formlist", todolistView);
+		mv.addObject("reminderTimeList", ReminderConfig.Time.values());
+		mv.addObject("reminderRepeatList", ReminderConfig.Repeat.values());
+
+		// 遷移先のhtml名を設定する
+		mv.setViewName("todolist.html");
+		return mv;
 	}
+
 }

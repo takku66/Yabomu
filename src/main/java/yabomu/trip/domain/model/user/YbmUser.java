@@ -7,7 +7,6 @@ import yabomu.trip.domain.valueobject.UserName;
  * <pre>
  * ユーザーエンティティ
  * </pre>
- * @author tatta
  * @version 1.0
  */
 public class YbmUser {
@@ -44,6 +43,9 @@ public class YbmUser {
 		this.tellNo = tellNo;
 	}
 
+	public String id() {
+		return this.id.value();
+	}
 	public String name() {
 		return name.toString();
 	}

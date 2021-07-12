@@ -3,6 +3,9 @@ package yabomu.trip.domain.model.todolist;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.YbmDate;
 
@@ -12,6 +15,8 @@ import yabomu.trip.domain.valueobject.YbmDate;
  * </pre>
  * @version 1.0
  */
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Todo {
 	private String todoId;
 	private String title;
@@ -25,40 +30,6 @@ public class Todo {
 	private YbmDate updateDateTime;
 	private YbmDate scheduledStartDateTime;
 
-	/**
-	 * <pre>
-	 * コンストラクタ
-	 * </pre>
-	 * @param todoId
-	 */
-	public Todo(String todoId) {
-		this.todoId = todoId;
-	}
-	public Todo(String todoId,
-				String title,
-				String content,
-				List<CheckItem> checkList,
-				ReminderConfig.Time reminderTime,
-				ReminderConfig.Repeat reminderRepeat,
-				YbmUser createUser,
-				YbmUser updateUser,
-				YbmDate createDateTime,
-				YbmDate updateDateTime,
-				YbmDate scheduledStartDateTime) {
-		this.todoId = todoId;
-		this.title = title;
-		this.content = content;
-		this.checkList = checkList;
-		this.reminderTime = reminderTime;
-		this.reminderRepeat = reminderRepeat;
-		this.createUser = createUser;
-		this.updateUser = updateUser;
-		this.createDateTime = createDateTime;
-		this.updateDateTime = updateDateTime;
-		this.scheduledStartDateTime = scheduledStartDateTime;
-	}
-
-
 
 	public String todoId() {
 		return todoId;
@@ -69,8 +40,14 @@ public class Todo {
 	public String content() {
 		return content;
 	}
+	public YbmUser createUser() {
+		return createUser;
+	}
 	public String createUserName() {
 		return createUser.name().toString();
+	}
+	public YbmUser updateUser() {
+		return updateUser;
 	}
 	public String updateUserName() {
 		return updateUser.name().toString();
