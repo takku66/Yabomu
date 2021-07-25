@@ -16,6 +16,9 @@ class TestYbmDate {
 	private YbmDate hyphenDate;
 	private YbmDate slashDate;
 	private YbmDate jpDate;
+	private YbmDate blankDate;
+	private YbmDate spaceDate;
+	private YbmDate nullDate;
 	private YbmDate localDate;
 
 	@BeforeEach
@@ -24,6 +27,9 @@ class TestYbmDate {
 		this.hyphenDate = new YbmDate("2021-02-28", YbmDate.FmtPtn.HYPHEN_DATE);
 		this.slashDate = new YbmDate("2021/02/28", YbmDate.FmtPtn.SLASH_DATE);
 		this.jpDate = new YbmDate("2021年02月28日", YbmDate.FmtPtn.JP_DATE);
+		this.blankDate = new YbmDate("", YbmDate.FmtPtn.JP_DATE);
+		this.spaceDate = new YbmDate(" ", YbmDate.FmtPtn.JP_DATE);
+		this.nullDate = new YbmDate(null, YbmDate.FmtPtn.JP_DATE);
 		this.localDate = new YbmDate(LocalDate.of(2021,2,28));
 	}
 
@@ -72,6 +78,25 @@ class TestYbmDate {
 	}
 
 	@Test
+	void blankTest() {
+		assertEquals("", blankDate.toNonmarkDate());
+		assertEquals("", spaceDate.toNonmarkDate());
+		assertEquals("", nullDate.toNonmarkDate());
+		assertEquals("", blankDate.toString());
+		assertEquals("", spaceDate.toString());
+		assertEquals("", nullDate.toString());
+		assertEquals("", blankDate.toHyphenDate());
+		assertEquals("", spaceDate.toHyphenDate());
+		assertEquals("", nullDate.toHyphenDate());
+		assertEquals("", blankDate.toJpDate());
+		assertEquals("", spaceDate.toJpDate());
+		assertEquals("", nullDate.toJpDate());
+		assertEquals("", blankDate.toSlashDate());
+		assertEquals("", spaceDate.toSlashDate());
+		assertEquals("", nullDate.toSlashDate());
+	}
+
+	@Test
 	void isEquatable() {
 		assertTrue(localDate.equals(slashDate));
 		assertTrue(localDate.equals(hyphenDate));
@@ -88,25 +113,11 @@ class TestYbmDate {
 	}
 
 	@Test
-	void throwBlankError() {
-		assertThrows(IllegalArgumentException.class,
-						() -> new YbmDate("",YbmDate.FmtPtn.NONMARK_DATE));
-		assertThrows(IllegalArgumentException.class,
-						() -> new YbmDate(" ", YbmDate.FmtPtn.NONMARK_DATE));
-		assertThrows(IllegalArgumentException.class,
-						() -> new YbmDate("　", YbmDate.FmtPtn.NONMARK_DATE));
-		assertThrows(IllegalArgumentException.class,
-						() -> new YbmDate(null, YbmDate.FmtPtn.NONMARK_DATE));
-		assertThrows(IllegalArgumentException.class,
-						() -> new YbmDate(null));
-	}
-
-	@Test
 	void throwParseError() {
 		assertThrows(DateTimeParseException.class,
 						() -> new YbmDate("20210232",YbmDate.FmtPtn.NONMARK_DATE));
 		assertThrows(DateTimeParseException.class,
-				() -> new YbmDate("20210000",YbmDate.FmtPtn.NONMARK_DATE));
+						() -> new YbmDate("20210000",YbmDate.FmtPtn.NONMARK_DATE));
 		assertThrows(DateTimeParseException.class,
 						() -> new YbmDate("2021-02-28",YbmDate.FmtPtn.NONMARK_DATE));
 		assertThrows(DateTimeParseException.class,
