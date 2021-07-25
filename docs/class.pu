@@ -1,31 +1,75 @@
 @startuml
 
 package presentation {
-    class HomeController {
+    package Controller as p_ctl {
 
     }
-    class TodolistController {
-        
+    package Aspect as p_asp {
+
+    }
+    package Session as p_ssn {
+
+    }
+    package View as p_vw {
+
+    }
+    package Adapter as p_adp {
+
+    }
+    package Converter as p_cvtr {
+
     }
 }
 
 package domain {
-    package Todolist {
-        
+    package ValueObject as d_vo {
+
     }
 
-    package ValueObject {
+    package Service as d_svc {
+
+    }
+
+    package Repository as d_rp {
+
+    }
+
+    package Model as d_mdl {
+
+    }
+    package Entity as d_ety {
 
     }
 }
 
 package infrastructure {
-    
+    package InMemory as i_im {
+
+    }
+    package PostgreSQL as i_pgsql {
+
+    }
 }
 
 package usecase {
-    
+    package Service as u_svc {
+
+    }
 }
+
+
+/' プレゼンテーション層の依存関係 '/
+p_vw --> p_ctl
+p_vw --> p_adp
+p_ctl --> p_adp
+p_ctl --> p_cvtr
+p_cvtr --> p_adp
+p_ctl ---> u_svc
+u_svc ---> d_rp
+u_svc ---> d_svc
+d_svc --> d_rp
+d_rp <.. i_im
+d_rp <.. i_pgsql
 
 
 @enduml

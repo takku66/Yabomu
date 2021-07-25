@@ -8,7 +8,7 @@ package yabomu.trip.presentation.todolist.viewadapter;
  * @author takku66
  * @version 1.0
  */
-public class CheckItemViewAdapter {
+public class CheckItemForm {
 
 	private String checkListId;
 	private String content;
@@ -19,7 +19,7 @@ public class CheckItemViewAdapter {
 	 * デフォルトコンストラクタ
 	 * </pre>
 	 */
-	public CheckItemViewAdapter() {
+	public CheckItemForm() {
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class CheckItemViewAdapter {
 	 * @param content
 	 * @param completed
 	 */
-	public CheckItemViewAdapter(String listId,
+	public CheckItemForm(String listId,
 								String content,
 								boolean completed) {
 		this.checkListId = listId;

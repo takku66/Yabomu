@@ -1,13 +1,16 @@
 package yabomu.trip.infrastructure.PostgreSQL;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import lombok.RequiredArgsConstructor;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
+import yabomu.trip.infrastructure.condition.TodoCondition;
+import yabomu.trip.infrastructure.converter.TodoListEntityConverter;
+import yabomu.trip.infrastructure.entity.TodoEntity;
+import yabomu.trip.infrastructure.mapper.TodoListMapper;
 
 /**
  * <pre>
@@ -16,25 +19,28 @@ import yabomu.trip.domain.repository.todolist.ITodoListRepository;
  * </pre>
  * @version 1.0
  */
-@Mapper
-@Repository("notuse-todoListRepository")
+@Repository("todoListRepository")
+@RequiredArgsConstructor
 public class TodoListRepository implements ITodoListRepository {
+
+	private final TodoListMapper mapper;
 
 	@Override
 	public List<Todo> findAll() {
-		return null;
+		List<TodoEntity> todoEntityList = mapper.findAll();
+		return TodoListEntityConverter.toDomainTodoList(todoEntityList);
 	}
 
 	@Override
 	public Todo findById(String todoId) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		TodoEntity todoEntity = mapper.findById(todoId);
+		return TodoListEntityConverter.toDomainTodoList(todoEntity);
 	}
 
 	@Override
-	public List<Todo> matching(Map<String, Object> param) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public List<Todo> matching(TodoCondition param) {
+		List<TodoEntity> todoEntityList = mapper.matching(param);
+		return TodoListEntityConverter.toDomainTodoList(todoEntityList);
 	}
 
 }

@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import yabomu.trip.domain.model.todolist.ReminderConfig;
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.ReminderTime;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
-import yabomu.trip.presentation.todolist.viewadapter.TodoListViewAdapter;
+import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
 import yabomu.trip.usecase.todolist.TodoListService;
 
 /**
@@ -39,18 +40,18 @@ public class TodoListController {
 
 	@RequestMapping(path=YbmUrls.TODOLIST_EDIT, method= RequestMethod.POST)
 	public ModelAndView init(final ModelAndView mv,
-								final TodoListViewAdapter todolistViewAdapter) {
+								final TodoListForm todolistForm) {
 
 		// 全TODOリストを取得する
 		List<Todo> testlist = todoListService.findAll();
 
 		// view用のデータに変換する
-		List<TodoListViewAdapter> todolistView = TodoListViewConverter.toViewTodoList(testlist);
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(testlist);
 
 		// レスポンス用にパラメータを設定する
-		mv.addObject("formlist", todolistView);
-		mv.addObject("reminderTimeList", ReminderConfig.Time.values());
-		mv.addObject("reminderRepeatList", ReminderConfig.Repeat.values());
+		mv.addObject("formlist", convertedTodolist);
+		mv.addObject("reminderTimeList", ReminderTime.values());
+		mv.addObject("reminderRepeatList", ReminderRepeat.values());
 
 		// 遷移先のhtml名を設定する
 		mv.setViewName("todolist.html");
@@ -59,20 +60,20 @@ public class TodoListController {
 
 	@RequestMapping(path=YbmUrls.TODOLIST_EDIT + "/{id}/save", method= RequestMethod.POST)
 	public ModelAndView save(final ModelAndView mv,
-								final TodoListViewAdapter todolistViewAdapter,
+								final TodoListForm todolistForm,
 								final @PathVariable("id") String topicsId) {
 		// Domain用のオブジェクトに変換する
-		Todo todo = TodoListViewConverter.toDomainTodoList(todolistViewAdapter);
+		Todo todo = TodoListViewConverter.toDomainTodoList(todolistForm);
 		// 全TODOリストを取得する
 		List<Todo> testlist = todoListService.save(todo);
 
 		// view用のデータに変換する
-		List<TodoListViewAdapter> todolistView = TodoListViewConverter.toViewTodoList(testlist);
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(testlist);
 
 		// レスポンス用にパラメータを設定する
-		mv.addObject("formlist", todolistView);
-		mv.addObject("reminderTimeList", ReminderConfig.Time.values());
-		mv.addObject("reminderRepeatList", ReminderConfig.Repeat.values());
+		mv.addObject("formlist", convertedTodolist);
+		mv.addObject("reminderTimeList", ReminderTime.values());
+		mv.addObject("reminderRepeatList", ReminderRepeat.values());
 
 		// 遷移先のhtml名を設定する
 		mv.setViewName("todolist.html");

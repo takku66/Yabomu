@@ -7,6 +7,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.ReminderTime;
+import yabomu.trip.domain.valueobject.ReminderType;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -18,19 +21,27 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Todo {
+	private String eventId;
 	private String todoId;
-	private String title;
-	private String content;
-	private List<CheckItem> checkList;
-	private ReminderConfig.Time reminderTime;
-	private ReminderConfig.Repeat reminderRepeat;
 	private YbmUser createUser;
 	private YbmUser updateUser;
 	private YbmDate createDateTime;
 	private YbmDate updateDateTime;
-	private YbmDate scheduledStartDateTime;
+	private String title;
+	private String content;
+	private List<CheckItem> checkList;
+	private YbmDate todoStartDateTime;
+	private YbmDate todoEndDateTime;
+	private ReminderType reminderType;
+	private YbmDate reminderStartDateTime;
+	private YbmDate reminderEndDateTime;
+	private ReminderTime reminderTime;
+	private ReminderRepeat reminderRepeat;
 
 
+	public String eventId() {
+		return eventId;
+	}
 	public String todoId() {
 		return todoId;
 	}
@@ -58,29 +69,30 @@ public class Todo {
 	public String updateDateTime() {
 		return updateDateTime.toHyphenDate();
 	}
-	public String scheduledStartDateTime() {
-		return scheduledStartDateTime.toHyphenDate();
+	public String todoStartDateTime() {
+		return todoStartDateTime.toHyphenDate();
+	}
+	public String todoEndDateTime() {
+		return todoEndDateTime.toHyphenDate();
 	}
 
 	public List<CheckItem> checkList(){
 		return new ArrayList<CheckItem>(this.checkList);
 	}
-	public ReminderConfig.Time reminderTime(){
+	public ReminderType reminderType(){
+		return this.reminderType;
+	}
+	public ReminderTime reminderTime(){
 		return this.reminderTime;
 	}
-	public ReminderConfig.Repeat reminderRepeat(){
+	public ReminderRepeat reminderRepeat(){
 		return this.reminderRepeat;
 	}
-
-	public String createDateTime(YbmDate.FmtPtn ptn) {
-		return createDateTime.valueOf(ptn);
+	public String reminderStartDateTime() {
+		return reminderStartDateTime.toHyphenDate();
 	}
-	public String updateDateTime(YbmDate.FmtPtn ptn) {
-		return updateDateTime.valueOf(ptn);
+	public String reminderEndDateTime() {
+		return reminderEndDateTime.toHyphenDate();
 	}
-	public String scheduledStartDateTime(YbmDate.FmtPtn ptn) {
-		return scheduledStartDateTime.valueOf(ptn);
-	}
-
 
 }

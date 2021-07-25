@@ -1,14 +1,13 @@
-package yabomu.trip.domain.factory.todolist;
+package yabomu.trip.domain.model.todolist;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import yabomu.trip.domain.model.todolist.CheckItem;
-import yabomu.trip.domain.model.todolist.ReminderConfig;
-import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.ReminderTime;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
@@ -33,13 +32,13 @@ public class TodoListFactory {
 							.title("タイトル" + i)
 							.content("内容" + i)
 							.checkList(clvaList)
-							.reminderTime(ReminderConfig.Time.selectBy(i*5))
-							.reminderRepeat(ReminderConfig.Repeat.selectBy(i))
+							.reminderTime(ReminderTime.selectBy(i*5))
+							.reminderRepeat(ReminderRepeat.selectBy("D" + i))
 							.createUser(new YbmUser(new UserId(UUID.randomUUID().toString()), new UserName("登録者名前" + i)))
 							.createDateTime(new YbmDate(LocalDate.now().plusDays(i)))
 							.updateUser(new YbmUser(new UserId(UUID.randomUUID().toString()), new UserName("更新者名前" + i)))
 							.updateDateTime(new YbmDate(LocalDate.now().plusDays(i)))
-							.scheduledStartDateTime(new YbmDate(LocalDate.now().plusDays(i)))
+							.todoStartDateTime(new YbmDate(LocalDate.now().plusDays(i)))
 							.build();
 			testlist.add(todo);
 		}

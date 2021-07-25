@@ -64,13 +64,13 @@
 						</div>
 					</p>
 <!-- 					予定開始日 -->
-					<p class="scheduled_start_datetime">
+					<p class="todo_start_datetime">
 					開始予定日
-						<label th:data-idx="${it.index}" class="scheduled_start_datetime label">
-							<th:block th:text="${vForm.scheduledStartDateTime}"></th:block>
+						<label th:data-idx="${it.index}" class="todo_start_datetime label">
+							<th:block th:text="${vForm.todoStartDateTime}"></th:block>
 						</label>
-						<input type="date" class="scheduled_start_date text hidden"
-								th:data-idx="${it.index}" th:value="${vForm.scheduledStartDateTime}" />
+						<input type="date" class="todo_start_date text hidden"
+								th:data-idx="${it.index}" th:value="${vForm.todoStartDateTime}" />
 					</p>
 				</div>
 			</th:block>

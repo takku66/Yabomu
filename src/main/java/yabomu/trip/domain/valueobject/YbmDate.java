@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import org.springframework.util.ObjectUtils;
+
 /**
  * <pre>
  * 年月日
@@ -42,7 +44,8 @@ public class YbmDate {
 	public YbmDate(String date, FmtPtn pattern) {
 		// スペース文字含む空文字はnullにする
 		if(date == null || date.isBlank()) {
-			throw new IllegalArgumentException("指定された日付が空です。");
+			this.date = null;
+			return;
 		}
 		// SimpleDateFormatterだとエラーにならない文字も、これだといけるらしい
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern.getPtn());
@@ -58,27 +61,29 @@ public class YbmDate {
 	 * </pre>
 	 */
 	public YbmDate(LocalDate date) {
-		if(date == null) {
-			throw new IllegalArgumentException("指定された日付が空です。");
-		}
 		this.date = date;
 	}
 
 
 	public String valueOf(FmtPtn ptn) {
-		return date.format(DateTimeFormatter.ofPattern(ptn.getPtn()));
+		return date != null ? date.format(DateTimeFormatter.ofPattern(ptn.getPtn()))
+							: "";
 	}
 	public String toNonmarkDate() {
-		return date.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE.getPtn()));
+		return date != null ? date.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE.getPtn()))
+							: "";
 	}
 	public String toHyphenDate() {
-		return date.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE.getPtn()));
+		return date != null ? date.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE.getPtn()))
+							: "";
 	}
 	public String toSlashDate() {
-		return date.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE.getPtn()));
+		return date != null ? date.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE.getPtn()))
+							: "";
 	}
 	public String toJpDate() {
-		return date.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE.getPtn()));
+		return date != null ? date.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE.getPtn()))
+							: "";
 	}
 
 	public LocalDate value() {
@@ -86,7 +91,7 @@ public class YbmDate {
 	}
 
 	public int hashCode() {
-		return date.hashCode();
+		return date != null ? date.hashCode() : 0;
 	}
 
 	/**
@@ -96,12 +101,20 @@ public class YbmDate {
 	 * </pre>
 	 */
 	public String toString() {
-		return this.date.toString();
+		return this.date != null ? this.date.toString() : "";
 	}
 
 	public boolean equals(Object object) {
 		YbmDate date = (YbmDate)object;
-		return this.date.equals(date.value());
+		if(this.date == null) {
+			if(object == null || ObjectUtils.isEmpty(object)) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return this.date.equals(date.value());
+		}
 	}
 
 }

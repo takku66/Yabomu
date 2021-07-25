@@ -1,5 +1,6 @@
 package yabomu.trip.domain.model.user;
 
+import lombok.Builder;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.UserName;
 
@@ -9,6 +10,7 @@ import yabomu.trip.domain.valueobject.UserName;
  * </pre>
  * @version 1.0
  */
+@Builder
 public class YbmUser {
 
 	private UserId id;

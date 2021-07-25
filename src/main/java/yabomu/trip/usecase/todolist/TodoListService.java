@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 
+/**
+ * <pre>
+ * TODOリストのサービス
+ * </pre>
+ * @version 1.0
+ */
 @Service
 public class TodoListService {
 

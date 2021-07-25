@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import yabomu.trip.domain.factory.todolist.TodoListFactory;
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoListFactory;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
+import yabomu.trip.infrastructure.condition.TodoCondition;
 
 /**
  * <pre>
@@ -19,7 +20,7 @@ import yabomu.trip.domain.repository.todolist.ITodoListRepository;
  * </pre>
  * @version 1.0
  */
-@Repository("todoListRepository")
+@Repository("notuse-todoListRepository")
 public class TodoListRepository implements ITodoListRepository {
 
 	private final Map<String, Todo> todoListData;
@@ -48,7 +49,7 @@ public class TodoListRepository implements ITodoListRepository {
 	}
 
 	@Override
-	public List<Todo> matching(Map<String, Object> param) {
+	public List<Todo> matching(TodoCondition param) {
 		return null;
 	}
 

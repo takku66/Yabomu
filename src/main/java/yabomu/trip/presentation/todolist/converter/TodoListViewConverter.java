@@ -9,8 +9,8 @@ import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
-import yabomu.trip.presentation.todolist.viewadapter.CheckItemViewAdapter;
-import yabomu.trip.presentation.todolist.viewadapter.TodoListViewAdapter;
+import yabomu.trip.presentation.todolist.viewadapter.CheckItemForm;
+import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
 
 /**
  * <pre>
@@ -27,34 +27,40 @@ public class TodoListViewConverter {
 	 * View用のオブジェクトに変換します
 	 * </pre>
 	 * @param todo
-	 * @return
+	 * @return TodoListForm
 	 */
-	static public TodoListViewAdapter toViewTodoList(Todo todo) {
-		TodoListViewAdapter adapter = new TodoListViewAdapter();
-		adapter.setTodoId(todo.todoId());
-		adapter.setTitle(todo.title());
-		adapter.setContent(todo.content());
-		adapter.setCheckList(toViewCheckList(todo.checkList()));
-		adapter.setReminderTime(todo.reminderTime());
-		adapter.setReminderRepeat(todo.reminderRepeat());
-		adapter.setScheduledStartDateTime(todo.scheduledStartDateTime());
-		adapter.setCreateUserId(todo.createUser().id());
-		adapter.setCreateUserName(todo.createUserName());
-		adapter.setCreateDateTime(todo.createDateTime());
-		adapter.setUpdateUserId(todo.updateUser().id());
-		adapter.setUpdateUserName(todo.updateUserName());
-		adapter.setUpdateDateTime(todo.updateDateTime());
-		return adapter;
+	static public TodoListForm toViewTodoList(Todo todo) {
+		TodoListForm form = new TodoListForm();
+		if(todo == null) {
+			return form;
+		}
+		form.setTodoId(todo.todoId());
+		form.setTitle(todo.title());
+		form.setContent(todo.content());
+		form.setCheckList(toViewCheckList(todo.checkList()));
+		form.setReminderTimeEnum(todo.reminderTime());
+		form.setReminderRepeatEnum(todo.reminderRepeat());
+		form.setTodoStartDateTime(todo.todoStartDateTime());
+		form.setCreateUserId(todo.createUser().id());
+		form.setCreateUserName(todo.createUserName());
+		form.setCreateDateTime(todo.createDateTime());
+		form.setUpdateUserId(todo.updateUser().id());
+		form.setUpdateUserName(todo.updateUserName());
+		form.setUpdateDateTime(todo.updateDateTime());
+		return form;
 	}
 	/**
 	 * <pre>
 	 * View用のオブジェクトに変換します
 	 * </pre>
 	 * @param todoList
-	 * @return
+	 * @return List<TodoListForm>
 	 */
-	static public List<TodoListViewAdapter> toViewTodoList(List<Todo> todoList) {
-		List<TodoListViewAdapter> rtnList = new ArrayList<>();
+	static public List<TodoListForm> toViewTodoList(List<Todo> todoList) {
+		List<TodoListForm> rtnList = new ArrayList<>();
+		if(todoList == null) {
+			return rtnList;
+		}
 		for(Todo todo : todoList) {
 			rtnList.add(toViewTodoList(todo));
 		}
@@ -65,39 +71,45 @@ public class TodoListViewConverter {
 	 * View用のオブジェクトに変換します
 	 * </pre>
 	 * @param checkList
-	 * @return
+	 * @return List<CheckItemForm>
 	 */
-	static public List<CheckItemViewAdapter> toViewCheckList(List<CheckItem> checkList) {
-		List<CheckItemViewAdapter> checkListAdapter = new ArrayList<>();
-		for(CheckItem checkItem : checkList) {
-			CheckItemViewAdapter checkItemViewAdapter = new CheckItemViewAdapter();
-			checkItemViewAdapter.setCheckListId(checkItem.checkListId());
-			checkItemViewAdapter.setContent(checkItem.content());
-			checkItemViewAdapter.setCompleted(checkItem.isCompleted());
-			checkListAdapter.add(checkItemViewAdapter);
+	static public List<CheckItemForm> toViewCheckList(List<CheckItem> checkList) {
+		List<CheckItemForm> checkListForm = new ArrayList<>();
+		if(checkList == null) {
+			return checkListForm;
 		}
-		return checkListAdapter;
+		for(CheckItem checkItem : checkList) {
+			CheckItemForm checkItemForm = new CheckItemForm();
+			checkItemForm.setCheckListId(checkItem.checkListId());
+			checkItemForm.setContent(checkItem.content());
+			checkItemForm.setCompleted(checkItem.isCompleted());
+			checkListForm.add(checkItemForm);
+		}
+		return checkListForm;
 	}
 	/**
 	 * <pre>
 	 * Domain用のオブジェクトに変換します
 	 * </pre>
-	 * @param adapter
-	 * @return
+	 * @param form
+	 * @return Todo
 	 */
-	static public Todo toDomainTodoList(TodoListViewAdapter adapter){
+	static public Todo toDomainTodoList(TodoListForm form){
+		if(form == null) {
+			return null;
+		}
 		Todo todo = Todo.builder()
-				.todoId(adapter.getTodoId())
-				.title(adapter.getTitle())
-				.content(adapter.getContent())
-				.checkList(toDomainCheckList(adapter.getCheckList()))
-				.reminderTime(adapter.getReminderTime())
-				.reminderRepeat(adapter.getReminderRepeat())
-				.createUser(new YbmUser(new UserId(adapter.getCreateUserId()), new UserName(adapter.getCreateUserName())))
-				.createDateTime(new YbmDate(adapter.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.updateUser(new YbmUser(new UserId(adapter.getUpdateUserId()), new UserName(adapter.getUpdateUserName())))
-				.updateDateTime(new YbmDate(adapter.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.scheduledStartDateTime(new YbmDate(adapter.getScheduledStartDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.todoId(form.getTodoId())
+				.title(form.getTitle())
+				.content(form.getContent())
+				.checkList(toDomainCheckList(form.getCheckList()))
+				.reminderTime(form.getReminderTime())
+				.reminderRepeat(form.getReminderRepeat())
+				.createUser(new YbmUser(new UserId(form.getCreateUserId()), new UserName(form.getCreateUserName())))
+				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.updateUser(new YbmUser(new UserId(form.getUpdateUserId()), new UserName(form.getUpdateUserName())))
+				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.todoStartDateTime(new YbmDate(form.getTodoStartDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
 				.build();
 		return todo;
 	}
@@ -106,11 +118,14 @@ public class TodoListViewConverter {
 	 * Domain用のオブジェクトに変換します
 	 * </pre>
 	 * @param todoList
-	 * @return
+	 * @return List<Todo>
 	 */
-	static public List<Todo> toDomainTodoList(List<TodoListViewAdapter> todoList){
+	static public List<Todo> toDomainTodoList(List<TodoListForm> todoList){
 		List<Todo> rtnList = new ArrayList<>();
-		for(TodoListViewAdapter adapter : todoList) {
+		if(todoList == null) {
+			return rtnList;
+		}
+		for(TodoListForm adapter : todoList) {
 			rtnList.add(toDomainTodoList(adapter));
 		}
 		return rtnList;
@@ -120,11 +135,14 @@ public class TodoListViewConverter {
 	 * Domain用のオブジェクトに変換します
 	 * </pre>
 	 * @param checkListAdapter
-	 * @return
+	 * @return List<CheckItem>
 	 */
-	static public List<CheckItem> toDomainCheckList(List<CheckItemViewAdapter> checkListAdapter) {
+	static public List<CheckItem> toDomainCheckList(List<CheckItemForm> checkListAdapter) {
 		List<CheckItem> checkList = new ArrayList<>();
-		for(CheckItemViewAdapter checkItemAdapter : checkListAdapter) {
+		if(checkListAdapter == null) {
+			return checkList;
+		}
+		for(CheckItemForm checkItemAdapter : checkListAdapter) {
 			CheckItem checkItem = CheckItem.builder()
 											.checkListId(checkItemAdapter.getCheckListId())
 											.content(checkItemAdapter.getContent())
