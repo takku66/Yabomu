@@ -81,21 +81,26 @@
 			<button type="button" id="btn-open_new_todo" class="new_todolist">＋新しいTODOリスト</button>
 		</section>
 		<div id="edit_todo-area" class="edit_todo-area">
-			<p class="title">
-				<input type="text" id="todo_title" class="title" placeholder="タイトル" />
-			</p>
-			<p class="content">
-				<textarea id="todo_content" class="content" placeholder="内容" ></textarea>
-			</p>
-			<div id="checklist-area" class="checklist-area">
-				<p class="checklist">
-					<input type="checkbox" id="todo_checklist_box" class="checklist_box" />
-					<input type="text" id="todo_checklist_content" class="checklist_content" placeholder="例：◯◯を買う" />
+			<div class="edit_area">
+				<p class="title edit_item">
+					<input type="text" id="todo_title" class="title" placeholder="タイトル" />
 				</p>
+				<p class="content edit_item">
+					<textarea id="todo_content" class="content" placeholder="内容" ></textarea>
+				</p>
+				<div id="checklist-area" class="checklist-area edit_item">
+					<ul class="checklist">
+						<li><input type="checkbox" id="todo_checklist_box" class="checklist_box" />
+							<input type="text" id="todo_checklist_content" class="checklist_content" placeholder="例：◯◯を買う" />
+						</li>
+					</ul>
+				</div>
 			</div>
-			<button type="button" id="btn-add_checklist">追加</button>
-			<button type="button" id="btn-save_todo">保存</button>
-			<button type="button" id="btn-newtodo_cancel">キャンセル</button>
+			<div class="btn_area">
+				<button type="button" id="btn-add_checklist">追加</button>
+				<button type="button" id="btn-save_todo">保存</button>
+				<button type="button" id="btn-newtodo_cancel">キャンセル</button>
+			</div>
 		</div>
 		<div id="edit_todo-filter" class="base_filter filter">
 		</div>

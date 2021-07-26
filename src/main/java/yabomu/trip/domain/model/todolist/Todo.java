@@ -21,7 +21,9 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Todo {
+	@lombok.NonNull
 	private String eventId;
+	@lombok.NonNull
 	private String todoId;
 	private YbmUser createUser;
 	private YbmUser updateUser;

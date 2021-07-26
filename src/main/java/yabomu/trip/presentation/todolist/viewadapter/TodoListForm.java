@@ -21,7 +21,7 @@ import yabomu.trip.domain.valueobject.ReminderType;
  */
 @Data
 public class TodoListForm {
-
+	private String eventId;
 	private String todoId;
 	private String createUserId;
 	private String createUserName;

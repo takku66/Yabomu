@@ -28,6 +28,7 @@ public class TodoListFactory {
 			}
 
 			Todo todo = Todo.builder()
+							.eventId(String.format("%05d", i))
 							.todoId(String.format("%05d", i))
 							.title("タイトル" + i)
 							.content("内容" + i)

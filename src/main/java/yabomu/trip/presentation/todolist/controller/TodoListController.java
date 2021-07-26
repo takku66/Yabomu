@@ -43,10 +43,10 @@ public class TodoListController {
 								final TodoListForm todolistForm) {
 
 		// 全TODOリストを取得する
-		List<Todo> testlist = todoListService.findAll();
+		List<Todo> todolist = todoListService.findAll();
 
 		// view用のデータに変換する
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(testlist);
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(todolist);
 
 		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", convertedTodolist);

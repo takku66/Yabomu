@@ -29,6 +29,7 @@ public class TodoListEntityConverter {
 			return null;
 		}
 		Todo todo = Todo.builder()
+				.eventId(todoEntity.getEventId())
 				.todoId(todoEntity.getTodoId())
 				.title(todoEntity.getTitle())
 				.content(todoEntity.getContent())

@@ -1,54 +1,58 @@
 @startuml
 
 package presentation {
-    package Controller as p_ctl {
+   	package Controller as p_ctl {
 
-    }
-    package Aspect as p_asp {
+   	}
+   	package Aspect as p_asp {
 
-    }
-    package Session as p_ssn {
+   	}
+   	package Session as p_ssn {
 
-    }
-    package View as p_vw {
+   	}
+   	package View as p_vw {
 
-    }
-    package Adapter as p_adp {
+   	}
+   	package Form as p_fm {
 
-    }
-    package Converter as p_cvtr {
+   	}
+   	package Converter as p_cvtr {
 
-    }
+   	}
 }
 
 package domain {
-    package ValueObject as d_vo {
+	package ValueObject as d_vo {
 
-    }
+   	}
 
-    package Service as d_svc {
+   	package Service as d_svc {
 
-    }
+   	}
 
-    package Repository as d_rp {
+   	package Repository as d_rp {
 
     }
 
     package Model as d_mdl {
 
     }
-    package Entity as d_ety {
 
-    }
 }
 
 package infrastructure {
-    package InMemory as i_im {
+   	package InMemory as i_im {
 
-    }
-    package PostgreSQL as i_pgsql {
+   	}
+	package PostgreSQL as i_pgsql {
 
-    }
+   	}
+	package Entity as i_ety {
+
+   	}
+   	package Converter as i_cvtr {
+
+   	}
 }
 
 package usecase {
@@ -60,16 +64,19 @@ package usecase {
 
 /' プレゼンテーション層の依存関係 '/
 p_vw --> p_ctl
-p_vw --> p_adp
-p_ctl --> p_adp
+p_vw --> p_fm
+p_ctl --> p_fm
 p_ctl --> p_cvtr
-p_cvtr --> p_adp
+p_cvtr -> p_fm
+p_cvtr --> d_mdl
 p_ctl ---> u_svc
 u_svc ---> d_rp
 u_svc ---> d_svc
 d_svc --> d_rp
+d_mdl --> d_vo
 d_rp <.. i_im
 d_rp <.. i_pgsql
-
+i_cvtr ---> d_mdl
+i_cvtr -> i_ety
 
 @enduml

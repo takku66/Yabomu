@@ -22,7 +22,7 @@ const TODO = {
 		this.todolist = document.getElementsByClassName("todo-box");
 		this.configureSubmitEvent();
 		this.configureOpenNewTodoEvent();
-
+		this.configureOpenEditTodoEvent();
 		this.EDIT_TODO_AREA.init();
 	},
 	// リクエスト送信イベントの定義処理
@@ -36,7 +36,7 @@ const TODO = {
 		}
 
 		// 各ボタンに、submit用のイベントを付与する
-		for(let elm of Object.keys(requestMap)){
+		for(let elm in Object.keys(requestMap)){
 			const btn = document.getElementById(elm);
 			btn.addEventListener("click", function(){
 				NAV.activateMenuId(requestMap[elm].nav);
@@ -52,6 +52,17 @@ const TODO = {
 			TODO.openTodoArea();
 		}, false);
 	},
+	configureOpenEditTodoEvent: function(){
+		for(let elm of this.todolist){
+			elm.addEventListener("click", function(){
+				TODO.EDIT_TODO_AREA.titleElm.value = elm.querySelector(".text.title").value;
+				TODO.EDIT_TODO_AREA.contentElm.value= elm.querySelector(".text.content").value;
+
+				TODO.openTodoArea();
+			}, false);
+		}
+
+	},
 	openTodoArea: function(){
 		TODO.filter.classList.add("active");
 		TODO.editTodoArea.classList.add("active");
@@ -65,7 +76,7 @@ const TODO = {
 		titleElm: null,
 		contentElm: null,
 		checklistArea: null,
-		checklistElm: [],
+		checklistElms: [],
 		// 追加ボタン
 		addCheckBoxBtn: null,
 		// 保存ボタン
@@ -77,7 +88,7 @@ const TODO = {
 			this.titleElm = document.getElementById("todo_title");
 			this.contentElm = document.getElementById("todo_content");
 			this.checklistArea = document.getElementById("checklist-area");
-			this.checklistElm = this.checklistArea.getElementsByClassName("checklist");
+			this.checklistElms = this.checklistArea.getElementsByClassName("checklist");
 			this.addCheckBoxBtn = document.getElementById("btn-add_checklist");
 			this.saveTodoBtn = document.getElementById("btn-save_todo");
 			this.cancelBtn = document.getElementById("btn-newtodo_cancel");

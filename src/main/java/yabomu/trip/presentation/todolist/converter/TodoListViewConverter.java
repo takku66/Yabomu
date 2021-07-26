@@ -34,6 +34,7 @@ public class TodoListViewConverter {
 		if(todo == null) {
 			return form;
 		}
+		form.setEventId(todo.eventId());
 		form.setTodoId(todo.todoId());
 		form.setTitle(todo.title());
 		form.setContent(todo.content());
@@ -99,6 +100,7 @@ public class TodoListViewConverter {
 			return null;
 		}
 		Todo todo = Todo.builder()
+				.eventId(form.getEventId())
 				.todoId(form.getTodoId())
 				.title(form.getTitle())
 				.content(form.getContent())
