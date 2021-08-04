@@ -47,7 +47,7 @@
 									th:value="${vForm.reminderTime.code}">
 								<option th:each="value : ${reminderTimeList}"
 										th:value="${value.code}"
-										th:text="${value.discription}"
+										th:text="${value.description}"
 										th:selected="${value.code == vForm.reminderTime.code}">
 								</option>
 							</select>
@@ -57,7 +57,7 @@
 									th:value="${vForm.reminderRepeat.code}">
 								<option th:each="value : ${reminderRepeatList}"
 										th:value="${value.code}"
-										th:text="${value.discription}"
+										th:text="${value.description}"
 										th:selected="${value.code == vForm.reminderRepeat.code}">
 								</option>
 							</select>
@@ -65,7 +65,7 @@
 					</p>
 <!-- 					予定開始日 -->
 					<p class="todo_start_datetime">
-					開始予定日
+						開始予定日
 						<label th:data-idx="${it.index}" class="todo_start_datetime label">
 							<th:block th:text="${vForm.todoStartDateTime}"></th:block>
 						</label>
@@ -94,12 +94,13 @@
 							<input type="text" id="todo_checklist_content" class="checklist_content" placeholder="例：◯◯を買う" />
 						</li>
 					</ul>
+					<button type="button" id="btn-add_checklist" class="btn-add_checklist">＋追加</button>
 				</div>
 			</div>
-			<div class="btn_area">
-				<button type="button" id="btn-add_checklist">追加</button>
+			<div class="bottom_area">
+
 				<button type="button" id="btn-save_todo">保存</button>
-				<button type="button" id="btn-newtodo_cancel">キャンセル</button>
+				<button type="button" id="btn-cancel_todo">キャンセル</button>
 			</div>
 		</div>
 		<div id="edit_todo-filter" class="base_filter filter">

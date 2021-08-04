@@ -23,6 +23,7 @@ const TODO = {
 		this.configureSubmitEvent();
 		this.configureOpenNewTodoEvent();
 		this.configureOpenEditTodoEvent();
+		this.configureStopClickPropagation();
 		this.EDIT_TODO_AREA.init();
 	},
 	// リクエスト送信イベントの定義処理
@@ -57,11 +58,24 @@ const TODO = {
 			elm.addEventListener("click", function(){
 				TODO.EDIT_TODO_AREA.titleElm.value = elm.querySelector(".text.title").value;
 				TODO.EDIT_TODO_AREA.contentElm.value= elm.querySelector(".text.content").value;
-
 				TODO.openTodoArea();
 			}, false);
 		}
 
+	},
+	configureStopClickPropagation: function(){
+
+		let stopList = [".text.reminder_time",
+						".text.reminder_repeat"];
+
+		for(let elm of this.todolist){
+			for(let stopClassName of stopList){
+				let stopElm = elm.querySelector(stopClassName);
+				stopElm.addEventListener("click", function(e){
+					e.stopPropagation();
+				}, false);
+			}
+		}
 	},
 	openTodoArea: function(){
 		TODO.filter.classList.add("active");
@@ -91,7 +105,7 @@ const TODO = {
 			this.checklistElms = this.checklistArea.getElementsByClassName("checklist");
 			this.addCheckBoxBtn = document.getElementById("btn-add_checklist");
 			this.saveTodoBtn = document.getElementById("btn-save_todo");
-			this.cancelBtn = document.getElementById("btn-newtodo_cancel");
+			this.cancelBtn = document.getElementById("btn-cancel_todo");
 			this.configureTodoAreaBtn();
 		},
 		// 各ボタンのイベントを付与する

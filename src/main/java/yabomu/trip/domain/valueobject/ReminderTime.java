@@ -23,7 +23,7 @@ public enum ReminderTime {
 	;
 
 	Integer code;
-	String discription;
+	String description;
 	static private Map<Integer, ReminderTime> map = new HashMap<>();
 
 	// 本クラスはインスタンス化しないため、クラスロード時にメンバ変数への代入処理を実行させる
@@ -33,16 +33,16 @@ public enum ReminderTime {
 		}
 	}
 
-	ReminderTime(Integer code, String discription) {
+	ReminderTime(Integer code, String description) {
 		this.code = code;
-		this.discription = discription;
+		this.description = description;
 	}
 
 	public Integer getCode() {
 		return code;
 	}
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
 	static public ReminderTime selectBy(Integer code){

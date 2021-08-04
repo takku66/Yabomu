@@ -57,6 +57,7 @@
 .edit_todo-area {
 	display: none;
 }
+/* タイトル欄のフォントは大きめ */
 .edit_todo-area .title {
 	font-size: 1.2em;
 }
@@ -71,12 +72,15 @@
 	height: 90%;
 	overflow-y: auto;
 }
-.edit_todo-area .btn_area {
+.edit_todo-area .bottom_area {
 	height: 10%;
 }
 .edit_todo-area .checklist {
 	list-style: none;
 	padding: 0;
+}
+.edit_todo-area .checklist li {
+	padding: 0.3em;
 }
 textarea.content {
 	max-width: 100%;
@@ -84,6 +88,17 @@ textarea.content {
 	max-height: 100%;
 	min-height: 100px;
 }
+
+/* 各ボタンの形とか */
+.btn-add_checklist {
+	border-radius: 8px;
+	background-color: var(--color-gray-light);
+	border: 0;
+	box-shadow: 0 0 1px 1px silver;
+	cursor: pointer;
+	padding: 0.3em;
+}
+
 .filter {
 	display: none;
 }

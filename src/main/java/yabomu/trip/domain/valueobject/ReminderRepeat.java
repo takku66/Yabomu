@@ -20,7 +20,7 @@ public enum ReminderRepeat {
 	;
 
 	String code;
-	String discription;
+	String description;
 	static private Map<String, ReminderRepeat> map = new HashMap<>();
 
 	static {
@@ -29,17 +29,17 @@ public enum ReminderRepeat {
 		}
 	}
 
-	ReminderRepeat(String code, String discription){
+	ReminderRepeat(String code, String description){
 		this.code = code;
-		this.discription = discription;
+		this.description = description;
 	}
 
 
 	public String getCode() {
 		return this.code;
 	}
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
 	// TODO:共通化したい
