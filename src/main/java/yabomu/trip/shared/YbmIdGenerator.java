@@ -12,8 +12,8 @@ public class YbmIdGenerator {
 	static {
 		lastDateTime = LocalDateTime.now();
 		// 誕生日のパラドクスより1.25*√Hで重複するまでの回数が求められる
-		// 100000000であれば、1万ユーザーの同時生成で重複する可能性がでてくる
-		multiplicity = 100000000;
+		// 1ミリ秒あたりの同時処理が1万程度であれば重複しない想定
+		multiplicity = 1000000000;
 	}
 
 	enum GENCD {
@@ -41,7 +41,13 @@ public class YbmIdGenerator {
 										+ "newDateTime=" + newDateTime.format(dtf) + "]");
 		}
 		long rn = (long)(Math.random()*9 * multiplicity);
-		return newDateTime.format(dtf) + String.format("%03d", generateCd.getCd()) + String.format("%09d", rn);
+
+		// TODO: 最初の2桁はタイムゾーンのコードとかにしたいが、環境に依存しすぎてしまう。
+		// Application起動時に外部から依存性注入させつつstaticなメソッドとして活用できるようにしたい
+		return String.format("%04d", 1) +
+				String.format("%02d", generateCd.getCd()) +
+				newDateTime.format(dtf) +
+				String.format("%09d", rn);
 	}
 
 

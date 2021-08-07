@@ -1,11 +1,11 @@
 DROP table events;
 
 CREATE TABLE events (
-	event_id integer,
+	event_id varchar(30),
 	created_at timestamp(3),
-	create_user integer,
+	create_user varchar(30),
 	updated_at timestamp(6),
-	update_user integer,
+	update_user varchar(30),
 	event_name varchar(200),
 	content varchar(2000),
 	planed_start_date timestamp(0),
