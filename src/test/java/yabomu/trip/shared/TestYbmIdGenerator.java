@@ -23,7 +23,6 @@ class TestYbmIdGenerator {
 //
 //		System.out.println("dtfでformat+ランダム値生成：秒数：" + (e-s));
 //		System.out.println("64bitで生成＋色々計算：秒数：" + (e2-s2));
-		YbmIdGenerator.setUpInstance(+9, 1);
 		Thread[] ts = new Thread[5];
 		for(int i = 0; i < 3; i++) {
 			ts[i] = new Thread(new MultiThreadTest());
