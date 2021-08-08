@@ -1,54 +1,51 @@
 package yabomu.trip.shared;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class YbmIdGenerator {
-	private final  static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-	private static LocalDateTime lastDateTime;
-	private static long multiplicity;
+	private LocalDateTime lastDateTime;
+	private AtomicInteger seq;
+	private int offset;
+	private long appCd;
+	private static YbmIdGenerator generator;
 	private YbmIdGenerator() {
 	}
-	static {
-		lastDateTime = LocalDateTime.now();
-		// 誕生日のパラドクスより1.25*√Hで重複するまでの回数が求められる
-		// 1ミリ秒あたりの同時処理が1万程度であれば重複しない想定
-		multiplicity = 1000000000;
-	}
-
-	enum GENCD {
-		USER_ID(0),
-		EVENT_ID(1),
-		TODO_ID(2),
-		CHKLIST_ID(3);
-
-		int cd;
-
-		GENCD(int cd){
-			this.cd = cd;
+	public static YbmIdGenerator setUpInstance(int offset, int appCd) {
+		if(generator != null) {
+			throw new IllegalStateException("既にインスタンスが生成されています。");
 		}
-
-		public int getCd() {
-			return this.cd;
-		}
+		generator = new YbmIdGenerator();
+		generator.lastDateTime = LocalDateTime.now();
+		generator.seq = new AtomicInteger(0);
+		generator.offset = offset;
+		generator.appCd = appCd;
+		return generator;
 	}
-
-	public static final String generate(GENCD generateCd) {
+	synchronized public static final long generate() {
+		return generator.createId();
+	}
+	synchronized private final long createId() {
+		if(generator == null) {
+			throw new IllegalStateException(this.getClass().getName() + "は初期化されていません。");
+		}
 		LocalDateTime newDateTime = LocalDateTime.now();
+		//ZonedDateTime zdt = ldt.atZone(ZoneOffset.UTC); UTCの場合
+	    ZonedDateTime zdt = newDateTime.atZone(ZoneOffset.ofHours(offset));
+	    long ms = zdt.toInstant().toEpochMilli() * 1000000;
 		if(lastDateTime.compareTo(newDateTime) > 0) {
-			throw new IllegalStateException("タイムスタンプの生成に失敗しました。システム時刻がずれた可能性があります。"
-										+ "[lastDateTime=" + lastDateTime.format(dtf) + ","
-										+ "newDateTime=" + newDateTime.format(dtf) + "]");
+			throw new IllegalStateException("IDの生成に失敗しました。システム時刻がずれた可能性があります。"
+										+ "[lastDateTime=" + lastDateTime + ","
+										+ "newDateTime=" + newDateTime + "]");
 		}
-		long rn = (long)(Math.random()*9 * multiplicity);
-
-		// TODO: 最初の2桁はタイムゾーンのコードとかにしたいが、環境に依存しすぎてしまう。
-		// Application起動時に外部から依存性注入させつつstaticなメソッドとして活用できるようにしたい
-		return String.format("%04d", 1) +
-				String.format("%02d", generateCd.getCd()) +
-				newDateTime.format(dtf) +
-				String.format("%09d", rn);
+		if(lastDateTime.compareTo(newDateTime) == 0) {
+			seq.incrementAndGet();
+		}else {
+			seq.set(0);
+		}
+		lastDateTime = newDateTime;
+		return ms + seq.intValue();
 	}
-
-
 }
