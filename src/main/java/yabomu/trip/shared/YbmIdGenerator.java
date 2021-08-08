@@ -7,13 +7,32 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class YbmIdGenerator {
-	private static long lastms = 0;
-	private static AtomicInteger seq = new AtomicInteger(0);
-	private static int offset = +9;
-	private static long appCd = 1;
+	private long lastms = 0;
+	private AtomicInteger seq = new AtomicInteger(0);
+	private int offset = +9;
+	private long appCd = 1;
+	private static YbmIdGenerator generator;
 	private YbmIdGenerator() {
 	}
-	synchronized public static final long generate() {
+	public static final YbmIdGenerator setup(int offset, int appCd) {
+		if(generator != null) {
+			throw new IllegalStateException("既に初期化処理が行われています。本メソッドは１つのアプリケーションで１回だけ呼び出します。");
+		}
+		generator = new YbmIdGenerator();
+		generator.lastms = 0;
+		generator.seq = new AtomicInteger(0);
+		generator.offset = offset;
+		generator.appCd = appCd;
+		return generator;
+	}
+	synchronized public static long generate() {
+		return generator.createId();
+	}
+
+	synchronized public final long createId() {
+		if(generator == null) {
+			throw new IllegalStateException("初期化設定がされていません。setupメソッドを呼び出して設定してください。");
+		}
 		LocalDateTime newDateTime = LocalDateTime.now();
 		//ZonedDateTime zdt = ldt.atZone(ZoneOffset.UTC); UTCの場合
 	    ZonedDateTime zdt = newDateTime.atZone(ZoneOffset.ofHours(offset));
@@ -29,6 +48,6 @@ public class YbmIdGenerator {
 			seq.set(0);
 		}
 		lastms = ms;
-		return ms + seq.intValue();
+		return ms + (appCd * 10000) + seq.intValue();
 	}
 }
