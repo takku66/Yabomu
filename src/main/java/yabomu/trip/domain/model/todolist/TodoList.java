@@ -1,148 +1,138 @@
 package yabomu.trip.domain.model.todolist;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 public class TodoList implements List<Todo>{
+
+	private final List<Todo> todoList;
+
+	public TodoList () {
+		this.todoList = new ArrayList<Todo>();
+	}
+
+	public TodoList (List<Todo> todoList) {
+		this.todoList = new ArrayList<>(todoList);
+	}
+
 
 	@Override
 	public int size() {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return todoList.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.isEmpty();
 	}
 
 	@Override
 	public boolean contains(Object o) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.contains(o);
 	}
 
 	@Override
-	public Iterator iterator() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public Iterator<Todo> iterator() {
+		return todoList.iterator();
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.toArray();
 	}
 
 	@Override
 	public Object[] toArray(Object[] a) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.toArray(a);
 	}
 
 	@Override
 	public boolean remove(Object o) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.remove(o);
 	}
 
 	@Override
 	public boolean containsAll(Collection c) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.containsAll(c);
 	}
 
 	@Override
 	public boolean addAll(Collection c) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.addAll(c);
 	}
 
 	@Override
 	public boolean addAll(int index, Collection c) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.addAll(index, c);
 	}
 
 	@Override
 	public boolean removeAll(Collection c) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.removeAll(c);
 	}
 
 	@Override
 	public boolean retainAll(Collection c) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.retainAll(c);
 	}
 
 	@Override
 	public void clear() {
-		// TODO 自動生成されたメソッド・スタブ
-
+		todoList.clear();
 	}
 
 	@Override
 	public int indexOf(Object o) {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return todoList.indexOf(o);
 	}
 
 	@Override
 	public int lastIndexOf(Object o) {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return todoList.lastIndexOf(o);
 	}
 
 	@Override
-	public ListIterator listIterator() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public ListIterator<Todo> listIterator() {
+		return todoList.listIterator();
 	}
 
 	@Override
-	public ListIterator listIterator(int index) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public ListIterator<Todo> listIterator(int index) {
+		return todoList.listIterator(index);
 	}
 
 	@Override
 	public List subList(int fromIndex, int toIndex) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.subList(fromIndex, toIndex);
 	}
 
 	@Override
 	public boolean add(Todo e) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return todoList.add(e);
 	}
 
 	@Override
 	public Todo get(int index) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.get(index);
 	}
 
 	@Override
 	public Todo set(int index, Todo element) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.set(index, element);
 	}
 
 	@Override
 	public void add(int index, Todo element) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		todoList.add(index, element);
 	}
 
 	@Override
 	public Todo remove(int index) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return todoList.remove(index);
 	}
 
 

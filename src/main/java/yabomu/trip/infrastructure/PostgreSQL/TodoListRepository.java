@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 import yabomu.trip.infrastructure.condition.TodoCondition;
 import yabomu.trip.infrastructure.converter.TodoListEntityConverter;
@@ -26,21 +27,21 @@ public class TodoListRepository implements ITodoListRepository {
 	private final TodoListMapper mapper;
 
 	@Override
-	public List<Todo> findAll() {
+	public TodoList findAll() {
 		List<TodoEntity> todoEntityList = mapper.findAll();
-		return TodoListEntityConverter.toDomainTodoList(todoEntityList);
+		return TodoListEntityConverter.toDomain(todoEntityList);
 	}
 
 	@Override
-	public Todo findById(String todoId) {
+	public Todo findById(Long todoId) {
 		TodoEntity todoEntity = mapper.findById(todoId);
-		return TodoListEntityConverter.toDomainTodoList(todoEntity);
+		return TodoListEntityConverter.toDomain(todoEntity);
 	}
 
 	@Override
-	public List<Todo> matching(TodoCondition param) {
+	public TodoList matching(TodoCondition param) {
 		List<TodoEntity> todoEntityList = mapper.matching(param);
-		return TodoListEntityConverter.toDomainTodoList(todoEntityList);
+		return TodoListEntityConverter.toDomain(todoEntityList);
 	}
 
 }

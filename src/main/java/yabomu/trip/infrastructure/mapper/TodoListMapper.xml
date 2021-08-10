@@ -11,7 +11,6 @@
 		tl.update_user,
 		tl.title,
 		tl.content,
-		tl.check_list_id,
 		tl.todo_start_date,
 		tl.todo_end_date,
 		tl.reminder_type,
@@ -35,8 +34,8 @@
 <!-- ドメインモデルをそのままマッピングしたかったが、enumやvalueobjectの変換やらで苦戦。。。 -->
 <!-- 冗長になるが、DBと対になるデータクラスを用意して、コンバートしてあげるようにする -->
 	<resultMap id="TodoListResultMap" type="yabomu.trip.infrastructure.entity.TodoEntity" >
-		<id column="event_id" property="eventId" jdbcType="INTEGER" />
-		<id column="todo_id" property="todoId" jdbcType="INTEGER" />
+		<id column="event_id" property="eventId" jdbcType="BIGINT" />
+		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
 		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
 		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
@@ -47,7 +46,6 @@
 		<result column="todo_end_date" property="todoEndDate" jdbcType="TIMESTAMP" />
 		<result column="reminder_start_date" property="reminderStartDate" jdbcType="TIMESTAMP" />
 		<result column="reminder_end_date" property="reminderEndDate" jdbcType="TIMESTAMP" />
-		<result column="check_list_id" property="checkListId" jdbcType="INTEGER" />
 		<result column="reminder_type" property="reminderType" jdbcType="CHAR"  />
 		<result column="reminder_repeat" property="reminderRepeat" jdbcType="CHAR" />
 		<result column="reminder_notice_time" property="reminderTime" jdbcType="INTEGER" />
@@ -75,7 +73,7 @@
 	<select id="findById" resultMap="TodoListResultMap" parameterType="java.lang.String">
 		select
 			<include refid="Base_Column_List" />
-		from todo_list
+		from todo_list as tl
 		<if test="param != null" >
 			<include refid="Base_Where_Clause" />
 		</if>

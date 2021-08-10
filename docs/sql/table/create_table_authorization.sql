@@ -1,12 +1,12 @@
 DROP table authorizations;
 
 CREATE TABLE authorizations (
-	user_id varchar(30),
+	user_id bigint,
 	created_at timestamp(3),
-	create_user varchar(30),
+	create_user bigint,
 	updated_at timestamp(6),
-	update_user varchar(30),
-	password varchar(200),
+	update_user bigint,
+	password varchar(500),
 	primary key (user_id)
 );
 

@@ -1,6 +1,6 @@
 package yabomu.trip.domain.valueobject;
 
-import java.util.UUID;
+import yabomu.trip.shared.YbmIdGenerator;
 
 /**
  * <pre>
@@ -10,27 +10,27 @@ import java.util.UUID;
  */
 public class UserId {
 
-	private String id;
+	private Long id;
 
 	/**<pre>
 	 * 新しいIDを生成する
 	 * </pre>
 	 */
 	public UserId() {
-		this.id = UUID.randomUUID().toString();
+		this.id = YbmIdGenerator.generate();
 	}
 	/**<pre>
 	 * 引数に渡されたIDを設定する
 	 * </pre>
 	 */
-	public UserId(String id) {
-		if(id == null || id.isBlank()) {
+	public UserId(Long id) {
+		if(id == null) {
 			throw new IllegalArgumentException("ユーザーIDが空です。");
 		}
 		this.id = id;
 	}
 
-	public String value() {
+	public long value() {
 		return this.id;
 	}
 
@@ -39,7 +39,7 @@ public class UserId {
 	}
 
 	public String toString() {
-		return this.id;
+		return this.id.toString();
 	}
 
 	public boolean equals(Object object) {

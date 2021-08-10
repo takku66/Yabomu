@@ -3,6 +3,9 @@ package yabomu.trip.domain.model.todolist;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NonNull;
+import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
  * <pre>
@@ -13,14 +16,24 @@ import lombok.Builder;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckItem {
-	private String checkListId;
+	@NonNull
+	private Long todoId;
+	@NonNull
+	private Integer seq;
 	private String content;
 	@Builder.Default
 	private boolean completed = false;
+	private YbmUser createUser;
+	private YbmUser updateUser;
+	private YbmDate createDateTime;
+	private YbmDate updateDateTime;
 
 
-	public String checkListId() {
-		return this.checkListId;
+	public Long todoId() {
+		return this.todoId;
+	}
+	public Integer seq() {
+		return this.seq;
 	}
 	public String content() {
 		return this.content;
@@ -38,4 +51,23 @@ public class CheckItem {
 		this.completed = false;
 	}
 
+
+	public YbmUser createUser() {
+		return createUser;
+	}
+	public String createUserName() {
+		return createUser.name().toString();
+	}
+	public YbmUser updateUser() {
+		return updateUser;
+	}
+	public String updateUserName() {
+		return updateUser.name().toString();
+	}
+	public String createDateTime() {
+		return createDateTime.toHyphenDate();
+	}
+	public String updateDateTime() {
+		return updateDateTime.toHyphenDate();
+	}
 }

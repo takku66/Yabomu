@@ -18,7 +18,7 @@ public interface TodoListMapper {
 
 	public List<TodoEntity> findAll();
 
-	public TodoEntity findById(String todoId);
+	public TodoEntity findById(Long todoId);
 
 	public List<TodoEntity> matching(TodoCondition param);
 

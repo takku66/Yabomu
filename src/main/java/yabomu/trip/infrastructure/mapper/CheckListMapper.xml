@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yabomu.trip.infrastructure.mapper.CheckListMapper" >
+
+	<sql id="Base_Column_List">
+		cl.todo_id,
+		cl.seq,
+		cl.content,
+		cl.is_completed
+	</sql>
+
+	<sql id="Base_Where_Clause">
+		<where>
+
+		</where>
+	</sql>
+
+<!-- ドメインモデルをそのままマッピングしたかったが、enumやvalueobjectの変換やらで苦戦。。。 -->
+<!-- 冗長になるが、DBと対になるデータクラスを用意して、コンバートしてあげるようにする -->
+	<resultMap id="CheckListResultMap" type="yabomu.trip.infrastructure.entity.CheckItemEntity" >
+		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
+		<id column="seq" property="todoId" jdbcType="INTEGER" />
+		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
+		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUserId" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="is_completed" property="completed" jdbcType="CHAR" />
+	</resultMap>
+
+<!-- データ量が少ないうちはいいが、多くなってパフォーマンスが危なくなってきたらどうするか？ -->
+<!-- ユーザー情報だけでも別SQLで取得した方がよいか。。。？ -->
+<!-- TODO:ダミーテストデータを使って実行計画みてみる -->
+	<select id="findById" resultMap="CheckListResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from check_list as cl
+		<if test="param != null" >
+			<include refid="Base_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<select id="matching" resultMap="CheckListResultMap" parameterType="yabomu.trip.infrastructure.condition.CheckItemCondition" >
+		select
+			<include refid="Base_Column_List" />
+		from check_list as cl
+		<if test="param != null" >
+			<include refid="Base_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<insert id="insert"
+		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		keyProperty=""
+		keyColumn=""
+		useGeneratedKeys="false"
+		timeout="180">
+	</insert>
+	<update id="update"
+		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		timeout="180">
+	</update>
+	<delete id="delete"
+		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
+		flushCache="true"
+		statementType="PREPARED"
+		timeout="180">
+	</delete>
+</mapper>

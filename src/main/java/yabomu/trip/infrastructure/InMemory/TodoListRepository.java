@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.model.todolist.TodoListFactory;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 import yabomu.trip.infrastructure.condition.TodoCondition;
@@ -23,7 +24,7 @@ import yabomu.trip.infrastructure.condition.TodoCondition;
 @Repository("notuse-todoListRepository")
 public class TodoListRepository implements ITodoListRepository {
 
-	private final Map<String, Todo> todoListData;
+	private final Map<Long, Todo> todoListData;
 
 	public TodoListRepository () {
 		// テスト用のダミーTODOリストを生成する
@@ -36,20 +37,20 @@ public class TodoListRepository implements ITodoListRepository {
 
 
 	@Override
-	public List<Todo> findAll() {
-		return todoListData.values().stream()
+	public TodoList findAll() {
+		return (TodoList) todoListData.values().stream()
 //									.sorted((e1, e2) -> e1.todoId().compareTo(e2.todoId()))
 									.sorted(Comparator.comparing(Todo::todoId))
 									.collect(Collectors.toList());
 	}
 
 	@Override
-	public Todo findById(String todoId) {
+	public Todo findById(Long todoId) {
 		return todoListData.get(todoId);
 	}
 
 	@Override
-	public List<Todo> matching(TodoCondition param) {
+	public TodoList matching(TodoCondition param) {
 		return null;
 	}
 

@@ -42,7 +42,7 @@
 					</ul>
 <!-- 					リマインダー設定 -->
 					<p class="reminder" th:data-idx="${it.index}">
-						<div>時間
+						<div>
 							<select class="reminder_time text"
 									th:value="${vForm.reminderTime.code}">
 								<option th:each="value : ${reminderTimeList}"
@@ -52,7 +52,7 @@
 								</option>
 							</select>
 						</div>
-						<div>リピート設定
+						<div>リピート
 							<select class="reminder_repeat text"
 									th:value="${vForm.reminderRepeat.code}">
 								<option th:each="value : ${reminderRepeatList}"

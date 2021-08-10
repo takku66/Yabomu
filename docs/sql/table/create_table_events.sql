@@ -1,7 +1,7 @@
 DROP table events;
 
 CREATE TABLE events (
-	event_id varchar(30),
+	event_id bigint,
 	created_at timestamp(3),
 	create_user varchar(30),
 	updated_at timestamp(6),

@@ -50,6 +50,8 @@ const TODO = {
 	},
 	configureOpenNewTodoEvent: function(){
 		this.btnOpenNewTodo.addEventListener("click", function(){
+			TODO.EDIT_TODO_AREA.titleElm.value = "";
+			TODO.EDIT_TODO_AREA.contentElm.value= "";
 			TODO.openTodoArea();
 		}, false);
 	},

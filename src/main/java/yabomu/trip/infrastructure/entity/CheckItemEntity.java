@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class CheckItemEntity {
-
-	private String checkListId;
+	private String todoId;
+	private Integer seq;
 	private String content;
-	private boolean completed = false;
+	private String completed;
 
 }

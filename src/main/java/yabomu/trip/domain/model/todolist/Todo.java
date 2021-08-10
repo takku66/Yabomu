@@ -22,9 +22,9 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Todo {
 	@lombok.NonNull
-	private String eventId;
+	private Long eventId;
 	@lombok.NonNull
-	private String todoId;
+	private Long todoId;
 	private YbmUser createUser;
 	private YbmUser updateUser;
 	private YbmDate createDateTime;
@@ -41,10 +41,10 @@ public class Todo {
 	private ReminderRepeat reminderRepeat;
 
 
-	public String eventId() {
+	public Long eventId() {
 		return eventId;
 	}
-	public String todoId() {
+	public Long todoId() {
 		return todoId;
 	}
 	public String title() {
@@ -95,6 +95,24 @@ public class Todo {
 	}
 	public String reminderEndDateTime() {
 		return reminderEndDateTime.toHyphenDate();
+	}
+
+	public void addCheckList(CheckItem item) {
+		if(this.checkList == null) {
+			this.checkList = new ArrayList<>();
+		}
+		if(this.todoId() != item.todoId()) {
+			throw new IllegalArgumentException("違うTODOリストのチェックリストが挿入されています。" +
+												"[追加先のtodoId=" + this.todoId() +
+												"チェックリストのtodoId=" + item.todoId() + "]");
+		}
+		this.checkList.add(item);
+	}
+	public void addCheckList(List<CheckItem> checkList) {
+		if(this.checkList == null) {
+			this.checkList = new ArrayList<>();
+		}
+		this.checkList.addAll(checkList);
 	}
 
 }

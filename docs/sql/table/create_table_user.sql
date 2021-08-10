@@ -1,11 +1,11 @@
 DROP table users;
 
 CREATE TABLE users (
-	user_id varchar(30),
+	user_id bigint,
 	created_at timestamp(3),
-	create_user varchar(30),
+	create_user bigint,
 	updated_at timestamp(6),
-	update_user varchar(30),
+	update_user bigint,
 	user_name varchar(200),
 	email_address varchar(300),
 	tell_no varchar(20),

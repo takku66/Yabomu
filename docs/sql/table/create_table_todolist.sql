@@ -1,15 +1,15 @@
 DROP table todo_list;
 
 CREATE TABLE todo_list (
-	event_id varchar(30),
-	todo_id varchar(30),
+	event_id bigint,
+	todo_id bigint,
 	created_at timestamp(3),
-	create_user varchar(30),
+	create_user bigint,
 	updated_at timestamp(6),
-	update_user varchar(30),
+	update_user bigint,
 	title varchar(200),
 	content varchar(2000),
-	check_list_id varchar(30),
+	check_list_id bigint,
 	todo_start_date timestamp(0),
 	todo_end_date timestamp(0),
 	reminder_type char(1),

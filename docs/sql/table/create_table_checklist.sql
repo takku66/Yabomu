@@ -1,13 +1,13 @@
 DROP table check_list;
 
 CREATE TABLE check_list (
-	event_id varchar(30),
-	todo_id varchar(30),
-	check_list_id varchar(30),
+	event_id bigint,
+	todo_id bigint,
+	check_list_seq integer,
 	created_at timestamp(3),
-	create_user varchar(30),
+	create_user bigint,
 	updated_at timestamp(6),
-	update_user varchar(30),
+	update_user bigint,
 	content varchar(2000),
 	is_completed char(1),
 	primary key (event_id, todo_id, check_list_id)

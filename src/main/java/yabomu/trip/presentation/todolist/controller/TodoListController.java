@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.ReminderTime;
 import yabomu.trip.presentation.YbmUrls;
@@ -43,10 +44,10 @@ public class TodoListController {
 								final TodoListForm todolistForm) {
 
 		// 全TODOリストを取得する
-		List<Todo> todolist = todoListService.findAll();
+		TodoList todolist = todoListService.findAll();
 
 		// view用のデータに変換する
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(todolist);
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
 
 		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", convertedTodolist);
@@ -63,12 +64,12 @@ public class TodoListController {
 								final TodoListForm todolistForm,
 								final @PathVariable("id") String topicsId) {
 		// Domain用のオブジェクトに変換する
-		Todo todo = TodoListViewConverter.toDomainTodoList(todolistForm);
+		Todo todo = TodoListViewConverter.toDomain(todolistForm);
 		// 全TODOリストを取得する
-		List<Todo> testlist = todoListService.save(todo);
+		TodoList testlist = todoListService.save(todo);
 
 		// view用のデータに変換する
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toViewTodoList(testlist);
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(testlist);
 
 		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", convertedTodolist);

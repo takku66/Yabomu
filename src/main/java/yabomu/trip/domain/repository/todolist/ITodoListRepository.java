@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.infrastructure.condition.TodoCondition;
 
+/**
+ * <pre>
+ * TODOリストのリポジトリインターフェース
+ * </pre>
+ * @version 1.0
+ */
 @Repository
 public interface ITodoListRepository {
 
@@ -24,7 +30,7 @@ public interface ITodoListRepository {
 	 * </pre>
 	 * @return
 	 */
-	public Todo findById(String todoId);
+	public Todo findById(Long todoId);
 
 	/**
 	 * <pre>

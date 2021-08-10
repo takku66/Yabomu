@@ -6,17 +6,16 @@ import lombok.Data;
 
 @Data
 public class TodoEntity {
-	private String eventId;
-	private String todoId;
-	private String createUserId;
+	private Long eventId;
+	private Long todoId;
+	private Long createUserId;
 	private String createUserName;
-	private String updateUserId;
+	private Long updateUserId;
 	private String updateUserName;
 	private String createAt;
 	private String updateAt;
 	private String title;
 	private String content;
-	private String checkListId;
 	private List<CheckItemEntity> checkList;
 	private String todoStartDateTime;
 	private String todoEndDateTime;

@@ -26,8 +26,8 @@ public class YbmUser {
 	 * @param name
 	 */
 	public YbmUser(UserId id, UserName name) {
-		this.id = new UserId(id.toString());
-		this.name = new UserName(name.toString());
+		this.id = new UserId(id.value());
+		this.name = new UserName(name.value());
 	}
 	/**
 	 * <pre>
@@ -39,13 +39,13 @@ public class YbmUser {
 	 * @param tellNo
 	 */
 	public YbmUser(UserId id, UserName name, String email, String tellNo) {
-		this.id = new UserId(id.toString());
-		this.name = new UserName(name.toString());
+		this.id = new UserId(id.value());
+		this.name = new UserName(name.value());
 		this.email = email;
 		this.tellNo = tellNo;
 	}
 
-	public String id() {
+	public long id() {
 		return this.id.value();
 	}
 	public String name() {
