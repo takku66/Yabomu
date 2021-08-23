@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
-import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -17,18 +17,23 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckItem {
 	@NonNull
+	private Long eventId;
+	@NonNull
 	private Long todoId;
 	@NonNull
 	private Integer seq;
 	private String content;
 	@Builder.Default
 	private boolean completed = false;
-	private YbmUser createUser;
-	private YbmUser updateUser;
+	private UserId createUserId;
+	private UserId updateUserId;
 	private YbmDate createDateTime;
 	private YbmDate updateDateTime;
 
 
+	public Long eventId() {
+		return this.eventId;
+	}
 	public Long todoId() {
 		return this.todoId;
 	}
@@ -52,17 +57,11 @@ public class CheckItem {
 	}
 
 
-	public YbmUser createUser() {
-		return createUser;
+	public UserId createUserId() {
+		return createUserId;
 	}
-	public String createUserName() {
-		return createUser.name().toString();
-	}
-	public YbmUser updateUser() {
-		return updateUser;
-	}
-	public String updateUserName() {
-		return updateUser.name().toString();
+	public UserId updateUserId() {
+		return updateUserId;
 	}
 	public String createDateTime() {
 		return createDateTime.toHyphenDate();

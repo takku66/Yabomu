@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
-import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.UserId;
-import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.presentation.todolist.viewadapter.CheckItemForm;
 
@@ -32,14 +30,13 @@ public class CheckListViewConverter {
 		if(checkItem == null) {
 			return form;
 		}
+		form.setEventId(checkItem.eventId().toString());
 		form.setTodoId(checkItem.todoId().toString());
 		form.setSeq(checkItem.seq().toString());
 		form.setContent(checkItem.content());
-		form.setCreateUserId(Long.toString(checkItem.createUser().id()));
-		form.setCreateUserName(checkItem.createUserName());
+		form.setCreateUserId(Long.toString(checkItem.createUserId().value()));
 		form.setCreateDateTime(checkItem.createDateTime());
-		form.setUpdateUserId(Long.toString(checkItem.updateUser().id()));
-		form.setUpdateUserName(checkItem.updateUserName());
+		form.setUpdateUserId(Long.toString(checkItem.updateUserId().value()));
 		form.setUpdateDateTime(checkItem.updateDateTime());
 		return form;
 	}
@@ -72,12 +69,14 @@ public class CheckListViewConverter {
 			return null;
 		}
 		CheckItem checkItem = CheckItem.builder()
+				.eventId(Long.valueOf(form.getEventId()))
 				.todoId(Long.valueOf(form.getTodoId()))
 				.seq(Integer.valueOf(form.getSeq()))
 				.content(form.getContent())
-				.createUser(new YbmUser(new UserId(Long.valueOf(form.getCreateUserId())), new UserName(form.getCreateUserName())))
+				.completed(form.isCompleted())
+				.createUserId(new UserId(Long.valueOf(form.getCreateUserId())))
 				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.updateUser(new YbmUser(new UserId(Long.valueOf(form.getUpdateUserId())), new UserName(form.getUpdateUserName())))
+				.updateUserId(new UserId(Long.valueOf(form.getUpdateUserId())))
 				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
 				.build();
 		return checkItem;

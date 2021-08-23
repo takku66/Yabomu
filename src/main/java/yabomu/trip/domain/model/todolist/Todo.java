@@ -101,7 +101,7 @@ public class Todo {
 		if(this.checkList == null) {
 			this.checkList = new ArrayList<>();
 		}
-		if(this.todoId() != item.todoId()) {
+		if(!this.todoId().equals(item.todoId())) {
 			throw new IllegalArgumentException("違うTODOリストのチェックリストが挿入されています。" +
 												"[追加先のtodoId=" + this.todoId() +
 												"チェックリストのtodoId=" + item.todoId() + "]");

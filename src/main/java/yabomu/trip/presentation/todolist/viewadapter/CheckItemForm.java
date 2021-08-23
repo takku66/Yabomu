@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class CheckItemForm {
-
+	private String eventId;
 	private String todoId;
 	private String seq;
 	private String content;

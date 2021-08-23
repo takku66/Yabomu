@@ -9,7 +9,6 @@ CREATE TABLE todo_list (
 	update_user bigint,
 	title varchar(200),
 	content varchar(2000),
-	check_list_id bigint,
 	todo_start_date timestamp(0),
 	todo_end_date timestamp(0),
 	reminder_type char(1),
@@ -29,7 +28,6 @@ comment on column todo_list.updated_at is '更新日時';
 comment on column todo_list.update_user is '更新者';
 comment on column todo_list.title is 'タイトル';
 comment on column todo_list.content is '内容';
-comment on column todo_list.check_list_id is 'チェックリストID';
 comment on column todo_list.todo_start_date is 'TODO開始日時';
 comment on column todo_list.todo_end_date is 'TODO終了日時';
 comment on column todo_list.reminder_type is 'リマインド種類';

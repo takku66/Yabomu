@@ -4,9 +4,14 @@ import lombok.Data;
 
 @Data
 public class CheckItemEntity {
-	private String todoId;
+	private Long eventId;
+	private Long todoId;
 	private Integer seq;
 	private String content;
 	private String completed;
+	private Long createUserId;
+	private Long updateUserId;
+	private String createDateTime;
+	private String updateDateTime;
 
 }

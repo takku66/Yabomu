@@ -3,9 +3,14 @@
 <mapper namespace="yabomu.trip.infrastructure.mapper.CheckListMapper" >
 
 	<sql id="Base_Column_List">
+		cl.event_id,
 		cl.todo_id,
 		cl.seq,
 		cl.content,
+		cl.created_at,
+		cl.create_user,
+		cl.updated_at,
+		cl.update_user,
 		cl.is_completed
 	</sql>
 
@@ -18,11 +23,12 @@
 <!-- ドメインモデルをそのままマッピングしたかったが、enumやvalueobjectの変換やらで苦戦。。。 -->
 <!-- 冗長になるが、DBと対になるデータクラスを用意して、コンバートしてあげるようにする -->
 	<resultMap id="CheckListResultMap" type="yabomu.trip.infrastructure.entity.CheckItemEntity" >
+		<id column="event_id" property="eventId" jdbcType="BIGINT" />
 		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
-		<id column="seq" property="todoId" jdbcType="INTEGER" />
-		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+		<id column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="created_at" property="createdDateTime" jdbcType="TIMESTAMP" />
 		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
-		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="updated_at" property="updatedDateTime" jdbcType="TIMESTAMP" />
 		<result column="update_user" property="updateUserId" jdbcType="INTEGER" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="is_completed" property="completed" jdbcType="CHAR" />

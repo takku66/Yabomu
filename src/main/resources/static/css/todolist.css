@@ -3,7 +3,7 @@
 /* ************************/
 /* TODOリスト */
 /* ************************/
-.todolist {
+.todolist-container {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -12,14 +12,36 @@
 	gap: 0.5em;
 	margin-top: 0.5em;
 }
+.todo-controle {
+	position: absolute;
+	top: 0;
+	right: 0;
+	opacity: 0;
+	transition-property: all ;
+	transition-duration: 0.3s;
+	transition-delay: 0;
+}
+img.save-todo,
+img.start-datetime,
+img.reminder-time,
+img.reminder-repeat {
+	width: 1.0em;
+	height: 1.0em;
+	vertical-align: middle;
+}
+.todo-box:hover .todo-controle {
+	opacity: 0.8;
+}
 
 .todo-box{
+	position: relative;
 	min-width: 220px;
 	height: 400px;
 	box-shadow: 0 0 1px 1px silver;
 	overflow: hidden;
 	padding: 0.2em;
 	cursor: pointer;
+	list-style: none;
 }
 .todo-box:hover {
 	box-shadow: 0 0 3px 2px silver;
@@ -30,19 +52,22 @@
 	border-radius: 5px;
 	background-color: rgb(240,240,240);
 }
-
+.todo-box .text {
+	display: none;
+}
 .todo-box .title {
 	padding: 0.5em;
 }
-
 .todo-box .content {
 	padding: 0.3em;
 	height: 10%;
 	overflow: hidden;
 }
+.todo-box .delete-btn-checklist {
+	display: none;
+}
 
-.todo-box .checklist{
-	list-style: none;
+.todo-box>.checklist{
 	padding: 0.3em;
 	height: 50%;
 	overflow: hidden;
@@ -51,36 +76,63 @@
 /* ************************/
 /* 新規TODOリストの作成エリア */
 /* ************************/
-.new_todo {
+.new-todo {
 	padding: 0.5em 0;
 }
-.edit_todo-area {
+.edit-todo-area {
+	display: none;
+}
+.edit-todo-area label {
+	display: inline-block;
+}
+.edit-todo-area .label {
 	display: none;
 }
 /* タイトル欄のフォントは大きめ */
-.edit_todo-area .title {
+.edit-todo-area .title {
 	font-size: 1.2em;
+	width: 90%;
 }
-.edit_todo-area .edit_item {
+.edit-todo-area .edit-item {
 	margin: 0.5em;
 }
-.edit_todo-area p.content {
+.edit-todo-area p.content {
 	max-height: 70%;
 	height: 100px;
 }
-.edit_todo-area .edit_area {
+.edit-todo-area .edit-area {
 	height: 90%;
 	overflow-y: auto;
 }
-.edit_todo-area .bottom_area {
+.edit-todo-area .bottom-area {
 	height: 10%;
 }
-.edit_todo-area .checklist {
+.edit-todo-area .checklist {
 	list-style: none;
 	padding: 0;
 }
-.edit_todo-area .checklist li {
+.edit-todo-area .checklist li {
 	padding: 0.3em;
+}
+.edit-todo-area .delete-btn-checklist {
+	background-color: darkgray;
+	opacity: 0.2;
+	width: 1.1em;
+	height: 1.1em;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0;
+	margin: 0;
+	font-size: 1.1em;
+	border: 0;
+	box-shadow: 0 0 1px 1px gray;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.edit-todo-area .delete-btn-checklist:hover {
+	background-color: rgb(250, 50, 50);
+	opacity: 0.8;
+	color: white;
 }
 textarea.content {
 	max-width: 100%;
@@ -90,7 +142,7 @@ textarea.content {
 }
 
 /* 各ボタンの形とか */
-.btn-add_checklist {
+.btn-add-checklist {
 	border-radius: 8px;
 	background-color: var(--color-gray-light);
 	border: 0;
@@ -102,7 +154,7 @@ textarea.content {
 .filter {
 	display: none;
 }
-.edit_todo-area.active {
+.edit-todo-area.active {
 	position: absolute;
 	top: 2em;
 	left: 50%;
@@ -116,6 +168,7 @@ textarea.content {
 	height: 80vh;
 	min-height: 400px;
 	padding: 0.5em 2.0em;
+	list-style: none;
 	z-index: 401;
 }
 

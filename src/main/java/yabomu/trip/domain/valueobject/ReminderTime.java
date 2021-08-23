@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public enum ReminderTime {
 
-	NONE			(-1, "設定なし"),
+	NONE			(-1, "通知時刻を設定する"),
 	ON_TIME			(0, "指定した時刻に通知"),
 	BEFORE_5M		(5, "５分前に通知"),
 	BEFORE_15M		(15, "1５分前に通知"),

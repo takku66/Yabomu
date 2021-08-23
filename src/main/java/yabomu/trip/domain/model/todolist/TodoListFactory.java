@@ -19,13 +19,14 @@ public class TodoListFactory {
 			List<CheckItem> clvaList = new ArrayList<CheckItem>();
 			for(int j = 0; j < 10; j++) {
 				CheckItem clva = CheckItem.builder()
+									.eventId((long)i*i)
 									.todoId((long)i*i)
 									.seq(i)
 									.content("内容" + i + "-" + j)
 									.completed(i+j%3==0)
-									.createUser(new YbmUser(new UserId((long)i), new UserName("登録者名前" + i)))
+									.createUserId(new UserId((long)i))
 									.createDateTime(new YbmDate(LocalDate.now().plusDays(i)))
-									.updateUser(new YbmUser(new UserId((long)i), new UserName("更新者名前" + i)))
+									.updateUserId(new UserId((long)i))
 									.updateDateTime(new YbmDate(LocalDate.now().plusDays(i)))
 									.build();
 				clvaList.add(clva);

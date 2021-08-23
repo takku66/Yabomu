@@ -12,11 +12,12 @@ import java.util.Map;
 public enum ReminderRepeat {
 
 
-	NONE				("", "設定なし"),
-	REPEAT_EVERY_DAY	("D001", "1日おき"),
-	REPEAT_EVERY_WEEK	("D007", "1週間おき"),
-	REPEAT_EVERY_MONTH	("D030", "1ヶ月おき"),
-	REPEAT_EVERY_YEAR	("D365", "1年おき"),
+	NONE					("", "リピート設定をする"),
+	REPEAT_EVERY_DAY		("D001", "1日おき"),
+	REPEAT_EVERY_WEEK		("D007", "1週間おき"),
+	REPEAT_EVERY_MONTH		("D030", "1ヶ月おき"),
+	REPEAT_EVERY_HALF_YEAR	("D180", "半年おき"),
+	REPEAT_EVERY_YEAR		("D365", "1年おき"),
 	;
 
 	String code;

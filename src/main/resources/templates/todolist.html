@@ -10,40 +10,50 @@
 <body layout:fragment="content" th:remove="tag">
 	<main>
 <!-- 	TODOリスト -->
-		<section class="todolist">
+		<section class="todolist-container">
 
 			<th:block th:each="vForm,it : ${formlist}">
 				<div class="todo-box" th:data-idx="${it.index}">
+					<div class="todo-controle">
+						<img th:src="@{/img/save.svg}" id="img-save-todo" class="save-todo" title="保存する" />
+					</div>
 					<input type="hidden" th:value="${vForm.todoId}" />
 <!-- 					タイトル -->
 					<p class="title">
 						<label th:data-idx="${it.index}" class="title label">
 							<th:block th:text="${vForm.title}"></th:block>
 						</label>
-						<input type="text" class="title text hidden"
-								th:data-idx="${it.index}" th:value="${vForm.title}" />
+						<label>
+							<input type="text" class="title text"
+									th:data-idx="${it.index}" th:value="${vForm.title}" />
+						</label>
 					</p>
 <!-- 					内容 -->
 					<p class="content">
 						<label th:data-idx="${it.index}" class="content label">
 							<th:block th:text="${vForm.content}"></th:block>
 						</label>
-						<input type="text" class="content text hidden"
+						<input type="text" class="content text"
 								th:data-idx="${it.index}" th:value="${vForm.content}" />
 					</p>
 <!-- 					チェックリスト -->
 					<ul class="checklist">
 						<li th:each="vCheckList,clIt : ${vForm.checkList}">
-							<input type="checkbox" class="status" th:value="${vCheckList.completed}" />
-							<th:block th:text="${vCheckList.content}"></th:block>
-							<input type="text" class="checllist text hidden"
-								th:data-idx="${it.index}" th:value="${vCheckList.content}" />
+							<label>
+								<input type="checkbox" class="checklist checkbox status" th:value="${vCheckList.completed}" />
+							</label>
+							<label>
+								<span class="label"><th:block th:text="${vCheckList.content}"></th:block></span>
+								<input type="text" class="checklist text" th:data-idx="${it.index}" th:value="${vCheckList.content}" />
+								<button type="button" class="delete-btn-checklist">×</button>
+							</label>
 						</li>
 					</ul>
 <!-- 					リマインダー設定 -->
 					<p class="reminder" th:data-idx="${it.index}">
 						<div>
-							<select class="reminder_time text"
+							<img th:src="@{/img/timer.svg}" id="img-reminder-time" class="reminder-time" title="タイマー設定" />
+							<select class="reminder-time select"
 									th:value="${vForm.reminderTime.code}">
 								<option th:each="value : ${reminderTimeList}"
 										th:value="${value.code}"
@@ -52,8 +62,9 @@
 								</option>
 							</select>
 						</div>
-						<div>リピート
-							<select class="reminder_repeat text"
+						<div>
+							<img th:src="@{/img/repeat.svg}" id="img-reminder-repeat" class="reminder-repeat" title="リピート設定" />
+							<select class="reminder-repeat select"
 									th:value="${vForm.reminderRepeat.code}">
 								<option th:each="value : ${reminderRepeatList}"
 										th:value="${value.code}"
@@ -63,13 +74,13 @@
 							</select>
 						</div>
 					</p>
-<!-- 					予定開始日 -->
-					<p class="todo_start_datetime">
-						開始予定日
-						<label th:data-idx="${it.index}" class="todo_start_datetime label">
+<!-- 					開始日時 -->
+					<p class="todo-start-datetime">
+						<img th:src="@{/img/calendar.svg}" id="img-start-datetime" class="start-datetime" title="予定日時" />
+						<label th:data-idx="${it.index}" class="todo-start-datetime label">
 							<th:block th:text="${vForm.todoStartDateTime}"></th:block>
 						</label>
-						<input type="date" class="todo_start_date text hidden"
+						<input type="datetime-local" class="todo-start-datetime text"
 								th:data-idx="${it.index}" th:value="${vForm.todoStartDateTime}" />
 					</p>
 				</div>
@@ -77,33 +88,56 @@
 		</section>
 
 		<!-- 新規TODO作成 -->
-		<section class="new_todo">
-			<button type="button" id="btn-open_new_todo" class="new_todolist">＋新しいTODOリスト</button>
+		<section class="new-todo">
+			<button type="button" id="btn-open-new-todo" class="new-todolist">＋新しいTODOリスト</button>
 		</section>
-		<div id="edit_todo-area" class="edit_todo-area">
-			<div class="edit_area">
-				<p class="title edit_item">
-					<input type="text" id="todo_title" class="title" placeholder="タイトル" />
+		<div id="edit-todo-area" class="edit-todo-area">
+			<div class="edit-area">
+				<p>
+					<input type="hidden" id="hid-edit-todo-id" class="todo-id" />
 				</p>
-				<p class="content edit_item">
-					<textarea id="todo_content" class="content" placeholder="内容" ></textarea>
+				<p class="title edit-item">
+					<input type="text" id="txt-edit-todo-title" class="title" placeholder="タイトル" />
 				</p>
-				<div id="checklist-area" class="checklist-area edit_item">
+				<p class="content edit-item">
+					<textarea id="txta-edit-todo-content" class="content" placeholder="内容" ></textarea>
+				</p>
+				<div id="checklist-area" class="checklist-area edit-item">
 					<ul class="checklist">
-						<li><input type="checkbox" id="todo_checklist_box" class="checklist_box" />
-							<input type="text" id="todo_checklist_content" class="checklist_content" placeholder="例：◯◯を買う" />
-						</li>
 					</ul>
-					<button type="button" id="btn-add_checklist" class="btn-add_checklist">＋追加</button>
+					<button type="button" id="btn-add-checklist" class="btn-add-checklist">＋追加</button>
 				</div>
+				<p class="reminder">
+					<div>
+						<img th:src="@{/img/timer.svg}" id="img-edit-reminder-time" class="edit-item reminder-time" title="タイマー設定" />
+						<select class="reminder-time select">
+							<option th:each="value : ${reminderTimeList}"
+									th:value="${value.code}"
+									th:text="${value.description}">
+							</option>
+						</select>
+					</div>
+					<div>
+						<img th:src="@{/img/repeat.svg}" id="img-edit-reminder-repeat" class="edit-item reminder-repeat" title="リピート設定" />
+						<select class="reminder-repeat select">
+							<option th:each="value : ${reminderRepeatList}"
+									th:value="${value.code}"
+									th:text="${value.description}">
+							</option>
+						</select>
+					</div>
+				</p>
+				<p class="todo-start-datetime">
+					<img th:src="@{/img/calendar.svg}" id="img-edit-start-datetime" class="edit-item start-datetime" title="予定日時" />
+					<input type="datetime-local" class="todo-start-datetime text" />
+				</p>
 			</div>
-			<div class="bottom_area">
-
-				<button type="button" id="btn-save_todo">保存</button>
-				<button type="button" id="btn-cancel_todo">キャンセル</button>
+			<div class="bottom-area">
+				<button type="button" id="btn-save-todo">保存</button>
+				<button type="button" id="btn-cancel-todo">キャンセル</button>
 			</div>
 		</div>
-		<div id="edit_todo-filter" class="base_filter filter">
+		<div id="edit-todo-filter" class="base-filter filter">
 		</div>
 	</main>
 </body>
