@@ -11,13 +11,12 @@
 	<main>
 <!-- 	TODOリスト -->
 		<section class="todolist-container">
-
 			<th:block th:each="vForm,it : ${formlist}">
 				<div class="todo-box" th:data-idx="${it.index}">
 					<div class="todo-controle">
 						<img th:src="@{/img/save.svg}" id="img-save-todo" class="save-todo" title="保存する" />
 					</div>
-					<input type="hidden" th:value="${vForm.todoId}" />
+					<input type="hidden" class="todo-id" th:value="${vForm.todoId}" />
 <!-- 					タイトル -->
 					<p class="title">
 						<label th:data-idx="${it.index}" class="title label">
@@ -110,7 +109,7 @@
 				<p class="reminder">
 					<div>
 						<img th:src="@{/img/timer.svg}" id="img-edit-reminder-time" class="edit-item reminder-time" title="タイマー設定" />
-						<select class="reminder-time select">
+						<select id="slct-edit-reminder-time" class="reminder-time select">
 							<option th:each="value : ${reminderTimeList}"
 									th:value="${value.code}"
 									th:text="${value.description}">
@@ -119,7 +118,7 @@
 					</div>
 					<div>
 						<img th:src="@{/img/repeat.svg}" id="img-edit-reminder-repeat" class="edit-item reminder-repeat" title="リピート設定" />
-						<select class="reminder-repeat select">
+						<select id="slct-edit-reminder-repeat" class="reminder-repeat select">
 							<option th:each="value : ${reminderRepeatList}"
 									th:value="${value.code}"
 									th:text="${value.description}">
@@ -129,7 +128,7 @@
 				</p>
 				<p class="todo-start-datetime">
 					<img th:src="@{/img/calendar.svg}" id="img-edit-start-datetime" class="edit-item start-datetime" title="予定日時" />
-					<input type="datetime-local" class="todo-start-datetime text" />
+					<input type="datetime-local" id="txt-edit-start-datetime" class="todo-start-datetime text" />
 				</p>
 			</div>
 			<div class="bottom-area">

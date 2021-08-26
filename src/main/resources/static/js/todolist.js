@@ -50,15 +50,18 @@ const TODO = {
 	},
 	configureOpenNewTodoEvent: function(){
 		this.btnOpenNewTodo.addEventListener("click", function(){
-
 			TODO.openTodoArea();
 		}, false);
 	},
 	configureOpenEditTodoEvent: function(){
 		for(let elm of this.todolist){
 			elm.addEventListener("click", function(){
+				TODO.EDIT_TODO_AREA.idElm.value = elm.querySelector(".todo-id").value;
 				TODO.EDIT_TODO_AREA.titleElm.value = elm.querySelector(".text.title").value;
 				TODO.EDIT_TODO_AREA.contentElm.value= elm.querySelector(".text.content").value;
+				TODO.EDIT_TODO_AREA.reminderTimeElm.value= elm.querySelector(".select.reminder-time").value;
+				TODO.EDIT_TODO_AREA.reminderRepeatElm.value= elm.querySelector(".select.reminder-repeat").value;
+				TODO.EDIT_TODO_AREA.startDateTimeElm.value= elm.querySelector(".text.todo-start-datetime").value;
 				const checklist = elm.querySelectorAll("ul.checklist li");
 				for(let checkItem of checklist){
 					TODO.EDIT_TODO_AREA.checklistArea.appendChild(checkItem.cloneNode(true));
@@ -112,6 +115,9 @@ const TODO = {
 		contentElm: null,
 		checklistArea: null,
 		checklistTemplate: null,
+		reminderTimeElm: null,
+		reminderRepeatElm: null,
+		startDateTimeElm: null,
 		// 追加ボタン
 		addCheckBoxBtn: null,
 		// 保存ボタン
@@ -120,11 +126,15 @@ const TODO = {
 		cancelBtn: null,
 		// 初期化処理
 		init: function(){
+			this.idElm = document.getElementById("hid-edit-todo-id");
 			this.areaElm = document.getElementById("edit-todo-area");
 			this.titleElm = document.getElementById("txt-edit-todo-title");
 			this.contentElm = document.getElementById("txta-edit-todo-content");
 			this.checklistArea = document.querySelector("#checklist-area ul.checklist");
 			this.addCheckBoxBtn = document.getElementById("btn-add-checklist");
+			this.reminderTimeElm = document.getElementById("slct-edit-reminder-time");
+			this.reminderRepeatElm = document.getElementById("slct-edit-reminder-repeat");
+			this.startDateTimeElm = document.getElementById("txt-edit-start-datetime");
 			this.saveTodoBtn = document.getElementById("btn-save-todo");
 			this.cancelBtn = document.getElementById("btn-cancel-todo");
 			this.checklistTemplate = this.createTemplateCheckItem();
@@ -164,6 +174,7 @@ const TODO = {
 			}, false);
 		},
 		resetEditContent: function(){
+			this.idElm.value = "";
 			this.titleElm.value = "";
 			this.contentElm.value= "";
 			while(this.checklistArea.firstChild){
