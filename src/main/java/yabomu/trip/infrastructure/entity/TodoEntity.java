@@ -19,9 +19,6 @@ public class TodoEntity {
 	private List<CheckItemEntity> checkList;
 	private String todoStartDateTime;
 	private String todoEndDateTime;
-	private String reminderType;
-	private String reminderStartDateTime;
-	private String reminderEndDateTime;
 	private Integer reminderTime;
 	private String reminderRepeat;
 }

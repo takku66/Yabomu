@@ -3,6 +3,8 @@ package yabomu.trip.domain.valueobject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * <pre>
  * リピート設定定義enum
@@ -43,7 +45,9 @@ public enum ReminderRepeat {
 		return description;
 	}
 
-	// TODO:共通化したい
+	// githubにて解決済みのissueぽい
+	// https://github.com/FasterXML/jackson-module-kotlin/issues/336
+	@JsonCreator(mode = JsonCreator.Mode.DELEGATING)
 	static public ReminderRepeat selectBy(String code){
 		return map.containsKey(code)
 				? map.get(code)

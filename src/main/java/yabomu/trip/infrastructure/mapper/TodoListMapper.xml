@@ -13,9 +13,6 @@
 		tl.content,
 		tl.todo_start_date,
 		tl.todo_end_date,
-		tl.reminder_type,
-		tl.reminder_start_date,
-		tl.reminder_end_date,
 		tl.reminder_repeat,
 		tl.reminder_notice_time
 	</sql>
@@ -44,9 +41,6 @@
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="todo_start_date" property="todoStartDate" jdbcType="TIMESTAMP" />
 		<result column="todo_end_date" property="todoEndDate" jdbcType="TIMESTAMP" />
-		<result column="reminder_start_date" property="reminderStartDate" jdbcType="TIMESTAMP" />
-		<result column="reminder_end_date" property="reminderEndDate" jdbcType="TIMESTAMP" />
-		<result column="reminder_type" property="reminderType" jdbcType="CHAR"  />
 		<result column="reminder_repeat" property="reminderRepeat" jdbcType="CHAR" />
 		<result column="reminder_notice_time" property="reminderTime" jdbcType="INTEGER" />
 		<result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />

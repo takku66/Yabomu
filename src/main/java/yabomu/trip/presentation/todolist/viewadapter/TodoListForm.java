@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.Data;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.ReminderTime;
-import yabomu.trip.domain.valueobject.ReminderType;
 
 /**
  * <pre>
@@ -34,9 +33,6 @@ public class TodoListForm {
 	private List<CheckItemForm> checkList;
 	private String todoStartDateTime;
 	private String todoEndDateTime;
-	private ReminderType reminderType;
-	private String reminderStartDateTime;
-	private String reminderEndDateTime;
 	private ReminderRepeat reminderRepeat;
 	private ReminderTime reminderTime;
 
@@ -55,29 +51,20 @@ public class TodoListForm {
 
 
 	/*
-	 * ReminderType
-	 */
-	public void setReminderTypeEnum(String code) {
-		this.reminderType = ReminderType.selectBy(code);
-	}
-	public void setReminderTypeEnum(ReminderType reminderTypeEnum) {
-		this.reminderType = reminderTypeEnum;
-	}
-	/*
 	 * ReminderTime
 	 */
-	public void setReminderTimeEnum(Integer code) {
-		this.reminderTime = ReminderTime.selectBy(code);
-	}
+//	public void setReminderTimeEnum(Integer code) {
+//		this.reminderTime = ReminderTime.selectBy(code);
+//	}
 	public void setReminderTimeEnum(ReminderTime reminderTimeEnum) {
 		this.reminderTime = reminderTimeEnum;
 	}
 	/*
 	 * ReminderRepeat
 	 */
-	public void setReminderRepeatEnum(String code) {
-		this.reminderRepeat = ReminderRepeat.selectBy(code);
-	}
+//	public void setReminderRepeatEnum(String code) {
+//		this.reminderRepeat = ReminderRepeat.selectBy(code);
+//	}
 	public void setReminderRepeatEnum(ReminderRepeat reminderRepeatEnum) {
 		this.reminderRepeat = reminderRepeatEnum;
 	}

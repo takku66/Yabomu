@@ -16,6 +16,7 @@
 					<div class="todo-controle">
 						<img th:src="@{/img/save.svg}" id="img-save-todo" class="save-todo" title="保存する" />
 					</div>
+					<input type="hidden" class="event-id" th:value="${vForm.eventId}" />
 					<input type="hidden" class="todo-id" th:value="${vForm.todoId}" />
 <!-- 					タイトル -->
 					<p class="title">
@@ -38,6 +39,9 @@
 <!-- 					チェックリスト -->
 					<ul class="checklist">
 						<li th:each="vCheckList,clIt : ${vForm.checkList}">
+							<input type="hidden" class="checklist event-id" th:value="${vCheckList.eventId}" />
+							<input type="hidden" class="checklist todo-id" th:value="${vCheckList.todoId}" />
+							<input type="hidden" class="checklist seq" th:value="${vCheckList.seq}" />
 							<label>
 								<input type="checkbox" class="checklist checkbox status" th:value="${vCheckList.completed}" />
 							</label>
@@ -93,6 +97,7 @@
 		<div id="edit-todo-area" class="edit-todo-area">
 			<div class="edit-area">
 				<p>
+					<input type="hidden" id="hid-edit-event-id" class="event-id" />
 					<input type="hidden" id="hid-edit-todo-id" class="todo-id" />
 				</p>
 				<p class="title edit-item">

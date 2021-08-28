@@ -56,7 +56,8 @@ const TODO = {
 	configureOpenEditTodoEvent: function(){
 		for(let elm of this.todolist){
 			elm.addEventListener("click", function(){
-				TODO.EDIT_TODO_AREA.idElm.value = elm.querySelector(".todo-id").value;
+				TODO.EDIT_TODO_AREA.eventIdElm.value = elm.querySelector(".event-id").value;
+				TODO.EDIT_TODO_AREA.todoIdElm.value = elm.querySelector(".todo-id").value;
 				TODO.EDIT_TODO_AREA.titleElm.value = elm.querySelector(".text.title").value;
 				TODO.EDIT_TODO_AREA.contentElm.value= elm.querySelector(".text.content").value;
 				TODO.EDIT_TODO_AREA.reminderTimeElm.value= elm.querySelector(".select.reminder-time").value;
@@ -110,23 +111,28 @@ const TODO = {
 		// エリア本体
 		areaElm: null,
 		// 各入力要素
-		idElm: null,
+		eventIdElm: null,
+		todoIdElm: null,
 		titleElm: null,
 		contentElm: null,
 		checklistArea: null,
-		checklistTemplate: null,
 		reminderTimeElm: null,
 		reminderRepeatElm: null,
 		startDateTimeElm: null,
+		// チェックリストのテンプレート要素
+		checklistTemplate: null,
 		// 追加ボタン
 		addCheckBoxBtn: null,
 		// 保存ボタン
 		saveTodoBtn: null,
 		// キャンセルボタン
 		cancelBtn: null,
+		// リクエストパラメータ用データ
+		json: {},
 		// 初期化処理
 		init: function(){
-			this.idElm = document.getElementById("hid-edit-todo-id");
+			this.eventIdElm = document.getElementById("hid-edit-event-id");
+			this.todoIdElm = document.getElementById("hid-edit-todo-id");
 			this.areaElm = document.getElementById("edit-todo-area");
 			this.titleElm = document.getElementById("txt-edit-todo-title");
 			this.contentElm = document.getElementById("txta-edit-todo-content");
@@ -140,7 +146,7 @@ const TODO = {
 			this.checklistTemplate = this.createTemplateCheckItem();
 			this.configureTodoAreaBtnEvent();
 		},
-		// 各ボタンのイベントを付与する
+		// 各ボタンのイベントを定義する
 		configureTodoAreaBtnEvent: function(){
 			// 追加ボタンクリック時は、チェックボックス要素を追加する
 			this.addCheckBoxBtn.addEventListener("click", function(){
@@ -152,7 +158,25 @@ const TODO = {
 
 			// 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
 			this.saveTodoBtn.addEventListener("click", function(){
-
+				const json = this.createJson();
+				console.log(json);
+				const todoId = json.todoId;
+				fetch(`/todolist/edit/${todoId}/save`,{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(json)
+					}).then((res)=>{
+						if(!res.ok){
+							throw new Error(`${res.status}${res.statusText}`);
+						}
+						return res.blob();
+					}).then((blob)=>{
+						//blobにデータが入る
+					}).catch((reason)=>{
+						console.log(reason);
+					});
 			}.bind(TODO.EDIT_TODO_AREA), false);
 
 			// キャンセルボタンクリック時は、現在編集中の内容を破棄して閉じる
@@ -161,6 +185,7 @@ const TODO = {
 				this.resetEditContent();
 			}.bind(TODO.EDIT_TODO_AREA), false);
 		},
+		// チェックアイテム横にある、削除ボタンのイベントを定義する
 		configureDeleteCheckItemBtnEvent: function(){
 			const checkItemDeleteBtns = this.checklistArea.querySelectorAll(".delete-btn-checklist");
 			for(let btn of checkItemDeleteBtns){
@@ -174,13 +199,15 @@ const TODO = {
 			}, false);
 		},
 		resetEditContent: function(){
-			this.idElm.value = "";
+			this.eventIdElm.value = "";
+			this.todoIdElm.value = "";
 			this.titleElm.value = "";
 			this.contentElm.value= "";
 			while(this.checklistArea.firstChild){
 				this.checklistArea.removeChild(this.checklistArea.firstChild);
 			}
 		},
+		// チェックリストのテンプレート要素を作成する
 		createTemplateCheckItem: function(){
 			const li = document.createElement("li");
 			const label1 = document.createElement("label");
@@ -211,6 +238,66 @@ const TODO = {
 			li.appendChild(textNode.cloneNode(true));
 			li.appendChild(label2);
 			return li;
+		},
+		createJson: function(){
+			json = {
+				eventId:	this.eventIdElm.value,
+				todoId:		this.todoIdElm.value,
+				title:		this.titleElm.value,
+				content:	this.contentElm.value,
+				checkList:	this.collectCheckItems(),
+				todoStartDateTime:this.startDateTimeElm.value,
+				todoEndDateTime: null, // TODO:未実装
+				reminderRepeat: this.reminderRepeatElm.value,
+				reminderTime: this.reminderTimeElm.value
+			};
+			return json;
+		},
+		// チェックリストの配列を返す。配列内の要素はJson形式
+		collectCheckItems: function(){
+			const checklist = this.checklistArea.querySelectorAll("li");
+			let maxSeq = 0;
+			const jsons = [];
+			const newCheckItems = [];
+			for(let checkItem of checklist){
+				const checkItemEventId = checkItem.querySelector(".checklist.event-id").value;
+				const checkItemTodoId = checkItem.querySelector(".checklist.todo-id").value;
+				const checkItemSeq = checkItem.querySelector(".checklist.seq").value;
+				const checkItemStatus = checkItem.querySelector(".checklist.checkbox.status").value;
+				const checkItemContent = checkItem.querySelector(".checklist.text").value;
+				if(!checkItemSeq){
+					newCheckItems.push(checkItem);
+					continue;
+				}
+				if(maxSeq < checkItemSeq){
+					maxSeq = checkItemSeq;
+				}
+				jsons.push({
+					eventId: checkItemEventId,
+					todoId: checkItemTodoId,
+					seq: checkItemSeq,
+					status: checkItemStatus,
+					content: checkItemContent
+				});
+			}
+			for(let newCheckItem of newCheckItems){
+				const checkItemEventId = checkItem.querySelector(".checklist.event-id").value;
+				const checkItemTodoId = checkItem.querySelector(".checklist.todo-id").value;
+				const checkItemSeq = ++maxSeq;
+				const checkItemStatus = checkItem.querySelector(".checklist.checkbox.status").value;
+				const checkItemContent = checkItem.querySelector(".checklist.text").value;
+				jsons.push({
+					eventId: checkItemEventId,
+					todoId: checkItemTodoId,
+					seq: checkItemSeq,
+					status: checkItemStatus,
+					content: checkItemContent
+				});
+			}
+			return jsons;
+		},
+		isNew: function(){
+
 		}
 	}
 

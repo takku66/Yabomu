@@ -9,6 +9,9 @@ import java.util.Map;
  * </pre>
  * @version 1.0
  */
+// そもそもリマインダーの設定をしない = 1回のみと判断すれば、
+// リマインダー種別は不要か？
+// TODO: しばらくして不要だったら削除する。
 public enum ReminderType {
 
 

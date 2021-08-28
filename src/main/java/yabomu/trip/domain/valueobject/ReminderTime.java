@@ -3,6 +3,8 @@ package yabomu.trip.domain.valueobject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * <pre>
  * リマインダー通知時間定義enum
@@ -45,6 +47,7 @@ public enum ReminderTime {
 		return description;
 	}
 
+	@JsonCreator(mode = JsonCreator.Mode.DELEGATING)
 	static public ReminderTime selectBy(Integer code){
 		return map.containsKey(code)
 				? map.get(code)

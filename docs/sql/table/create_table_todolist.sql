@@ -11,9 +11,6 @@ CREATE TABLE todo_list (
 	content varchar(2000),
 	todo_start_date timestamp(0),
 	todo_end_date timestamp(0),
-	reminder_type char(1),
-	reminder_start_date timestamp(0),
-	reminder_end_date timestamp(0),
 	reminder_repeat char(4),
 	reminder_notice_time integer,
 	primary key (event_id, todo_id)
@@ -30,8 +27,5 @@ comment on column todo_list.title is 'タイトル';
 comment on column todo_list.content is '内容';
 comment on column todo_list.todo_start_date is 'TODO開始日時';
 comment on column todo_list.todo_end_date is 'TODO終了日時';
-comment on column todo_list.reminder_type is 'リマインド種類';
-comment on column todo_list.reminder_start_date is 'リマインド開始日時';
-comment on column todo_list.reminder_end_date is 'リマインド終了日時';
 comment on column todo_list.reminder_repeat is 'リピート設定';
 comment on column todo_list.reminder_notice_time is 'リマインダー通知時間';

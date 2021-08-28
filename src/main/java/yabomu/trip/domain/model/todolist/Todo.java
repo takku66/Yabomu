@@ -9,7 +9,6 @@ import lombok.Builder;
 import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.ReminderTime;
-import yabomu.trip.domain.valueobject.ReminderType;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -34,9 +33,6 @@ public class Todo {
 	private List<CheckItem> checkList;
 	private YbmDate todoStartDateTime;
 	private YbmDate todoEndDateTime;
-	private ReminderType reminderType;
-	private YbmDate reminderStartDateTime;
-	private YbmDate reminderEndDateTime;
 	private ReminderTime reminderTime;
 	private ReminderRepeat reminderRepeat;
 
@@ -81,20 +77,11 @@ public class Todo {
 	public List<CheckItem> checkList(){
 		return new ArrayList<CheckItem>(this.checkList);
 	}
-	public ReminderType reminderType(){
-		return this.reminderType;
-	}
 	public ReminderTime reminderTime(){
 		return this.reminderTime;
 	}
 	public ReminderRepeat reminderRepeat(){
 		return this.reminderRepeat;
-	}
-	public String reminderStartDateTime() {
-		return reminderStartDateTime.toHyphenDate();
-	}
-	public String reminderEndDateTime() {
-		return reminderEndDateTime.toHyphenDate();
 	}
 
 	public void addCheckList(CheckItem item) {
