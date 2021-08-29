@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Yabom Login</title>
+</head>
+<body>
+	<form th:action="@{/login}" method="post">
+		<div><label>ユーザーID: <input type="text" name="username"/> </label></div>
+		<div><label>パスワード: <input type="password" name="password"/> </label></div>
+		<div><input type="submit" value="ログイン"/></div>
+	</form>
+</body>
+</html>
