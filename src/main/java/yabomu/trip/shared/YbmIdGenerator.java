@@ -16,7 +16,7 @@ public class YbmIdGenerator {
 	}
 	public static final YbmIdGenerator setup(int offset, int appCd) {
 		if(generator != null) {
-			throw new IllegalStateException("既に初期化処理が行われています。本メソッドは１つのアプリケーションで１回だけ呼び出します。");
+			throw new IllegalStateException("既に初期化処理が行われています。本メソッドは１つのアプリケーションで１回だけ呼び出してください。");
 		}
 		generator = new YbmIdGenerator();
 		generator.lastms = 0;

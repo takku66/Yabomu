@@ -44,4 +44,15 @@ public class TodoListRepository implements ITodoListRepository {
 		return TodoListEntityConverter.toDomain(todoEntityList);
 	}
 
+	@Override
+	public int insert(Todo todo) {
+		return mapper.insert(TodoListEntityConverter.toEntity(todo));
+	}
+
+	@Override
+	public int update(Todo todo) {
+		return mapper.update(TodoListEntityConverter.toEntity(todo));
+	}
+
+
 }

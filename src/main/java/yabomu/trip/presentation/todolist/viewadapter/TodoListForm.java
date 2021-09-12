@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
-import yabomu.trip.domain.valueobject.ReminderTime;
 
 /**
  * <pre>
@@ -34,7 +34,7 @@ public class TodoListForm {
 	private String todoStartDateTime;
 	private String todoEndDateTime;
 	private ReminderRepeat reminderRepeat;
-	private ReminderTime reminderTime;
+	private ReminderNoticeTime reminderNoticeTime;
 
 	/**
 	 * <pre>
@@ -53,18 +53,12 @@ public class TodoListForm {
 	/*
 	 * ReminderTime
 	 */
-//	public void setReminderTimeEnum(Integer code) {
-//		this.reminderTime = ReminderTime.selectBy(code);
-//	}
-	public void setReminderTimeEnum(ReminderTime reminderTimeEnum) {
-		this.reminderTime = reminderTimeEnum;
+	public void setReminderNoticeTimeEnum(ReminderNoticeTime reminderNoticeTimeEnum) {
+		this.reminderNoticeTime = reminderNoticeTimeEnum;
 	}
 	/*
 	 * ReminderRepeat
 	 */
-//	public void setReminderRepeatEnum(String code) {
-//		this.reminderRepeat = ReminderRepeat.selectBy(code);
-//	}
 	public void setReminderRepeatEnum(ReminderRepeat reminderRepeatEnum) {
 		this.reminderRepeat = reminderRepeatEnum;
 	}

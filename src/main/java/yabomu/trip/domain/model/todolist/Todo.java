@@ -1,5 +1,6 @@
 package yabomu.trip.domain.model.todolist;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
-import yabomu.trip.domain.valueobject.ReminderTime;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -33,7 +34,7 @@ public class Todo {
 	private List<CheckItem> checkList;
 	private YbmDate todoStartDateTime;
 	private YbmDate todoEndDateTime;
-	private ReminderTime reminderTime;
+	private ReminderNoticeTime reminderNoticeTime;
 	private ReminderRepeat reminderRepeat;
 
 
@@ -61,24 +62,40 @@ public class Todo {
 	public String updateUserName() {
 		return updateUser.name().toString();
 	}
-	public String createDateTime() {
-		return createDateTime.toHyphenDate();
+	public LocalDateTime createDateTime() {
+		return createDateTime.value();
 	}
-	public String updateDateTime() {
-		return updateDateTime.toHyphenDate();
+	public String createDateTimeStr() {
+		return createDateTime.toHyphenDateTimeMl3();
 	}
-	public String todoStartDateTime() {
-		return todoStartDateTime.toHyphenDate();
+	public LocalDateTime updateDateTime() {
+		return updateDateTime.value();
 	}
-	public String todoEndDateTime() {
-		return todoEndDateTime.toHyphenDate();
+	public String updateDateTimeStr() {
+		return updateDateTime.toHyphenDateTimeMl6();
+	}
+	public LocalDateTime todoStartDateTime() {
+		return todoStartDateTime != null ? todoStartDateTime.value()
+										: null;
+	}
+	public String todoStartDateTimeStr() {
+		return todoStartDateTime != null ? todoStartDateTime.toHyphenDateTime()
+										: "";
+	}
+	public LocalDateTime todoEndDateTime() {
+		return todoEndDateTime != null ? todoEndDateTime.value()
+										: null;
+	}
+	public String todoEndDateTimeStr() {
+		return todoEndDateTime != null ? todoEndDateTime.toHyphenDateTime()
+										: "";
 	}
 
 	public List<CheckItem> checkList(){
 		return new ArrayList<CheckItem>(this.checkList);
 	}
-	public ReminderTime reminderTime(){
-		return this.reminderTime;
+	public ReminderNoticeTime reminderNoticeTime(){
+		return this.reminderNoticeTime;
 	}
 	public ReminderRepeat reminderRepeat(){
 		return this.reminderRepeat;

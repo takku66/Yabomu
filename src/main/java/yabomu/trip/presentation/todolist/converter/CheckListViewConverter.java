@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
-import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
+import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.presentation.todolist.viewadapter.CheckItemForm;
 
 /**
@@ -34,9 +34,7 @@ public class CheckListViewConverter {
 		form.setTodoId(checkItem.todoId().toString());
 		form.setSeq(checkItem.seq().toString());
 		form.setContent(checkItem.content());
-		form.setCreateUserId(Long.toString(checkItem.createUserId().value()));
-		form.setCreateDateTime(checkItem.createDateTime());
-		form.setUpdateUserId(Long.toString(checkItem.updateUserId().value()));
+		form.setCompleted(checkItem.isCompleted());
 		form.setUpdateDateTime(checkItem.updateDateTime());
 		return form;
 	}
@@ -74,10 +72,7 @@ public class CheckListViewConverter {
 				.seq(Integer.valueOf(form.getSeq()))
 				.content(form.getContent())
 				.completed(form.isCompleted())
-				.createUserId(new UserId(Long.valueOf(form.getCreateUserId())))
-				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.updateUserId(new UserId(Long.valueOf(form.getUpdateUserId())))
-				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.updateDateTime(new YbmDate(form.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return checkItem;
 	}

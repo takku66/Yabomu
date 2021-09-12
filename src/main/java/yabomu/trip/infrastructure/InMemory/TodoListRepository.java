@@ -54,4 +54,12 @@ public class TodoListRepository implements ITodoListRepository {
 		return null;
 	}
 
+	public int insert(Todo todo) {
+		return 0;
+	}
+
+	public int update(Todo todo) {
+		return 0;
+	}
+
 }

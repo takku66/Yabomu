@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * </pre>
  * @version 1.0
  */
-public enum ReminderTime {
+public enum ReminderNoticeTime {
 
 	NONE			(-1, "通知時刻を設定する"),
 	ON_TIME			(0, "指定した時刻に通知"),
@@ -26,16 +26,16 @@ public enum ReminderTime {
 
 	Integer code;
 	String description;
-	static private Map<Integer, ReminderTime> map = new HashMap<>();
+	static private Map<Integer, ReminderNoticeTime> map = new HashMap<>();
 
 	// 本クラスはインスタンス化しないため、クラスロード時にメンバ変数への代入処理を実行させる
 	static {
-		for(ReminderTime e : ReminderTime.values()) {
+		for(ReminderNoticeTime e : ReminderNoticeTime.values()) {
 			map.put(e.getCode(), e);
 		}
 	}
 
-	ReminderTime(Integer code, String description) {
+	ReminderNoticeTime(Integer code, String description) {
 		this.code = code;
 		this.description = description;
 	}
@@ -48,13 +48,13 @@ public enum ReminderTime {
 	}
 
 	@JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-	static public ReminderTime selectBy(Integer code){
+	static public ReminderNoticeTime selectBy(Integer code){
 		return map.containsKey(code)
 				? map.get(code)
 				: getDefault();
 	}
-	static public ReminderTime getDefault(){
-		return ReminderTime.NONE;
+	static public ReminderNoticeTime getDefault(){
+		return ReminderNoticeTime.NONE;
 	}
 
 

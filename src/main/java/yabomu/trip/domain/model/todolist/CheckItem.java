@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
-import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -25,9 +24,6 @@ public class CheckItem {
 	private String content;
 	@Builder.Default
 	private boolean completed = false;
-	private UserId createUserId;
-	private UserId updateUserId;
-	private YbmDate createDateTime;
 	private YbmDate updateDateTime;
 
 
@@ -57,15 +53,6 @@ public class CheckItem {
 	}
 
 
-	public UserId createUserId() {
-		return createUserId;
-	}
-	public UserId updateUserId() {
-		return updateUserId;
-	}
-	public String createDateTime() {
-		return createDateTime.toHyphenDate();
-	}
 	public String updateDateTime() {
 		return updateDateTime.toHyphenDate();
 	}

@@ -31,4 +31,20 @@ public interface ICheckListRepository {
 	 * @return
 	 */
 	public List<CheckItem> matching(CheckItemCondition param);
+
+	/**
+	 * <pre>
+	 * チェックリストを登録する
+	 * </pre>
+	 * @return
+	 */
+	public int insert(CheckItem checkItem);
+
+	/**
+	 * <pre>
+	 * チェックリストを更新する
+	 * </pre>
+	 * @return
+	 */
+	public int update(CheckItem checkItem);
 }

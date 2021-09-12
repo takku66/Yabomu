@@ -1,5 +1,6 @@
 package yabomu.trip.infrastructure.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Data;
@@ -12,13 +13,13 @@ public class TodoEntity {
 	private String createUserName;
 	private Long updateUserId;
 	private String updateUserName;
-	private String createAt;
-	private String updateAt;
+	private LocalDateTime createDateTime;
+	private LocalDateTime updateDateTime;
 	private String title;
 	private String content;
 	private List<CheckItemEntity> checkList;
-	private String todoStartDateTime;
-	private String todoEndDateTime;
-	private Integer reminderTime;
+	private LocalDateTime todoStartDateTime;
+	private LocalDateTime todoEndDateTime;
+	private Integer reminderNoticeTime;
 	private String reminderRepeat;
 }

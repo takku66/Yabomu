@@ -7,10 +7,7 @@
 		cl.todo_id,
 		cl.seq,
 		cl.content,
-		cl.created_at,
-		cl.create_user,
-		cl.updated_at,
-		cl.update_user,
+		cl.update_date_time,
 		cl.is_completed
 	</sql>
 
@@ -26,10 +23,7 @@
 		<id column="event_id" property="eventId" jdbcType="BIGINT" />
 		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
 		<id column="seq" property="seq" jdbcType="INTEGER" />
-		<result column="created_at" property="createdDateTime" jdbcType="TIMESTAMP" />
-		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
-		<result column="updated_at" property="updatedDateTime" jdbcType="TIMESTAMP" />
-		<result column="update_user" property="updateUserId" jdbcType="INTEGER" />
+		<result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="is_completed" property="completed" jdbcType="CHAR" />
 	</resultMap>

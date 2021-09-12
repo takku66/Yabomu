@@ -22,4 +22,8 @@ public interface TodoListMapper {
 
 	public List<TodoEntity> matching(TodoCondition param);
 
+	public int insert(TodoEntity entity);
+
+	public int update(TodoEntity entity);
+
 }

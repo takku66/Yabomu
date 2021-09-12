@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
+import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
-import yabomu.trip.domain.valueobject.ReminderTime;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
@@ -54,7 +55,7 @@ public class TodoListController {
 
 		// レスポンス用にパラメータを設定する
 		mv.addObject("formlist", convertedTodolist);
-		mv.addObject("reminderTimeList", ReminderTime.values());
+		mv.addObject("reminderNoticeTimeList", ReminderNoticeTime.values());
 		mv.addObject("reminderRepeatList", ReminderRepeat.values());
 
 		// 遷移先のhtml名を設定する
@@ -66,15 +67,23 @@ public class TodoListController {
 	@ResponseBody
 	public String save(final @RequestBody TodoListForm todolistForm,
 						final @PathVariable("id") String todoId) {
+
+		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
+			return "{"
+					+ "\"savedCnt\": " + "\"0\""
+					+ ",\"error\": " + "\"true\""
+					+ "}";
+		}
 		// Domain用のオブジェクトに変換する
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
 		// 全TODOリストを取得する
-		TodoList testlist = todoListService.save(todo);
-
+		int savedCnt = todoListService.save(todo);
 		// view用のデータに変換する
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(testlist);
-
-		return "status:OK";
+		TodoList todolist = todoListService.findAll();
+		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
+		return "{"
+				+ "\"message\": " + "\"" + savedCnt + "件の保存が完了しました。\""
+				+ "}";
 	}
 
 }

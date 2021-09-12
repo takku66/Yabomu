@@ -21,4 +21,7 @@ public interface CheckListMapper {
 
 	public List<CheckItemEntity> matching(CheckItemCondition param);
 
+	public int insert(CheckItemEntity entity);
+
+	public int update(CheckItemEntity entity);
 }

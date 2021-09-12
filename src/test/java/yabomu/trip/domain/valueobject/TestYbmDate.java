@@ -2,7 +2,7 @@ package yabomu.trip.domain.valueobject;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ class TestYbmDate {
 		this.blankDate = new YbmDate("", YbmDate.FmtPtn.JP_DATE);
 		this.spaceDate = new YbmDate(" ", YbmDate.FmtPtn.JP_DATE);
 		this.nullDate = new YbmDate(null, YbmDate.FmtPtn.JP_DATE);
-		this.localDate = new YbmDate(LocalDate.of(2021,2,28));
+		this.localDate = new YbmDate(LocalDateTime.of(2021,2,28,0,0,0,0));
 	}
 
 

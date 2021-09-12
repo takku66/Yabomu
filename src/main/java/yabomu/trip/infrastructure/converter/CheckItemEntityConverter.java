@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
-import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
+import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
 
 public class CheckItemEntityConverter {
@@ -28,10 +28,7 @@ public class CheckItemEntityConverter {
 				.seq(checkItemEntity.getSeq())
 				.content(checkItemEntity.getContent())
 				.completed(toBoolStatus(checkItemEntity.getCompleted()))
-				.createUserId(new UserId(checkItemEntity.getCreateUserId()))
-				.createDateTime(new YbmDate(checkItemEntity.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.updateUserId(new UserId(checkItemEntity.getUpdateUserId()))
-				.updateDateTime(new YbmDate(checkItemEntity.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.updateDateTime(new YbmDate(checkItemEntity.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return checkItem;
 	}
@@ -53,6 +50,30 @@ public class CheckItemEntityConverter {
 		return rtnList;
 	}
 
+	static public CheckItemEntity toEntity(CheckItem checkItem){
+		if(checkItem == null) {
+			return null;
+		}
+		CheckItemEntity entity = new CheckItemEntity();
+		entity.setEventId(checkItem.eventId());
+		entity.setTodoId(checkItem.todoId());
+		entity.setSeq(checkItem.seq());
+		entity.setContent(checkItem.content());
+		entity.setCompleted(toStringStatus(checkItem.isCompleted()));
+		entity.setUpdateDateTime(checkItem.updateDateTime());
+		return entity;
+	}
+	static public List<CheckItemEntity> toEntity(List<CheckItem> checkItemList){
+		List<CheckItemEntity> rtnList = new ArrayList<>();
+		if(checkItemList == null) {
+			return rtnList;
+		}
+		for(CheckItem checkItem : checkItemList) {
+			rtnList.add(toEntity(checkItem));
+		}
+		return rtnList;
+	}
+
 	//TODO:オブジェクト指向的には、チェックリストのステータスクラスを値オブジェクトとして持つべきか
 	/**
 	 * <pre>
@@ -63,15 +84,19 @@ public class CheckItemEntityConverter {
 	 */
 	static private boolean toBoolStatus(String status) {
 		final List<String> completedList = new ArrayList<>() {
-			{add("t");add("true");add("y");add("yes");add("1");}
+			{add("t");
+			add("true");
+			add("y");
+			add("yes");
+			add("1");}
 		};
 		return completedList.contains(status);
 	}
 	static private String toStringStatus(boolean status) {
 		if(status) {
-			return "t";
+			return "1";
 		}else {
-			return "f";
+			return "0";
 		}
 	}
 

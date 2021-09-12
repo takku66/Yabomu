@@ -39,11 +39,9 @@
 <!-- 					チェックリスト -->
 					<ul class="checklist">
 						<li th:each="vCheckList,clIt : ${vForm.checkList}">
-							<input type="hidden" class="checklist event-id" th:value="${vCheckList.eventId}" />
-							<input type="hidden" class="checklist todo-id" th:value="${vCheckList.todoId}" />
 							<input type="hidden" class="checklist seq" th:value="${vCheckList.seq}" />
 							<label>
-								<input type="checkbox" class="checklist checkbox status" th:value="${vCheckList.completed}" />
+								<input type="checkbox" class="checklist checkbox status" th:checked="${vCheckList.completed}" />
 							</label>
 							<label>
 								<span class="label"><th:block th:text="${vCheckList.content}"></th:block></span>
@@ -55,13 +53,13 @@
 <!-- 					リマインダー設定 -->
 					<p class="reminder" th:data-idx="${it.index}">
 						<div>
-							<img th:src="@{/img/timer.svg}" id="img-reminder-time" class="reminder-time" title="タイマー設定" />
-							<select class="reminder-time select"
-									th:value="${vForm.reminderTime.code}">
-								<option th:each="value : ${reminderTimeList}"
+							<img th:src="@{/img/timer.svg}" id="img-reminder-notice-time" class="reminder-notice-time" title="タイマー設定" />
+							<select class="reminder-notice-time select"
+									th:value="${vForm.reminderNoticeTime.code}">
+								<option th:each="value : ${reminderNoticeTimeList}"
 										th:value="${value.code}"
 										th:text="${value.description}"
-										th:selected="${value.code == vForm.reminderTime.code}">
+										th:selected="${value.code == vForm.reminderNoticeTime.code}">
 								</option>
 							</select>
 						</div>
@@ -85,6 +83,22 @@
 						</label>
 						<input type="datetime-local" class="todo-start-datetime text"
 								th:data-idx="${it.index}" th:value="${vForm.todoStartDateTime}" />
+					</p>
+					<p class="todo-create-info">
+						<input type="hidden" class="todo-create-user-id hid"
+								th:data-idx="${it.index}" th:value="${vForm.createUserId}" />
+						<input type="hidden" class="todo-create-user-name hid"
+								th:data-idx="${it.index}" th:value="${vForm.createUserName}" />
+						<input type="hidden" class="todo-create-datetime hid"
+								th:data-idx="${it.index}" th:value="${vForm.createDateTime}" />
+					</p>
+					<p class="todo-update-info">
+						<input type="hidden" class="todo-update-user-id hid"
+								th:data-idx="${it.index}" th:value="${vForm.updateUserId}" />
+						<input type="hidden" class="todo-update-user-name hid"
+								th:data-idx="${it.index}" th:value="${vForm.updateUserName}" />
+						<input type="hidden" class="todo-update-datetime hid"
+								th:data-idx="${it.index}" th:value="${vForm.updateDateTime}" />
 					</p>
 				</div>
 			</th:block>
@@ -113,9 +127,9 @@
 				</div>
 				<p class="reminder">
 					<div>
-						<img th:src="@{/img/timer.svg}" id="img-edit-reminder-time" class="edit-item reminder-time" title="タイマー設定" />
-						<select id="slct-edit-reminder-time" class="reminder-time select">
-							<option th:each="value : ${reminderTimeList}"
+						<img th:src="@{/img/timer.svg}" id="img-edit-reminder-notice-time" class="edit-item reminder-notice-time" title="タイマー設定" />
+						<select id="slct-edit-reminder-notice-time" class="reminder-notice-time select">
+							<option th:each="value : ${reminderNoticeTimeList}"
 									th:value="${value.code}"
 									th:text="${value.description}">
 							</option>
@@ -135,6 +149,16 @@
 					<img th:src="@{/img/calendar.svg}" id="img-edit-start-datetime" class="edit-item start-datetime" title="予定日時" />
 					<input type="datetime-local" id="txt-edit-start-datetime" class="todo-start-datetime text" />
 				</p>
+				<p class="todo-create-info">
+					<input type="hidden" id="hid-edit-create-user-id" class="todo-create-user-id" />
+					<input type="hidden" id="hid-edit-create-user-name" class="todo-create-user-name" />
+					<input type="hidden" id="hid-edit-create-datetime" class="todo-create-datetime" />
+				</p>
+				<p class="todo-update-info">
+					<input type="hidden" id="hid-edit-update-user-id" class="todo-update-user-id" />
+					<input type="hidden" id="hid-edit-update-user-name" class="todo-update-user-name" />
+					<input type="hidden" id="hid-edit-update-datetime" class="todo-update-datetime" />
+				</p>
 			</div>
 			<div class="bottom-area">
 				<button type="button" id="btn-save-todo">保存</button>
@@ -142,6 +166,12 @@
 			</div>
 		</div>
 		<div id="edit-todo-filter" class="base-filter filter">
+		</div>
+
+<!-- 		いずれ共通化する -->
+		<div id="message-area" class="message-area">
+			<ul id="message-list" class="message-list">
+			</ul>
 		</div>
 	</main>
 </body>

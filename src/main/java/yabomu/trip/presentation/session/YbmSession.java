@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import yabomu.trip.domain.model.user.YbmUser;
+
 /**
  * <pre>
  * セッション管理クラス
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Component;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class YbmSession implements Serializable {
 
+	/** ユーザー情報 */
+	private YbmUser user;
+	
 	/** 現在表示中の画面 */
 	private String nowShowingMenu;
 

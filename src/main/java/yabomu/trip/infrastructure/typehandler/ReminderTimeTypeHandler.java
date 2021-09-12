@@ -8,29 +8,29 @@ import java.sql.SQLException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import yabomu.trip.domain.valueobject.ReminderTime;
+import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 
-public class ReminderTimeTypeHandler extends BaseTypeHandler<ReminderTime> {
+public class ReminderTimeTypeHandler extends BaseTypeHandler<ReminderNoticeTime> {
 
 	@Override
-	public void setNonNullParameter(PreparedStatement ps, int i, ReminderTime parameter, JdbcType jdbcType)
+	public void setNonNullParameter(PreparedStatement ps, int i, ReminderNoticeTime parameter, JdbcType jdbcType)
 			throws SQLException {
 		ps.setInt(i, parameter.getCode());
 	}
 
 	@Override
-	public ReminderTime getNullableResult(ResultSet rs, String columnName) throws SQLException {
-		return ReminderTime.selectBy(rs.getInt(columnName));
+	public ReminderNoticeTime getNullableResult(ResultSet rs, String columnName) throws SQLException {
+		return ReminderNoticeTime.selectBy(rs.getInt(columnName));
 	}
 
 	@Override
-	public ReminderTime getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-		return ReminderTime.selectBy(rs.getInt(columnIndex));
+	public ReminderNoticeTime getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+		return ReminderNoticeTime.selectBy(rs.getInt(columnIndex));
 	}
 
 	@Override
-	public ReminderTime getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-		return ReminderTime.selectBy(cs.getInt(columnIndex));
+	public ReminderNoticeTime getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+		return ReminderNoticeTime.selectBy(cs.getInt(columnIndex));
 	}
 
 

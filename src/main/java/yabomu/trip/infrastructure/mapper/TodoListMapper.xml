@@ -5,14 +5,14 @@
 	<sql id="Base_Column_List">
 		tl.event_id,
 		tl.todo_id,
-		tl.created_at,
+		tl.create_date_time,
 		tl.create_user,
-		tl.updated_at,
+		tl.update_date_time,
 		tl.update_user,
 		tl.title,
 		tl.content,
-		tl.todo_start_date,
-		tl.todo_end_date,
+		tl.todo_start_date_time,
+		tl.todo_end_date_time,
 		tl.reminder_repeat,
 		tl.reminder_notice_time
 	</sql>
@@ -33,16 +33,16 @@
 	<resultMap id="TodoListResultMap" type="yabomu.trip.infrastructure.entity.TodoEntity" >
 		<id column="event_id" property="eventId" jdbcType="BIGINT" />
 		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
-		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="create_date_time" property="createDateTime" jdbcType="TIMESTAMP" />
 		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
-		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
 		<result column="update_user" property="updateUserId" jdbcType="INTEGER" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
-		<result column="todo_start_date" property="todoStartDate" jdbcType="TIMESTAMP" />
-		<result column="todo_end_date" property="todoEndDate" jdbcType="TIMESTAMP" />
+		<result column="todo_start_date_time" property="todoStartDateTime" jdbcType="TIMESTAMP" />
+		<result column="todo_end_date_time" property="todoEndDateTime" jdbcType="TIMESTAMP" />
 		<result column="reminder_repeat" property="reminderRepeat" jdbcType="CHAR" />
-		<result column="reminder_notice_time" property="reminderTime" jdbcType="INTEGER" />
+		<result column="reminder_notice_time" property="reminderNoticeTime" jdbcType="INTEGER" />
 		<result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
 		<result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
 	</resultMap>
@@ -59,9 +59,7 @@
 		on tl.create_user = u1.user_id
 		left outer join users as u2
 		on tl.update_user = u2.user_id
-		<if test="orderByClause != null" >
-			order by ${orderByClause}
-		</if>
+		order by event_id, todo_id
 	</select>
 
 	<select id="findById" resultMap="TodoListResultMap" parameterType="java.lang.String">
@@ -88,23 +86,73 @@
 		</if>
 	</select>
 
-	<insert id="insert"
-		parameterType="yabomu.trip.infrastructure.entity.TodoEntity"
-		flushCache="true"
-		statementType="PREPARED"
-		keyProperty=""
-		keyColumn=""
-		useGeneratedKeys="false"
-		timeout="180">
+
+	<insert id="insert">
+	  insert into todo_list (
+		event_id,
+		todo_id,
+		create_date_time,
+		create_user,
+		update_date_time,
+		update_user,
+		title,
+		content,
+		todo_start_date_time,
+		todo_end_date_time,
+		reminder_repeat,
+		reminder_notice_time
+	  )
+	  values (
+	  	#{eventId},
+		#{todoId},
+		current_timestamp,
+		#{createUser},
+		current_timestamp,
+		#{updateUser},
+		#{title},
+		#{content},
+		#{todoStartDateTime},
+		#{todoEndDateTime},
+		#{reminderRepeat},
+		#{reminderNoticeTime}
+	  )
 	</insert>
-	<update id="update"
-		parameterType="yabomu.trip.infrastructure.entity.TodoEntity"
-		flushCache="true"
-		statementType="PREPARED"
-		timeout="180">
+
+	<update id="update">
+		update todo_list set
+			event_id = #{eventId},
+			todo_id = #{todoId},
+<!-- 			create_date_time = current_timestamp, -->
+<!-- 			create_user = #{createUser}, -->
+			update_date_time = current_timestamp,
+			update_user = #{updateUserId},
+			title = #{title},
+			content = #{content},
+			todo_start_date_time = #{todoStartDateTime},
+			todo_end_date_time = #{todoEndDateTime},
+			reminder_repeat = #{reminderRepeat},
+			reminder_notice_time = #{reminderNoticeTime}
+		where
+			event_id = #{eventId} AND
+			todo_id = #{todoId}
 	</update>
+<!-- 	<insert id="insert" -->
+<!-- 		parameterType="yabomu.trip.domain.model.todolist.Todo" -->
+<!-- 		flushCache="true" -->
+<!-- 		statementType="PREPARED" -->
+<!-- 		keyProperty="" -->
+<!-- 		keyColumn="" -->
+<!-- 		useGeneratedKeys="false" -->
+<!-- 		timeout="180"> -->
+<!-- 	</insert> -->
+<!-- 	<update id="update" -->
+<!-- 		parameterType="yabomu.trip.domain.model.todolist.Todo" -->
+<!-- 		flushCache="true" -->
+<!-- 		statementType="PREPARED" -->
+<!-- 		timeout="180"> -->
+<!-- 	</update> -->
 	<delete id="delete"
-		parameterType="yabomu.trip.infrastructure.entity.TodoEntity"
+		parameterType="yabomu.trip.domain.model.todolist.Todo"
 		flushCache="true"
 		statementType="PREPARED"
 		timeout="180">

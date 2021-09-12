@@ -1,10 +1,10 @@
-DROP table events;
+DROP TABLE IF EXISTS events;
 
-CREATE TABLE events (
+CREATE TABLE IF NOT EXISTS events (
 	event_id bigint,
-	created_at timestamp(3),
+	create_date_time timestamp(3),
 	create_user varchar(30),
-	updated_at timestamp(6),
+	update_date_time timestamp(6),
 	update_user varchar(30),
 	event_name varchar(200),
 	content varchar(2000),
@@ -16,9 +16,9 @@ CREATE TABLE events (
 
 comment on table events is 'イベント情報';
 comment on column events.event_id is 'イベントID';
-comment on column events.created_at is '作成日時';
+comment on column events.create_date_time is '作成日時';
 comment on column events.create_user is '作成者';
-comment on column events.updated_at is '更新日時';
+comment on column events.update_date_time is '更新日時';
 comment on column events.update_user is '更新者';
 comment on column events.event_name is 'イベント名';
 comment on column events.content is '内容';

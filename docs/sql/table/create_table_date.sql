@@ -1,6 +1,6 @@
-DROP table base_date;
+DROP TABLE IF EXISTS base_date;
 
-CREATE TABLE base_date (
+CREATE TABLE IF NOT EXISTS base_date (
 	base_date date,
 	primary key (base_date)
 );

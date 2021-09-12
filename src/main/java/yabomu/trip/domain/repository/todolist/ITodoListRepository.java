@@ -39,4 +39,20 @@ public interface ITodoListRepository {
 	 * @return
 	 */
 	public List<Todo> matching(TodoCondition param);
+
+	/**
+	 * <pre>
+	 * TODOリストを登録する
+	 * </pre>
+	 * @return
+	 */
+	public int insert(Todo todo);
+
+	/**
+	 * <pre>
+	 * TODOリストを更新する
+	 * </pre>
+	 * @return
+	 */
+	public int update(Todo todo);
 }

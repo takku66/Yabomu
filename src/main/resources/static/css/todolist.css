@@ -23,7 +23,7 @@
 }
 img.save-todo,
 img.start-datetime,
-img.reminder-time,
+img.reminder-notice-time,
 img.reminder-repeat {
 	width: 1.0em;
 	height: 1.0em;
@@ -183,3 +183,5 @@ textarea.content {
 	opacity: 0.5;
 	background-color: black;
 }
+
+

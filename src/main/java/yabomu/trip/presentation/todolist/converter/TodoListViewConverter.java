@@ -38,15 +38,15 @@ public class TodoListViewConverter {
 		form.setTitle(todo.title());
 		form.setContent(todo.content());
 		form.setCheckList(CheckListViewConverter.toView(todo.checkList()));
-		form.setReminderTimeEnum(todo.reminderTime());
+		form.setReminderNoticeTimeEnum(todo.reminderNoticeTime());
 		form.setReminderRepeatEnum(todo.reminderRepeat());
-		form.setTodoStartDateTime(todo.todoStartDateTime());
+		form.setTodoStartDateTime(todo.todoStartDateTimeStr());
 		form.setCreateUserId(Long.toString(todo.createUser().id()));
 		form.setCreateUserName(todo.createUserName());
-		form.setCreateDateTime(todo.createDateTime());
+		form.setCreateDateTime(todo.createDateTimeStr());
 		form.setUpdateUserId(Long.toString(todo.updateUser().id()));
 		form.setUpdateUserName(todo.updateUserName());
-		form.setUpdateDateTime(todo.updateDateTime());
+		form.setUpdateDateTime(todo.updateDateTimeStr());
 		return form;
 	}
 	/**
@@ -83,13 +83,13 @@ public class TodoListViewConverter {
 				.title(form.getTitle())
 				.content(form.getContent())
 				.checkList(CheckListViewConverter.toDomain(form.getCheckList()))
-				.reminderTime(form.getReminderTime())
+				.reminderNoticeTime(form.getReminderNoticeTime())
 				.reminderRepeat(form.getReminderRepeat())
+				.todoStartDateTime(new YbmDate(form.getTodoStartDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML3))
 				.createUser(new YbmUser(new UserId(Long.valueOf(form.getCreateUserId())), new UserName(form.getCreateUserName())))
-				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
 				.updateUser(new YbmUser(new UserId(Long.valueOf(form.getUpdateUserId())), new UserName(form.getUpdateUserName())))
-				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
-				.todoStartDateTime(new YbmDate(form.getTodoStartDateTime(), YbmDate.FmtPtn.HYPHEN_DATE))
+				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIME))
 				.build();
 		return todo;
 	}

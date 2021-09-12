@@ -36,5 +36,13 @@ public class CheckListRepository implements ICheckListRepository {
 		List<CheckItemEntity> checkItemEntityList = mapper.matching(param);
 		return CheckItemEntityConverter.toDomain(checkItemEntityList);
 	}
+	@Override
+	public int insert(CheckItem checkItem) {
+		return mapper.insert(CheckItemEntityConverter.toEntity(checkItem));
+	}
+	@Override
+	public int update(CheckItem checkItem) {
+		return mapper.update(CheckItemEntityConverter.toEntity(checkItem));
+	}
 
 }
