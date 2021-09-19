@@ -45,11 +45,11 @@ class TestYbmDate {
 
 	@Test
 	void canToString() {
-		assertEquals("2021-02-28", nonmarkDate.toString());
-		assertEquals("2021-02-28", slashDate.toString());
-		assertEquals("2021-02-28", hyphenDate.toString());
-		assertEquals("2021-02-28", jpDate.toString());
-		assertEquals("2021-02-28", localDate.toString());
+		assertEquals("2021-02-28T00:00", nonmarkDate.toString());
+		assertEquals("2021-02-28T00:00", slashDate.toString());
+		assertEquals("2021-02-28T00:00", hyphenDate.toString());
+		assertEquals("2021-02-28T00:00", jpDate.toString());
+		assertEquals("2021-02-28T00:00", localDate.toString());
 	}
 
 	@Test

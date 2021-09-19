@@ -19,7 +19,7 @@ import yabomu.trip.infrastructure.mapper.CheckListMapper;
  * </pre>
  * @version 1.0
  */
-@Repository("checkListRepository")
+@Repository
 @RequiredArgsConstructor
 public class CheckListRepository implements ICheckListRepository {
 

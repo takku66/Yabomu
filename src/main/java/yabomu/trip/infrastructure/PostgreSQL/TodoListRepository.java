@@ -20,7 +20,7 @@ import yabomu.trip.infrastructure.mapper.TodoListMapper;
  * </pre>
  * @version 1.0
  */
-@Repository("todoListRepository")
+@Repository
 @RequiredArgsConstructor
 public class TodoListRepository implements ITodoListRepository {
 

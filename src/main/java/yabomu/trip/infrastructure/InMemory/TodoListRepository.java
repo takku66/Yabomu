@@ -21,7 +21,7 @@ import yabomu.trip.infrastructure.condition.TodoCondition;
  * </pre>
  * @version 1.0
  */
-@Repository("notuse-todoListRepository")
+@Repository("Test-TodoList")
 public class TodoListRepository implements ITodoListRepository {
 
 	private final Map<Long, Todo> todoListData;

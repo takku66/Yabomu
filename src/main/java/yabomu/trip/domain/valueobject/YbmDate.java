@@ -1,6 +1,8 @@
 package yabomu.trip.domain.valueobject;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -17,21 +19,44 @@ public class YbmDate {
 	private LocalDateTime datetime ;
 
 	static public enum FmtPtn {
+		// コードからコメント行を作成
+		// 置換前：(.*?\(")(.*?)(".*)
+		// 置換後：/** $2 */\r\n$1$2$3
+		// 空白をTに変更しつつ、orでコメントを増やす
+		// 置換前：/\*\*.*? (.*?) (.*) \*/
+		// 置換後：/** $1 $2 or $1T$2 */
+
+		/** uuuuMMdd */
 		NONMARK_DATE("uuuuMMdd"),
+		/** uuuu-MM-dd */
 		HYPHEN_DATE("uuuu-MM-dd"),
+		/** uuuu/MM/dd */
 		SLASH_DATE("uuuu/MM/dd"),
+		/** uuuu年MM月dd日 */
 		JP_DATE("uuuu年MM月dd日"),
+		/** uuuuMMdd HH:mm:ss or uuuuMMddTHH:mm:ss */
 		NONMARK_DATE_TIME("uuuuMMdd HH:mm:ss"),
+		/** uuuu-MM-dd HH:mm:ss or uuuu-MM-ddTHH:mm:ss */
 		HYPHEN_DATE_TIME("uuuu-MM-dd HH:mm:ss"),
+		/** uuuu/MM/dd HH:mm:ss or uuuu/MM/ddTHH:mm:ss */
 		SLASH_DATE_TIME("uuuu/MM/dd HH:mm:ss"),
+		/** uuuu年MM月dd日 HH:mm:ss or uuuu年MM月dd日THH:mm:ss */
 		JP_DATE_TIME("uuuu年MM月dd日 HH:mm:ss"),
+		/** uuuuMMdd HH:mm:ss.SSS or uuuuMMddTHH:mm:ss.SSS */
 		NONMARK_DATE_TIMEML3("uuuuMMdd HH:mm:ss.SSS"),
+		/** uuuu-MM-dd HH:mm:ss.SSS or uuuu-MM-ddTHH:mm:ss.SSS */
 		HYPHEN_DATE_TIMEML3("uuuu-MM-dd HH:mm:ss.SSS"),
+		/** uuuu/MM/dd HH:mm:ss.SSS or uuuu/MM/ddTHH:mm:ss.SSS */
 		SLASH_DATE_TIMEML3("uuuu/MM/dd HH:mm:ss.SSS"),
+		/** uuuu年MM月dd日 HH:mm:ss.SSS or uuuu年MM月dd日THH:mm:ss.SSS */
 		JP_DATE_TIMEML3("uuuu年MM月dd日 HH:mm:ss.SSS"),
+		/** uuuuMMdd HH:mm:ss.SSSSSS or uuuuMMddTHH:mm:ss.SSSSSS */
 		NONMARK_DATE_TIMEML6("uuuuMMdd HH:mm:ss.SSSSSS"),
+		/** uuuu-MM-dd HH:mm:ss.SSSSSS or uuuu-MM-ddTHH:mm:ss.SSSSSS */
 		HYPHEN_DATE_TIMEML6("uuuu-MM-dd HH:mm:ss.SSSSSS"),
+		/** uuuu/MM/dd HH:mm:ss.SSSSSS or uuuu/MM/ddTHH:mm:ss.SSSSSS */
 		SLASH_DATE_TIMEML6("uuuu/MM/dd HH:mm:ss.SSSSSS"),
+		/** uuuu年MM月dd日 HH:mm:ss.SSSSSS or uuuu年MM月dd日THH:mm:ss.SSSSSS */
 		JP_DATE_TIMEML6("uuuu年MM月dd日 HH:mm:ss.SSSSSS"),
 		;
 		String ptn;
@@ -62,7 +87,11 @@ public class YbmDate {
 		// SimpleDateFormatterだとエラーにならない文字も、これだといけるらしい
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern.getPtn());
 		try {
-			this.datetime = LocalDateTime.parse(datetime, dtf);
+			if(datetime.indexOf("T") == -1 && datetime.indexOf(" ") == -1) {
+				this.datetime = LocalDate.parse(datetime, dtf).atTime(LocalTime.MIN);
+			}else {
+				this.datetime = LocalDateTime.parse(datetime, dtf);
+			}
 		}catch(DateTimeParseException e) {
 			e.printStackTrace();
 			throw e;

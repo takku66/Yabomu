@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @SpringBootTest
-class TestHomeControllerTest {
+class TestHomeController {
 
 	private MockMvc mockMvc;
 

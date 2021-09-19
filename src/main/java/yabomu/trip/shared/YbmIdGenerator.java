@@ -6,33 +6,25 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.stereotype.Component;
+
+//@Singleton
+//@ApplicationScope
+@Component
 public class YbmIdGenerator {
-	private long lastms = 0;
-	private AtomicInteger seq = new AtomicInteger(0);
-	private int offset = +9;
-	private long appCd = 1;
-	private static YbmIdGenerator generator;
-	private YbmIdGenerator() {
-	}
-	public static final YbmIdGenerator setup(int offset, int appCd) {
-		if(generator != null) {
-			throw new IllegalStateException("既に初期化処理が行われています。本メソッドは１つのアプリケーションで１回だけ呼び出してください。");
-		}
-		generator = new YbmIdGenerator();
-		generator.lastms = 0;
-		generator.seq = new AtomicInteger(0);
-		generator.offset = offset;
-		generator.appCd = appCd;
-		return generator;
+	private static long lastms = 0;
+	private static AtomicInteger seq = new AtomicInteger(0);
+	private static int offset = +9;
+//	private YbmIdGenerator() {
+//	}
+	public YbmIdGenerator() {
 	}
 	synchronized public static long generate() {
-		return generator.createId();
+		return createId();
 	}
 
-	synchronized public final long createId() {
-		if(generator == null) {
-			throw new IllegalStateException("初期化設定がされていません。setupメソッドを呼び出して設定してください。");
-		}
+	synchronized private static long createId() {
+
 		LocalDateTime newDateTime = LocalDateTime.now();
 		//ZonedDateTime zdt = ldt.atZone(ZoneOffset.UTC); UTCの場合
 	    ZonedDateTime zdt = newDateTime.atZone(ZoneOffset.ofHours(offset));
@@ -48,6 +40,6 @@ public class YbmIdGenerator {
 			seq.set(0);
 		}
 		lastms = ms;
-		return ms + (appCd * 10000) + seq.intValue();
+		return ms + seq.intValue();
 	}
 }
