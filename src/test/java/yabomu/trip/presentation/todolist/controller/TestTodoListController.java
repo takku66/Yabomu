@@ -32,7 +32,6 @@ class TestTodoListController {
 		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST_EDIT))
 					.andDo(print())
 					.andExpect(status().isOk())
-//					.andExpect(view().name("あえて違うやつ"))
 					.andExpect(view().name("todolist.html"))
 					.andReturn();
 	}
