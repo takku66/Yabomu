@@ -1,5 +1,6 @@
 package yabomu.trip.infrastructure.InMemory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class CheckListRepository implements ICheckListRepository {
 
 	@Override
 	public List<CheckItem> matching(CheckItemCondition param) {
-		return null;
+		return new ArrayList<CheckItem>();
 	}
 	@Override
 	public int insert(CheckItem checkItem) {

@@ -24,7 +24,7 @@ public class TodoListFactory {
 									.seq(i)
 									.content("内容" + i + "-" + j)
 									.completed(i+j%3==0)
-									.updateDateTime(new YbmDate(LocalDateTime.now().plusDays(i)))
+									.updateDateTime(new YbmDate(LocalDateTime.now().plusDays(i).plusNanos(i*1000)))
 									.build();
 				clvaList.add(clva);
 			}

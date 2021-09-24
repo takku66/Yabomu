@@ -54,6 +54,6 @@ public class CheckItem {
 
 
 	public String updateDateTime() {
-		return updateDateTime.toHyphenDate();
+		return updateDateTime.toHyphenDateTimeMl6();
 	}
 }
