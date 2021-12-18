@@ -52,8 +52,7 @@ public class CheckItem {
 		this.completed = false;
 	}
 
-
 	public String updateDateTime() {
-		return updateDateTime.toHyphenDateTimeMl6();
+		return updateDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6);
 	}
 }

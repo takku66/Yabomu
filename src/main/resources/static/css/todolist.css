@@ -58,7 +58,7 @@ img.reminder-repeat {
 .todo-box .title {
 	padding: 0.5em;
 }
-.todo-box .content {
+.todo-box p.content {
 	padding: 0.3em;
 	height: 10%;
 	overflow: hidden;

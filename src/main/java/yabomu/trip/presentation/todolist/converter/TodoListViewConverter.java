@@ -40,7 +40,8 @@ public class TodoListViewConverter {
 		form.setCheckList(CheckListViewConverter.toView(todo.checkList()));
 		form.setReminderNoticeTimeEnum(todo.reminderNoticeTime());
 		form.setReminderRepeatEnum(todo.reminderRepeat());
-		form.setTodoStartDateTime(todo.todoStartDateTimeStr());
+		form.setTodoStartDate(todo.todoStartDateStr());
+		form.setTodoStartTime(todo.todoStartTimeStr());
 		form.setCreateUserId(Long.toString(todo.createUser().id()));
 		form.setCreateUserName(todo.createUserName());
 		form.setCreateDateTime(todo.createDateTimeStr());
@@ -85,7 +86,7 @@ public class TodoListViewConverter {
 				.checkList(CheckListViewConverter.toDomain(form.getCheckList()))
 				.reminderNoticeTime(form.getReminderNoticeTime())
 				.reminderRepeat(form.getReminderRepeat())
-				.todoStartDateTime(new YbmDate(form.getTodoStartDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML3))
+				.todoStartDateTime(new YbmDate(form.getTodoStartDate() + " " + form.getTodoStartTime(), YbmDate.FmtPtn.HYPHEN_DATE_HOUR_MINUTES))
 				.createUser(new YbmUser(new UserId(Long.valueOf(form.getCreateUserId())), new UserName(form.getCreateUserName())))
 				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
 				.updateUser(new YbmUser(new UserId(Long.valueOf(form.getUpdateUserId())), new UserName(form.getUpdateUserName())))

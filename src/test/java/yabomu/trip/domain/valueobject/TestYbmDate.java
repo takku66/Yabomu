@@ -36,11 +36,11 @@ class TestYbmDate {
 
 	@Test
 	void canToNonmark() {
-		assertEquals("20210228", nonmarkDate.toNonmarkDate());
-		assertEquals("20210228", hyphenDate.toNonmarkDate());
-		assertEquals("20210228", jpDate.toNonmarkDate());
-		assertEquals("20210228", slashDate.toNonmarkDate());
-		assertEquals("20210228", localDate.toNonmarkDate());
+		assertEquals("20210228", nonmarkDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("20210228", hyphenDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("20210228", jpDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("20210228", slashDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("20210228", localDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 	}
 
 	@Test
@@ -54,46 +54,46 @@ class TestYbmDate {
 
 	@Test
 	void canToHyphen() {
-		assertEquals("2021-02-28", nonmarkDate.toHyphenDate());
-		assertEquals("2021-02-28", hyphenDate.toHyphenDate());
-		assertEquals("2021-02-28", slashDate.toHyphenDate());
-		assertEquals("2021-02-28", jpDate.toHyphenDate());
-		assertEquals("2021-02-28", localDate.toHyphenDate());
+		assertEquals("2021-02-28", nonmarkDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("2021-02-28", hyphenDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("2021-02-28", slashDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("2021-02-28", jpDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("2021-02-28", localDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
 	}
 	@Test
 	void canToJp() {
-		assertEquals("2021年02月28日", hyphenDate.toJpDate());
-		assertEquals("2021年02月28日", nonmarkDate.toJpDate());
-		assertEquals("2021年02月28日", slashDate.toJpDate());
-		assertEquals("2021年02月28日", jpDate.toJpDate());
-		assertEquals("2021年02月28日", localDate.toJpDate());
+		assertEquals("2021年02月28日", hyphenDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("2021年02月28日", nonmarkDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("2021年02月28日", slashDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("2021年02月28日", jpDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("2021年02月28日", localDate.valueOf(YbmDate.FmtPtn.JP_DATE));
 	}
 	@Test
 	void canToSlash() {
-		assertEquals("2021/02/28", hyphenDate.toSlashDate());
-		assertEquals("2021/02/28", nonmarkDate.toSlashDate());
-		assertEquals("2021/02/28", jpDate.toSlashDate());
-		assertEquals("2021/02/28", slashDate.toSlashDate());
-		assertEquals("2021/02/28", localDate.toSlashDate());
+		assertEquals("2021/02/28", hyphenDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("2021/02/28", nonmarkDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("2021/02/28", jpDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("2021/02/28", slashDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("2021/02/28", localDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
 	}
 
 	@Test
 	void blankTest() {
-		assertEquals("", blankDate.toNonmarkDate());
-		assertEquals("", spaceDate.toNonmarkDate());
-		assertEquals("", nullDate.toNonmarkDate());
+		assertEquals("", blankDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("", spaceDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
+		assertEquals("", nullDate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 		assertEquals("", blankDate.toString());
 		assertEquals("", spaceDate.toString());
 		assertEquals("", nullDate.toString());
-		assertEquals("", blankDate.toHyphenDate());
-		assertEquals("", spaceDate.toHyphenDate());
-		assertEquals("", nullDate.toHyphenDate());
-		assertEquals("", blankDate.toJpDate());
-		assertEquals("", spaceDate.toJpDate());
-		assertEquals("", nullDate.toJpDate());
-		assertEquals("", blankDate.toSlashDate());
-		assertEquals("", spaceDate.toSlashDate());
-		assertEquals("", nullDate.toSlashDate());
+		assertEquals("", blankDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("", spaceDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("", nullDate.valueOf(YbmDate.FmtPtn.HYPHEN_DATE));
+		assertEquals("", blankDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("", spaceDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("", nullDate.valueOf(YbmDate.FmtPtn.JP_DATE));
+		assertEquals("", blankDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("", spaceDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
+		assertEquals("", nullDate.valueOf(YbmDate.FmtPtn.SLASH_DATE));
 	}
 
 	@Test
@@ -129,13 +129,13 @@ class TestYbmDate {
 	@Test
 	void testUru() {
 		YbmDate urudate = new YbmDate("20200229", YbmDate.FmtPtn.NONMARK_DATE);
-		assertEquals("20200229", urudate.toNonmarkDate());
+		assertEquals("20200229", urudate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 		YbmDate urudate_add2 = new YbmDate("20200231", YbmDate.FmtPtn.NONMARK_DATE);
-		assertEquals("20200229", urudate_add2.toNonmarkDate());
+		assertEquals("20200229", urudate_add2.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 		YbmDate noturudate = new YbmDate("20210229", YbmDate.FmtPtn.NONMARK_DATE);
-		assertEquals("20210228", noturudate.toNonmarkDate());
+		assertEquals("20210228", noturudate.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 		YbmDate noturudate_add2 = new YbmDate("20210231", YbmDate.FmtPtn.NONMARK_DATE);
-		assertEquals("20210228", noturudate_add2.toNonmarkDate());
+		assertEquals("20210228", noturudate_add2.valueOf(YbmDate.FmtPtn.NONMARK_DATE));
 	}
 
 

@@ -34,6 +34,17 @@ public class YbmDate {
 		SLASH_DATE("uuuu/MM/dd"),
 		/** uuuu年MM月dd日 */
 		JP_DATE("uuuu年MM月dd日"),
+		/** HH:mm */
+		TIME_HHMM("HH:mm"),
+		TIME_HHMMSS("HH:mm:ss"),
+		/** uuuuMMdd HH:mm or uuuuMMddTHH:mm */
+		NONMARK_DATE_HOUR_MINUTES("uuuuMMdd HH:mm"),
+		/** uuuu-MM-dd HH:mm or uuuu-MM-ddTHH:mm */
+		HYPHEN_DATE_HOUR_MINUTES("uuuu-MM-dd HH:mm"),
+		/** uuuu/MM/dd HH:mm or uuuu/MM/ddTHH:mm */
+		SLASH_DATE_HOUR_MINUTES("uuuu/MM/dd HH:mm"),
+		/** uuuu年MM月dd日 HH:mm or uuuu年MM月dd日THH:mm */
+		JP_DATE_HOUR_MINUTES("uuuu年MM月dd日 HH:mm"),
 		/** uuuuMMdd HH:mm:ss or uuuuMMddTHH:mm:ss */
 		NONMARK_DATE_TIME("uuuuMMdd HH:mm:ss"),
 		/** uuuu-MM-dd HH:mm:ss or uuuu-MM-ddTHH:mm:ss */
@@ -86,8 +97,11 @@ public class YbmDate {
 		}
 		// SimpleDateFormatterだとエラーにならない文字も、これだといけるらしい
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern.getPtn());
+		if(datetime.indexOf("T") > 0) {
+			datetime = datetime.replace("T", " ");
+		}
 		try {
-			if(datetime.indexOf("T") == -1 && datetime.indexOf(" ") == -1) {
+			if(datetime.indexOf(" ") == -1) {
 				this.datetime = LocalDate.parse(datetime, dtf).atTime(LocalTime.MIN);
 			}else {
 				this.datetime = LocalDateTime.parse(datetime, dtf);
@@ -109,89 +123,6 @@ public class YbmDate {
 	public String valueOf(FmtPtn ptn) {
 		return datetime != null
 				? datetime.format(DateTimeFormatter.ofPattern(ptn.getPtn()))
-				: "";
-	}
-	public String toNonmarkDate() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE.getPtn()))
-				: "";
-	}
-	public String toHyphenDate() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE.getPtn()))
-				: "";
-	}
-	public String toSlashDate() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE.getPtn()))
-				: "";
-	}
-	public String toJpDate() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE.getPtn()))
-				: "";
-	}
-
-	public String toNonmarkDateTime() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE_TIME.getPtn()))
-				: "";
-	}
-	public String toHyphenDateTime() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE_TIME.getPtn()))
-				: "";
-	}
-	public String toSlashDateTime() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE_TIME.getPtn()))
-				: "";
-	}
-	public String toJpDateTime() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE_TIME.getPtn()))
-				: "";
-	}
-
-	public String toNonmarkDateTimeMl3() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE_TIMEML3.getPtn()))
-				: "";
-	}
-	public String toHyphenDateTimeMl3() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE_TIMEML3.getPtn()))
-				: "";
-	}
-	public String toSlashDateTimeMl3() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE_TIMEML3.getPtn()))
-				: "";
-	}
-	public String toJpDateTimeMl3() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE_TIMEML3.getPtn()))
-				: "";
-	}
-
-	public String toNonmarkDateTimeMl6() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.NONMARK_DATE_TIMEML6.getPtn()))
-				: "";
-	}
-	public String toHyphenDateTimeMl6() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.HYPHEN_DATE_TIMEML6.getPtn()))
-				: "";
-	}
-	public String toSlashDateTimeMl6() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.SLASH_DATE_TIMEML6.getPtn()))
-				: "";
-	}
-	public String toJpDateTimeMl6() {
-		return datetime != null
-				? datetime.format(DateTimeFormatter.ofPattern(FmtPtn.JP_DATE_TIMEML6.getPtn()))
 				: "";
 	}
 

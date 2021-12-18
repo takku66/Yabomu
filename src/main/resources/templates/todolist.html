@@ -30,11 +30,8 @@
 					</p>
 <!-- 					内容 -->
 					<p class="content">
-						<label th:data-idx="${it.index}" class="content label">
-							<th:block th:text="${vForm.content}"></th:block>
-						</label>
-						<input type="text" class="content text"
-								th:data-idx="${it.index}" th:value="${vForm.content}" />
+						<label th:data-idx="${it.index}" class="content label"><th:block ybm:brtext="${vForm.content}"></th:block></label>
+						<textarea class="content text" th:data-idx="${it.index}"><th:block th:text="${vForm.content}"></th:block></textarea>
 					</p>
 <!-- 					チェックリスト -->
 					<ul class="checklist">
@@ -79,10 +76,14 @@
 					<p class="todo-start-datetime">
 						<img th:src="@{/img/calendar.svg}" id="img-start-datetime" class="start-datetime" title="予定日時" />
 						<label th:data-idx="${it.index}" class="todo-start-datetime label">
-							<th:block th:text="${vForm.todoStartDateTime}"></th:block>
+							<th:block th:text="${vForm.todoStartDate}"></th:block>
+							&nbsp;
+							<th:block th:text="${vForm.todoStartTime}"></th:block>
 						</label>
-						<input type="datetime-local" class="todo-start-datetime text"
-								th:data-idx="${it.index}" th:value="${vForm.todoStartDateTime}" />
+						<input type="date" class="todo-start-date text"
+								th:data-idx="${it.index}" th:value="${vForm.todoStartDate}" />
+						<input type="time" class="todo-start-time text"
+								th:data-idx="${it.index}" th:value="${vForm.todoStartTime}" />
 					</p>
 					<p class="todo-create-info">
 						<input type="hidden" class="todo-create-user-id hid"
@@ -147,7 +148,8 @@
 				</p>
 				<p class="todo-start-datetime">
 					<img th:src="@{/img/calendar.svg}" id="img-edit-start-datetime" class="edit-item start-datetime" title="予定日時" />
-					<input type="datetime-local" id="txt-edit-start-datetime" class="todo-start-datetime text" />
+					<input type="date" id="txt-edit-start-date" class="todo-start-date text" />
+					<input type="time" id="txt-edit-start-time" class="todo-start-time text" />
 				</p>
 				<p class="todo-create-info">
 					<input type="hidden" id="hid-edit-create-user-id" class="todo-create-user-id" />

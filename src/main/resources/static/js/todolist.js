@@ -63,7 +63,8 @@ const TODO = {
 				EDIT_TODO_AREA.contentElm.value= elm.querySelector(".text.content").value;
 				EDIT_TODO_AREA.reminderNoticeTimeElm.value= elm.querySelector(".select.reminder-notice-time").value;
 				EDIT_TODO_AREA.reminderRepeatElm.value= elm.querySelector(".select.reminder-repeat").value;
-				EDIT_TODO_AREA.startDateTimeElm.value= elm.querySelector(".text.todo-start-datetime").value;
+				EDIT_TODO_AREA.startDateElm.value= elm.querySelector(".text.todo-start-date").value;
+				EDIT_TODO_AREA.startTimeElm.value= elm.querySelector(".text.todo-start-time").value;
 				EDIT_TODO_AREA.createUserIdElm.value= elm.querySelector(".hid.todo-create-user-id").value;
 				EDIT_TODO_AREA.createUserNameElm.value= elm.querySelector(".hid.todo-create-user-name").value;
 				EDIT_TODO_AREA.createDatetimeElm.value= elm.querySelector(".hid.todo-create-datetime").value;
@@ -127,7 +128,8 @@ const EDIT_TODO_AREA = {
 	checklistArea: null,
 	reminderNoticeTimeElm: null,
 	reminderRepeatElm: null,
-	startDateTimeElm: null,
+	startDateElm: null,
+	startTimeElm: null,
 	// チェックリストのテンプレート要素
 	checklistTemplate: null,
 	// 追加ボタン
@@ -163,7 +165,8 @@ const EDIT_TODO_AREA = {
 		this.addCheckBoxBtn = document.getElementById("btn-add-checklist");
 		this.reminderNoticeTimeElm = document.getElementById("slct-edit-reminder-notice-time");
 		this.reminderRepeatElm = document.getElementById("slct-edit-reminder-repeat");
-		this.startDateTimeElm = document.getElementById("txt-edit-start-datetime");
+		this.startDateElm = document.getElementById("txt-edit-start-date");
+		this.startTimeElm = document.getElementById("txt-edit-start-time");
 		this.saveTodoBtn = document.getElementById("btn-save-todo");
 		this.cancelBtn = document.getElementById("btn-cancel-todo");
 		this.checklistTemplate = this.createTemplateCheckItem();
@@ -244,6 +247,8 @@ const EDIT_TODO_AREA = {
 		this.updateDatetimeElm.value = "";
 		this.reminderNoticeTimeElm.value = "";
 		this.reminderRepeatElm.value = "";
+		this.startDateElm.value = "";
+		this.startTimeElm.value = "";
 	},
 	// チェックリストのテンプレート要素を作成する
 	createTemplateCheckItem: function(){
@@ -284,7 +289,8 @@ const EDIT_TODO_AREA = {
 			title:		this.titleElm.value,
 			content:	this.contentElm.value,
 			checkList:	this.collectCheckItems(EDIT_TODO_AREA.areaElm),
-			todoStartDateTime:this.startDateTimeElm.value,
+			todoStartDate:this.startDateElm.value,
+			todoStartTime:this.startTimeElm.value,
 			todoEndDateTime: null, // TODO:未実装
 			reminderRepeat: this.reminderRepeatElm.value,
 			reminderNoticeTime: this.reminderNoticeTimeElm.value,

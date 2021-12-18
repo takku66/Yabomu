@@ -66,28 +66,36 @@ public class Todo {
 		return createDateTime.value();
 	}
 	public String createDateTimeStr() {
-		return createDateTime.toHyphenDateTimeMl3();
+		return createDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML3);
 	}
 	public LocalDateTime updateDateTime() {
 		return updateDateTime.value();
 	}
 	public String updateDateTimeStr() {
-		return updateDateTime.toHyphenDateTimeMl6();
+		return updateDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6);
 	}
 	public LocalDateTime todoStartDateTime() {
 		return todoStartDateTime != null ? todoStartDateTime.value()
 										: null;
 	}
 	public String todoStartDateTimeStr() {
-		return todoStartDateTime != null ? todoStartDateTime.toHyphenDateTime()
+		return todoStartDateTime != null ? todoStartDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_HOUR_MINUTES)
 										: "";
+	}
+	public String todoStartDateStr() {
+		return todoStartDateTime != null ? todoStartDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE)
+				: "";
+	}
+	public String todoStartTimeStr() {
+		return todoStartDateTime != null ? todoStartDateTime.valueOf(YbmDate.FmtPtn.TIME_HHMM)
+				: "";
 	}
 	public LocalDateTime todoEndDateTime() {
 		return todoEndDateTime != null ? todoEndDateTime.value()
 										: null;
 	}
 	public String todoEndDateTimeStr() {
-		return todoEndDateTime != null ? todoEndDateTime.toHyphenDateTime()
+		return todoEndDateTime != null ? todoEndDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_HOUR_MINUTES)
 										: "";
 	}
 

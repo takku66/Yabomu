@@ -31,7 +31,8 @@ public class TodoListForm {
 	private String title;
 	private String content;
 	private List<CheckItemForm> checkList;
-	private String todoStartDateTime;
+	private String todoStartDate;
+	private String todoStartTime;
 	private String todoEndDateTime;
 	private ReminderRepeat reminderRepeat;
 	private ReminderNoticeTime reminderNoticeTime;
