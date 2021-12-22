@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.repository.todolist.ICheckListRepository;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 import yabomu.trip.presentation.YbmUrls;
@@ -42,8 +44,20 @@ class TestTodoListController {
     	mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
+    /**
+	 * <pre>
+	 * (テストメソッド)
+	 * init
+	 *
+	 * (事前条件)
+	 * POSTメソッドで、/todolist/editへアクセス
+	 *
+	 * (確認事項)
+	 * ステータスコード200で、todolist.htmlのviewが返されること。
+	 * </pre>
+	 */
 	@Test
-	void testInitOk() throws Exception {
+	void init() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST_EDIT))
 					.andDo(print())
 					.andExpect(status().isOk())
@@ -51,19 +65,79 @@ class TestTodoListController {
 					.andReturn();
 	}
 
+	/**
+	 * <pre>
+	 * (テストメソッド)
+	 * init
+	 *
+	 * (事前条件)
+	 * GETメソッドで、/todolist/editにアクセス
+	 *
+	 * (確認事項)
+	 * ステータスコードが4XX系エラーとなること。
+	 * </pre>
+	 */
 	@Test
-	void testInitInValidMethodGet() throws Exception {
+	void init_withInValidMethod() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(get(YbmUrls.TODOLIST_EDIT))
+					.andDo(print())
+					.andExpect(status().is4xxClientError())
+					.andReturn();
+		mvcResult = mockMvc.perform(head(YbmUrls.TODOLIST_EDIT))
+				.andDo(print())
+				.andExpect(status().is4xxClientError())
+				.andReturn();
+		mvcResult = mockMvc.perform(put(YbmUrls.TODOLIST_EDIT))
+				.andDo(print())
+				.andExpect(status().is4xxClientError())
+				.andReturn();
+		mvcResult = mockMvc.perform(delete(YbmUrls.TODOLIST_EDIT))
+				.andDo(print())
+				.andExpect(status().is4xxClientError())
+				.andReturn();
+
+	}
+
+	/**
+	 * <pre>
+	 * (テストメソッド)
+	 * init
+	 *
+	 * (事前条件)
+	 * POSTメソッドで、異常なURLにアクセスした場合
+	 *
+	 * (確認事項)
+	 * ステータスコードが4XX系エラーとなること。
+	 * </pre>
+	 */
+	@Test
+	void init_withInValidUrl() throws Exception {
+		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST_EDIT + "a"))
 					.andDo(print())
 					.andExpect(status().is4xxClientError())
 					.andReturn();
 	}
 
+	/**
+	 * <pre>
+	 * (テストメソッド)
+	 * save
+	 *
+	 * (事前条件)
+	 * TODOリストに必要なキー情報が存在している場合
+	 * タイトルが、「タイトル１」から「タイトル３」に変更した場合
+	 * (確認事項)
+	 * 更新処理が正常に終了し、タイトルの変更内容が反映されている。
+	 * </pre>
+	 */
 	@Test
-	void testInitInValidUrl() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST_EDIT + "a"))
+	void saveUpdate() throws Exception {
+		TodoList todolist = todoListService.findAll();
+		Todo todo = todolist.get(0);
+		MvcResult mvcResult = mockMvc.perform((post(YbmUrls.TODOLIST_EDIT + "/" + todo.todoId() + "/save"))
+					.flashAttr("todolistForm",todo))
 					.andDo(print())
-					.andExpect(status().is4xxClientError())
+					.andExpect(status().isOk())
 					.andReturn();
 	}
 
