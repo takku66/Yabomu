@@ -62,7 +62,7 @@
 		order by event_id, todo_id
 	</select>
 
-	<select id="findById" resultMap="TodoListResultMap" parameterType="java.lang.String">
+	<select id="findById" resultMap="TodoListResultMap" parameterType="java.lang.Long">
 		select
 			<include refid="Base_Column_List" />
 		from todo_list as tl
@@ -78,9 +78,8 @@
 		select
 			<include refid="Base_Column_List" />
 		from todo_list
-		<if test="param != null" >
-			<include refid="Base_Where_Clause" />
-		</if>
+		where
+			todo_id = #{todoId}
 		<if test="orderByClause != null" >
 			order by ${orderByClause}
 		</if>

@@ -1,5 +1,6 @@
 package yabomu.trip.presentation.todolist.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -9,9 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
@@ -19,6 +23,8 @@ import yabomu.trip.domain.repository.todolist.ICheckListRepository;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
+import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
+import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
 import yabomu.trip.usecase.todolist.TodoListService;
 
 @SpringBootTest
@@ -132,13 +138,25 @@ class TestTodoListController {
 	 */
 	@Test
 	void saveUpdate() throws Exception {
+		// インメモリ内に格納されているTODOリストをテストデータとして使用する。
 		TodoList todolist = todoListService.findAll();
 		Todo todo = todolist.get(0);
+		TodoListForm form = TodoListViewConverter.toView(todo);
+		form.setTitle("タイトル更新テスト");
+
+		// 指定のURLはJSONで受け付けるため、JSONへの変換処理を行う。
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(form);
 		MvcResult mvcResult = mockMvc.perform((post(YbmUrls.TODOLIST_EDIT + "/" + todo.todoId() + "/save"))
-					.flashAttr("todolistForm",todo))
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(json))
 					.andDo(print())
 					.andExpect(status().isOk())
 					.andReturn();
+
+		// 更新されたかどうかを確認する。
+		Todo updatedTodo = todoListService.findById(todo.todoId());
+		assertEquals("タイトル更新テスト", updatedTodo.title());
 	}
 
 }

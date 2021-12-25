@@ -47,6 +47,10 @@ public class TodoListService {
 		return todoList;
 	}
 
+	public Todo findById(Long todoId) {
+		return todoListRepository.findById(todoId);
+	}
+
 	public int save(Todo todo){
 		int todoListSaveCnt = todoListRepository.update(todo);
 //		int checkListSaveCnt = checkListRepository.insert(todo);

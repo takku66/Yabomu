@@ -1,9 +1,15 @@
 package yabomu.trip.domain.valueobject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializable;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 /**
  * <pre>
@@ -11,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * </pre>
  * @version 1.0
  */
-public enum ReminderRepeat {
+public enum ReminderRepeat implements JsonSerializable {
 
 
 	NONE					("", "リピート設定をする"),
@@ -56,5 +62,18 @@ public enum ReminderRepeat {
 	static public ReminderRepeat getDefault(){
 		return ReminderRepeat.NONE;
 	}
+
+	/**
+	 * EnumがJsonへ変換される時に、Enumの文字列ではなく、コード値をシリアライズするため
+	 */
+    @Override
+    public void serialize(JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        jgen.writeString(this.getCode());
+    }
+
+    @Override
+    public void serializeWithType(JsonGenerator jgen, SerializerProvider provider, TypeSerializer typeSer)  throws IOException, JsonProcessingException  {
+    	jgen.writeString(this.getCode());
+    }
 
 }

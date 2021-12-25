@@ -66,7 +66,7 @@ public class Todo {
 		return createDateTime.value();
 	}
 	public String createDateTimeStr() {
-		return createDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML3);
+		return createDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6);
 	}
 	public LocalDateTime updateDateTime() {
 		return updateDateTime.value();

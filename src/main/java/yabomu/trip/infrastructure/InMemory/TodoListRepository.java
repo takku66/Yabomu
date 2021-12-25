@@ -69,6 +69,10 @@ public class TodoListRepository implements ITodoListRepository {
 	}
 
 	public int update(Todo todo) {
+		if(!todoListData.containsKey(todo.todoId())) {
+			return 0;
+		}
+		todoListData.replace(todo.todoId(), TodoListEntityConverter.toEntity(todo));
 		return 0;
 	}
 
