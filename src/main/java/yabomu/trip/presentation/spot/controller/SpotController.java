@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 
 /**
@@ -24,7 +25,7 @@ public class SpotController {
 		this.session = session;
 	}
 
-	@RequestMapping(path="/spot/edit", method= {RequestMethod.POST})
+	@RequestMapping(path=YbmUrls.SPOT, method= {RequestMethod.POST})
 	public ModelAndView init(ModelAndView mv) {
 		mv.setViewName("spot.html");
 		return mv;

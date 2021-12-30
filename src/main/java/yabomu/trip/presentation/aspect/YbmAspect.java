@@ -25,6 +25,10 @@ public class YbmAspect {
 	@Before(EXEC_ALL_CONTROLLER)
 	public void beforeNav() {
         RequestAttributes reqAttributes = RequestContextHolder.getRequestAttributes();
+        // TODO:websocketだとリクエスト情報がとれない。WebSocket通信と判定できる条件がほしい
+        if(reqAttributes == null) {
+        	return;
+        }
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)reqAttributes;
         HttpServletRequest request = servletRequestAttributes.getRequest();
         this.session.setNowShowingMenu(request.getParameter("nowShowingMenu"));

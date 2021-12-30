@@ -15,6 +15,7 @@ const TODO = {
 	btnOpenNewTodo: null,
 	filter: null,
 	todolist: [],
+	stompClient: null,
 
 	// 初期化処理
 	init: function(){
@@ -22,32 +23,10 @@ const TODO = {
 		this.btnOpenNewTodo = document.getElementById("btn-open-new-todo");
 		this.filter = document.getElementById("edit-todo-filter");
 		this.todolist = document.getElementsByClassName("todo-box");
-		this.configureEventSubmit();
 		this.configureEventOpenNewTodo();
 		this.configureEventOpenEditTodo();
 		this.configureStopClickPropagation();
-	},
-	// リクエスト送信イベントの定義処理
-	configureEventSubmit: function(){
-		// ボタン-URL定義
-		// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
-		const requestMap = {
-//			"btn-edit_schedule":{ url: "/schedule/edit",
-//								  nav: "schedule"
-//			}
-		}
-
-		// 各ボタンに、submit用のイベントを付与する
-		for(let elm in Object.keys(requestMap)){
-			const btn = document.getElementById(elm);
-			btn.addEventListener("click", function(){
-				NAV.activateMenuId(requestMap[elm].nav);
-				const form = document.mainForm;
-				form.method = "post";
-				form.action = requestMap[elm].url;
-				form.submit();
-			}, false);
-		}
+		this.connectWebSocket();
 	},
 	configureEventOpenNewTodo: function(){
 		this.btnOpenNewTodo.addEventListener("click", function(){
@@ -114,6 +93,22 @@ const TODO = {
 	closeTodoArea: function(){
 		TODO.filter.classList.remove("active");
 		TODO.editTodoArea.classList.remove("active");
+	},
+	connectWebSocket: function(){
+		let socket = new SockJS("/ws-stomp");
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function(frame){
+			console.log("Connected:" + frame);
+			stompClient.subscribe("/sub/todolist/eventId/save", function(data){
+				console.log("receive data:" + JSON.parse(data.body).content);
+				MESSAGE_AREA.pushMessage("receive data:" + JSON.parse(data.body).content, 3000);
+			})
+		});
+	},
+	disconnectWebSocket: function(){
+		if(stompClient !== null){
+			stompClient.disconnect();
+		}
 	},
 };
 
@@ -185,31 +180,9 @@ const EDIT_TODO_AREA = {
 		// 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
 		this.saveTodoBtn.addEventListener("click", function(){
 			const json = this.createJson();
-			console.log(json);
-			const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-			const token = document.querySelector('meta[name="_csrf"]').content;
-			const todoId = json.todoId;
-			fetch(`/todolist/edit/${todoId}/save`,{
-//					credentials: "same-origin",
-					method: "POST",
-					headers: {
-						"charset"		: "UTF-8",
-						"Content-Type"	: "application/json",
-						[csrfHeader]	: token,
-					},
-					body: JSON.stringify(json)
-				}).then((res)=>{
-					if(!res.ok){
-						throw new Error(`${res.status}${res.statusText}`);
-					}
-					console.log(res);
-					return res.json();
-				}).then((data)=>{
-					console.log(data);
-					MESSAGE_AREA.pushMessage(`${data.message}`, 10000);
-				}).catch((reason)=>{
-					console.log(reason);
-				});
+			const url = "/pub/todolist/" + this.todoIdElm.value + "/save";
+			stompClient.send(url, {}, JSON.stringify(json));
+			//this.sendTodoJson();
 		}.bind(EDIT_TODO_AREA), false);
 
 		// キャンセルボタンクリック時は、現在編集中の内容を破棄して閉じる
@@ -217,7 +190,38 @@ const EDIT_TODO_AREA = {
 			TODO.closeTodoArea();
 			this.resetEditContent();
 		}.bind(EDIT_TODO_AREA), false);
+
+
 	},
+	sendTodoJson: function(){
+		const json = this.createJson();
+		console.log(json);
+		const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+		const token = document.querySelector('meta[name="_csrf"]').content;
+		const todoId = json.todoId;
+		fetch(`/todolist/${todoId}/save`,{
+//			credentials: "same-origin",
+			method: "POST",
+			headers: {
+				"charset"		: "UTF-8",
+				"Content-Type"	: "application/json",
+				[csrfHeader]	: token,
+			},
+			body: JSON.stringify(json)
+		}).then((res)=>{
+			if(!res.ok){
+				throw new Error(`${res.status}${res.statusText}`);
+			}
+			console.log(res);
+			return res.json();
+		}).then((data)=>{
+			console.log(data);
+			MESSAGE_AREA.pushMessage(`${data.message}`, 10000);
+		}).catch((reason)=>{
+			console.log(reason);
+		});
+	},
+
 	// チェックアイテム横にある、削除ボタンのイベントを定義する
 	configureEventDeleteCheckItemBtn: function(){
 		const checkItemDeleteBtns = this.checklistArea.querySelectorAll(".delete-btn-checklist");

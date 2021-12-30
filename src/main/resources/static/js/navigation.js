@@ -45,11 +45,11 @@ const NAV = {
 		// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 		const requestMap = {
 			"nav-home":"/home",
-			"nav-album":"/album/edit",
-			"nav-todolist":"/todolist/edit",
-			"nav-spot":"/spot/edit",
-			"nav-traffic":"/traffic/edit",
-			"nav-schedule":"/schedule/edit"
+			"nav-album":"/album",
+			"nav-todolist":"/todolist",
+			"nav-spot":"/spot",
+			"nav-traffic":"/traffic",
+			"nav-schedule":"/schedule"
 		}
 		// ボタンを押すと、下線がついてsubmitされる
 		for(let elm of this.navList){

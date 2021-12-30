@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 
 /**
@@ -24,7 +25,7 @@ public class AlbumController {
 		this.session = session;
 	}
 
-	@RequestMapping(path="/album/edit", method= {RequestMethod.POST})
+	@RequestMapping(path=YbmUrls.ALBUM, method= {RequestMethod.POST})
 	public ModelAndView init(ModelAndView mv) {
 		mv.setViewName("album.html");
 		return mv;

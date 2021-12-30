@@ -22,13 +22,13 @@ const HOME = {
 		// ボタン-URL定義
 		// 各ボタンのIDに対して、リクエスト先のURL文字列を定義する
 		const requestMap = {
-			"album_slideshow":{ url: "/album/edit",
+			"album_slideshow":{ url: "/album",
 								nav: "album"
 			},
-			"btn-edit_todolist":{ url: "/todolist/edit",
+			"btn-edit_todolist":{ url: "/todolist",
 								  nav: "todolist"
 			},
-			"btn-edit_schedule":{ url: "/schedule/edit",
+			"btn-edit_schedule":{ url: "/schedule",
 								  nav: "schedule"
 			}
 		}

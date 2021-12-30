@@ -3,13 +3,13 @@ package yabomu.trip.presentation.todolist.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.util.StringUtils;
 
@@ -33,17 +33,20 @@ import yabomu.trip.usecase.todolist.TodoListService;
 @Controller
 public class TodoListController {
 
-	final private TodoListService todoListService;
-	final private YbmSession session;
+	private final TodoListService todoListService;
+	private final YbmSession session;
+	private final SimpMessageSendingOperations messagingTemplate;
 
 	@Autowired
 	public TodoListController(TodoListService todoListService,
-								YbmSession session) {
+								YbmSession session,
+								SimpMessageSendingOperations messagingTemplate) {
 		this.todoListService = todoListService;
 		this.session = session;
+		this.messagingTemplate = messagingTemplate;
 	}
 
-	@RequestMapping(path=YbmUrls.TODOLIST_EDIT, method= RequestMethod.POST)
+	@RequestMapping(path=YbmUrls.TODOLIST, method= RequestMethod.POST)
 	public ModelAndView init(final ModelAndView mv,
 								final TodoListForm todolistForm) {
 
@@ -63,27 +66,23 @@ public class TodoListController {
 		return mv;
 	}
 
-	@RequestMapping(path=YbmUrls.TODOLIST_EDIT + "/{id}/save", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String save(final @RequestBody TodoListForm todolistForm,
+	@MessageMapping(YbmUrls.TODOLIST + "/{id}/save")
+	public void save(final @RequestBody TodoListForm todolistForm,
 						final @PathVariable("id") String todoId) {
 
 		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
-			return "{"
-					+ "\"savedCnt\": " + "\"0\""
-					+ ",\"error\": " + "\"true\""
-					+ "}";
+			messagingTemplate.convertAndSend("sub" + YbmUrls.TODOLIST + "/{id}/save", "ERROR");
 		}
 		// Domain用のオブジェクトに変換する
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		// 全TODOリストを取得する
+		// TODO情報を保存する
 		int savedCnt = todoListService.save(todo);
-		// view用のデータに変換する
-		TodoList todolist = todoListService.findAll();
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
-		return "{"
-				+ "\"message\": " + "\"" + savedCnt + "件の保存が完了しました。\""
-				+ "}";
+		// View用に変換する
+		TodoListForm savedTodoForm = TodoListViewConverter.toView(todo);
+
+		// TODO:今のままだと全てのユーザーに共有されてしまう。イベントごとのTODO画面へ返せるようにする
+		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/eventId/save", savedTodoForm);
+
 	}
 
 }
