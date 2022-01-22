@@ -1,6 +1,7 @@
 import { Messenger } from "../Messenger";
-import {YbmWebSocket} from "../YbmWebSocket";
+import { YbmWebSocket } from "../YbmWebSocket";
 import { EditTodo } from "./EditTodo";
+import { Todolist } from "./Todolist";
 import { TodoMediator } from "./TodoMediator";
 
 /**
@@ -18,21 +19,16 @@ export class TODO {
 		const todoView = new TodoView();
 		const editTodo = new EditTodo();
 		// eventIdの文字列部分は、いづれ画面から取得したい
-		const webSocket = new YbmWebSocket("/ws-stomp","/sub/todolist/eventId/save");
+		const webSocket = new YbmWebSocket("/ws-stomp");
 		const messenger = new Messenger();
 		TODO.mediator = new TodoMediator(todoView, editTodo, webSocket, messenger);
 	}
 }
 
 
-
-
-
-
 export interface ITodoViewAdp {
 
 	openTodo(elm:HTMLElement):void;
-
 }
 
 export class TodoView {
@@ -43,11 +39,11 @@ export class TodoView {
 	_todolist: Todolist;
 
 	constructor(){
-		this._todoArea = <HTMLElement>document.getElementById("edit-todo-area");
+		this._todoArea = <HTMLElement>document.getElementById("todolist-container");
 		this._btnOpenNewTodo = <HTMLElement>document.getElementById("btn-open-new-todo");
 		this._filter = <HTMLElement>document.getElementById("edit-todo-filter");
 
-		const todolist = new Todolist(this._todoArea, this.createTodoCardTemplate());
+		this._todolist = new Todolist(this._todoArea, this.createTodoCardTemplate());
 		this.addEventOpenNewTodo();
 		this.addEventOpenEditTodo();
 		this.stopPropagation();
@@ -93,16 +89,19 @@ export class TodoView {
 							".todo-box .checklist li",
 							".btn-save-todolist",
 							".todo-box .todo-controle"];
-		let stopElms = [];
-		for(let selector of stopSelectors){
-			Array.prototype.push.apply(stopElms, document.querySelectorAll(selector));
-//			stopElms = stopElms.concat(document.querySelectorAll(selector));
-		}
+		const stopElmArys = stopSelectors.map(selector => {
+			return Array.from(document.querySelectorAll<HTMLElement>(selector));
+		});
+		const stopElms = stopElmArys.flat();
 		for(let elm of stopElms){
 			this.stopClickPropagation(elm);
 		}
 	}
-	stopClickPropagation(elm){
+	receiveUpdatedTodo(data: string){
+
+	}
+	
+	stopClickPropagation(elm: HTMLElement){
 		if(!elm){
 			return false;
 		}
@@ -113,40 +112,3 @@ export class TodoView {
 
 }
 
-class Todolist {
-
-    _todoArea: HTMLElement;
-    _cardTemplate: HTMLElement;
-    _list: HTMLCollection;
-    _map: Map<string, Element>;
-
-	constructor(todoArea: HTMLElement, cardTemplate: HTMLElement){
-		this._todoArea = todoArea;
-		this._cardTemplate = cardTemplate;
-
-		this._list = document.getElementsByClassName(".todo-box");
-		this._map = new Map();
-		for(let i = 0, ilen = this._list.length; i < ilen; i++){
-            let todoIdElm: HTMLInputElement = <HTMLInputElement>this._list[i].querySelector(".todo-id");
-            if(todoIdElm){
-                let todoId = todoIdElm.value;
-                this._map.set(todoId, this._list[i]);
-            }
-		}
-	}
-
-	public createTodoCard(todoId:string, obj:Map<string, string>){
-		// 新規のTODOを、引数のobjの情報を元に作成する
-		const newCard:HTMLElement = <HTMLElement>this._cardTemplate.cloneNode(true);
-		
-		// newCard.getElementsByClassName();
-        this._map.set(todoId, newCard);
-	}
-	public updateTodoCard(todoId:string, obj:Map<string, string>){
-
-	}
-	public getTodolist():HTMLCollection{
-		return this._list;
-	}
-
-}

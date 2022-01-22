@@ -1,7 +1,7 @@
 export interface ICheckItemData {
 	eventId: string;
 	todoId: string;
-	seq: string;
+	seq: number;
 	status: string;
 	content: string;
 }

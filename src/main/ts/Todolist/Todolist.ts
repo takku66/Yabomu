@@ -9,7 +9,7 @@ export class Todolist {
 		this._todoArea = todoArea;
 		this._cardTemplate = cardTemplate;
 
-		this._list = document.getElementsByClassName(".todo-box");
+		this._list = document.getElementsByClassName("todo-box");
 		this._map = new Map();
 		for(let i = 0, ilen = this._list.length; i < ilen; i++){
             let todoIdElm: HTMLInputElement = <HTMLInputElement>this._list[i].querySelector(".todo-id");

@@ -4,8 +4,8 @@ import { ICheckItemData } from "./ICheckItemData";
 import { ITodoData } from "./ITodoData";
 
 export interface IEditTodoAdp {
-	closeTodo();
-	saveTodo(url: string, json:string);
+	closeTodo(): void;
+	saveTodo(url: string, json:string): void;
 }
 
 export class EditTodo {
@@ -35,8 +35,7 @@ export class EditTodo {
 	_updateUserIdElm: HTMLInputElement;
 	_updateUserNameElm: HTMLInputElement;
 	_updateDatetimeElm: HTMLInputElement;
-	// リクエストパラメータ用データ
-	json: ITodoData;
+	
 	// 初期化処理
 	constructor(){
 		this._eventIdElm = <HTMLInputElement>document.getElementById("hid-edit-event-id");
@@ -51,7 +50,7 @@ export class EditTodo {
 		this._areaElm = <HTMLElement>document.getElementById("edit-todo-area");
 		this._titleElm = <HTMLInputElement>document.getElementById("txt-edit-todo-title");
 		this._contentElm = <HTMLInputElement>document.getElementById("txta-edit-todo-content");
-		this._checklistArea = <HTMLInputElement>document.querySelector("#checklist-area ul.checklist");
+		this._checklistArea = <HTMLInputElement>document.querySelector<HTMLInputElement>("#checklist-area ul.checklist");
 		this._addCheckBoxBtn = <HTMLElement>document.getElementById("btn-add-checklist");
 		this._reminderNoticeTimeElm = <HTMLInputElement>document.getElementById("slct-edit-reminder-notice-time");
 		this._reminderRepeatElm = <HTMLInputElement>document.getElementById("slct-edit-reminder-repeat");
@@ -64,26 +63,26 @@ export class EditTodo {
 		this.addEventSave();
 		this.addEventCancel();
 	}
-	setUp(elm:Element){
+	setUp(elm:Element | null){
 		// this._cancelBtn.onclick = callback_closeFunction;
-		if(elm == null){
+		if(elm === null){
 			// callback_openFunction();
 			return;
 		}
-		this._eventIdElm.value = (<HTMLInputElement>elm.querySelector(".event-id")).value;
-		this._todoIdElm.value = (<HTMLInputElement>elm.querySelector(".todo-id")).value;
-		this._titleElm.value = (<HTMLInputElement>elm.querySelector(".text.title")).value;
-		this._contentElm.value= (<HTMLInputElement>elm.querySelector(".text.content")).value;
-		this._reminderNoticeTimeElm.value= (<HTMLInputElement>elm.querySelector(".select.reminder-notice-time")).value;
-		this._reminderRepeatElm.value= (<HTMLInputElement>elm.querySelector(".select.reminder-repeat")).value;
-		this._startDateElm.value= (<HTMLInputElement>elm.querySelector(".text.todo-start-date")).value;
-		this._startTimeElm.value= (<HTMLInputElement>elm.querySelector(".text.todo-start-time")).value;
-		this._createUserIdElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-create-user-id")).value;
-		this._createUserNameElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-create-user-name")).value;
-		this._createDatetimeElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-create-datetime")).value;
-		this._updateUserIdElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-update-user-id")).value;
-		this._updateUserNameElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-update-user-name")).value;
-		this._updateDatetimeElm.value= (<HTMLInputElement>elm.querySelector(".hid.todo-update-datetime")).value;
+		this._eventIdElm.value = elm.querySelector<HTMLInputElement>(".event-id")?.value || "";
+		this._todoIdElm.value = elm.querySelector<HTMLInputElement>(".todo-id")?.value || "";
+		this._titleElm.value = elm.querySelector<HTMLInputElement>(".text.title")?.value || "";
+		this._contentElm.value= elm.querySelector<HTMLInputElement>(".text.content")?.value || "";
+		this._reminderNoticeTimeElm.value= elm.querySelector<HTMLInputElement>(".select.reminder-notice-time")?.value || "";
+		this._reminderRepeatElm.value= elm.querySelector<HTMLInputElement>(".select.reminder-repeat")?.value || "";
+		this._startDateElm.value= elm.querySelector<HTMLInputElement>(".text.todo-start-date")?.value || "";
+		this._startTimeElm.value= elm.querySelector<HTMLInputElement>(".text.todo-start-time")?.value || "";
+		this._createUserIdElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-create-user-id")?.value || "";
+		this._createUserNameElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-create-user-name")?.value || "";
+		this._createDatetimeElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-create-datetime")?.value || "";
+		this._updateUserIdElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-update-user-id")?.value || "";
+		this._updateUserNameElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-update-user-name")?.value || "";
+		this._updateDatetimeElm.value= elm.querySelector<HTMLInputElement>(".hid.todo-update-datetime")?.value || "";
 		const checklist = elm.querySelectorAll("ul.checklist li");
 		for(let checkItem of checklist){
 			this._checklistArea.appendChild(checkItem.cloneNode(true));
@@ -116,7 +115,8 @@ export class EditTodo {
 		this._addCheckBoxBtn.addEventListener("click", () => {
 			const cloneCheckItem = <HTMLElement>this._checklistTemplate.cloneNode(true);
 			this._checklistArea.appendChild(cloneCheckItem);
-			const delBtn = cloneCheckItem.querySelector(".delete-btn-checklist");
+			const delBtn = cloneCheckItem.querySelector<HTMLElement>(".delete-btn-checklist");
+			if(delBtn === null) return;
 			this.applyEventDeleteCheckItem(delBtn);
 		}, false);
 	}
@@ -125,8 +125,8 @@ export class EditTodo {
 		this._saveTodoBtn.addEventListener("click", () => {
 			const json = this.createJson();
 			const url = "/pub/todolist/" + this._todoIdElm.value + "/save";
-			// this._stompClient.send(url, {}, JSON.stringify(json));
 			TODO.mediator.saveTodo(url, JSON.stringify(json));
+			// this._stompClient.send(url, {}, JSON.stringify(json));
 			//this.sendTodoJson();
 		}, false);
 	}
@@ -139,8 +139,8 @@ export class EditTodo {
 	sendTodoJson(){
 		const json = this.createJson();
 		console.log(json);
-		const csrfHeader = (<HTMLMetaElement>document.querySelector('meta[name="_csrf_header"]')).content;
-		const token = (<HTMLMetaElement>document.querySelector('meta[name="_csrf"]')).content;
+		const csrfHeader = document.querySelector<HTMLMetaElement>('meta[name="_csrf_header"]')?.content || "";
+		const token = document.querySelector<HTMLMetaElement>('meta[name="_csrf"]')?.content || "";
 		const todoId = json.todoId;
 		fetch(`/todolist/${todoId}/save`,{
 	//			credentials: "same-origin",
@@ -167,14 +167,15 @@ export class EditTodo {
 
 	// チェックアイテム横にある、削除ボタンのイベントを定義する
 	addEventDeleteCheckItemBtn(){
-		const checkItemDeleteBtns = this._checklistArea.querySelectorAll(".delete-btn-checklist");
+		const checkItemDeleteBtns = this._checklistArea.querySelectorAll<HTMLElement>(".delete-btn-checklist");
 		for(let btn of checkItemDeleteBtns){
 			this.applyEventDeleteCheckItem(btn);
 		}
 	}
-	applyEventDeleteCheckItem(elm){
+	applyEventDeleteCheckItem(elm: HTMLElement){
 		elm.addEventListener("click", () => {
-			let delElm = util.findParent(this, "li");
+			let delElm = <HTMLElement>util.findParent(elm, "li");
+			if(delElm === null) return;
 			delElm.remove();
 		}, false);
 	}
@@ -182,6 +183,10 @@ export class EditTodo {
 	// チェックリストのテンプレート要素を作成する
 	createTemplateCheckItem(): HTMLElement{
 		const li = document.createElement("li");
+		const hidseq = document.createElement("input");
+		hidseq.type = "hidden";
+		hidseq.classList.add("checklist");
+		hidseq.classList.add("seq");
 		const label1 = document.createElement("label");
 		const label2 = document.createElement("label");
 		const textNode = document.createTextNode("\r\n");
@@ -206,6 +211,7 @@ export class EditTodo {
 		label2.appendChild(text);
 		label2.appendChild(textNode.cloneNode(true));
 		label2.appendChild(delBtn);
+		li.appendChild(hidseq);
 		li.appendChild(label1);
 		li.appendChild(textNode.cloneNode(true));
 		li.appendChild(label2);
@@ -220,7 +226,7 @@ export class EditTodo {
 			checkList:	this.collectCheckItems(this._areaElm),
 			todoStartDate:this._startDateElm.value,
 			todoStartTime:this._startTimeElm.value,
-			todoEndDateTime: null, // TODO:未実装
+			todoEndDateTime: "", // TODO:未実装
 			reminderRepeat: this._reminderRepeatElm.value,
 			reminderNoticeTime: this._reminderNoticeTimeElm.value,
 			createUserId: this._createUserIdElm.value,
@@ -233,25 +239,28 @@ export class EditTodo {
 		return json;
 	}
 	// チェックリストの配列を返す。配列内の要素はJson形式
-	collectCheckItems(todoArea): Array<ICheckItemData>{
-		const checklist = todoArea.querySelectorAll("ul.checklist li");
+	collectCheckItems(todoArea: HTMLElement): Array<ICheckItemData>{
+		if(todoArea === null) return new Array<ICheckItemData>();
+		const checklist = todoArea.querySelectorAll<HTMLElement>("ul.checklist li");
 		let maxSeq = 0;
-		const jsons = [];
-		const newCheckItems = [];
+		const jsons = new Array<ICheckItemData>();
+		const newCheckItems = new Array<HTMLElement>();
 
 		// 全チェックリストの処理
 		for(let checkItem of checklist){
-			const checkItemEventId = todoArea.querySelector(".event-id").value;
-			const checkItemTodoId = todoArea.querySelector(".todo-id").value;
-			const checkItemStatus = checkItem.querySelector(".checklist.checkbox.status").value;
-			const checkItemContent = checkItem.querySelector(".checklist.text").value;
+			const checkItemEventId = todoArea.querySelector<HTMLInputElement>(".event-id")?.value || "";
+			const checkItemTodoId = todoArea.querySelector<HTMLInputElement>(".todo-id")?.value || "";
+			const checkItemStatus = checkItem.querySelector<HTMLInputElement>(".checklist.checkbox.status")?.value || "";
+			const checkItemContent = checkItem.querySelector<HTMLInputElement>(".checklist.text")?.value || "";
 
+			const checkItemSeqElm = checkItem.querySelector<HTMLInputElement>(".checklist.seq");
 			// 新規で作成されたチェックリストは、後で処理するための配列に入れておく
-			if(!checkItem.querySelector(".checklist.seq")){
+			if(checkItemSeqElm === null){
 				newCheckItems.push(checkItem);
 				continue;
 			}
-			const checkItemSeq = checkItem.querySelector(".checklist.seq").value;
+			
+			const checkItemSeq = parseInt(checkItemSeqElm.value);
 			if(maxSeq < checkItemSeq){
 				maxSeq = checkItemSeq;
 			}
@@ -265,22 +274,22 @@ export class EditTodo {
 		}
 		// 新しく生成されたチェックリストの処理
 		for(let newCheckItem of newCheckItems){
-			const checkItemEventId = todoArea.querySelector(".event-id").value;
-			const checkItemTodoId = todoArea.querySelector(".todo-id").value;
+			const checkItemEventId = todoArea.querySelector<HTMLInputElement>(".event-id")?.value || "";
+			const checkItemTodoId = todoArea.querySelector<HTMLInputElement>(".todo-id")?.value || "";
 			const checkItemSeq = ++maxSeq;
-			const checkItemStatus = newCheckItem.querySelector(".checklist.checkbox.status").checked;
-			const checkItemContent = newCheckItem.querySelector(".checklist.text").value;
+			const checkItemStatus = newCheckItem.querySelector<HTMLInputElement>(".checklist.checkbox.status")?.checked || false;
+			const checkItemContent = newCheckItem.querySelector<HTMLInputElement>(".checklist.text")?.value || "";
 			jsons.push({
 				eventId: checkItemEventId,
 				todoId: checkItemTodoId,
 				seq: checkItemSeq,
-				status: checkItemStatus,
+				status: String(checkItemStatus),
 				content: checkItemContent
 			});
 		}
 		return jsons;
 	}
 	public isNew(): boolean{
-		return false;
+		return !(this._todoIdElm.value);
 	}
 }

@@ -27,21 +27,21 @@ export class Messenger {
 		li.appendChild(div);
 		return li;
 	}
-	private addEventDeleteMessage(delBtn): void{
+	private addEventDeleteMessage(delBtn: HTMLElement): void{
 		delBtn.addEventListener("click", function(){
-			const li = util.findParent(delBtn, "li");
+			const li = <HTMLElement>util.findParent(delBtn, "li");
 			li.remove();
 		}, false);
 	}
-	public pushMessage(message, expireTime): void{
+	public pushMessage(message: string, expireTime: number): void{
 		const msg = <HTMLElement>this._templateMsgItem.cloneNode(true);
-		msg.querySelector(".content").innerHTML = message;
+		(<HTMLElement>msg.querySelector(".content")).innerHTML = message;
 		this._messageList.appendChild(msg);
 		setTimeout(() => {
 				this.hideMessage(msg)
 		}, expireTime);
 	}
-	public hideMessage(msgElm): void{
+	public hideMessage(msgElm: HTMLElement): void{
 		msgElm.classList.add("hide");
 	}
 }

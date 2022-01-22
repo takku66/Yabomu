@@ -18,8 +18,10 @@ export class TodoMediator implements ITodoViewAdp, IEditTodoAdp{
 		this._ws = ybmWebSocket;
 		this._msgr = messenger;
 	}
-
-	public openTodo(elm: Element){
+	public connectWebSocekt(){
+		this._ws.connectWebSocket("/sub/todolist/eventId/save", this._todoView.receiveUpdatedTodo);
+	}
+	public openTodo(elm: Element | null){
 		this._editTodo.setUp(elm);
 		this._todoView.openTodo();
 	}
@@ -27,8 +29,8 @@ export class TodoMediator implements ITodoViewAdp, IEditTodoAdp{
 		this._editTodo.clear();
 		this._todoView.closeTodo();
 	}
-	public saveTodo(url: string, json: string){
-
+	public saveTodo(url: string, stringifiedJson: string){
+		this._ws.send(url, stringifiedJson);
 	}
 
 }
