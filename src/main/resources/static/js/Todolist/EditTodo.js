@@ -215,20 +215,20 @@ export class EditTodo {
             const checkItemTodoId = todoArea.querySelector(".todo-id")?.value || "";
             const checkItemStatus = checkItem.querySelector(".checklist.checkbox.status")?.value || "";
             const checkItemContent = checkItem.querySelector(".checklist.text")?.value || "";
-            const checkItemSeqElm = checkItem.querySelector(".checklist.seq");
+            const checkItemSeq = checkItem.querySelector(".checklist.seq")?.value || "";
             // 新規で作成されたチェックリストは、後で処理するための配列に入れておく
-            if (checkItemSeqElm === null) {
+            if (!checkItemSeq) {
                 newCheckItems.push(checkItem);
                 continue;
             }
-            const checkItemSeq = parseInt(checkItemSeqElm.value);
-            if (maxSeq < checkItemSeq) {
-                maxSeq = checkItemSeq;
+            const numCheckItemSeq = parseInt(checkItemSeq);
+            if (maxSeq < numCheckItemSeq) {
+                maxSeq = numCheckItemSeq;
             }
             jsons.push({
                 eventId: checkItemEventId,
                 todoId: checkItemTodoId,
-                seq: checkItemSeq,
+                seq: numCheckItemSeq,
                 status: checkItemStatus,
                 content: checkItemContent
             });

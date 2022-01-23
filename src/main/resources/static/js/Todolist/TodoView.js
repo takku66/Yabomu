@@ -23,6 +23,7 @@ export class TodoView {
     constructor() {
         this._todoArea = document.getElementById("todolist-container");
         this._btnOpenNewTodo = document.getElementById("btn-open-new-todo");
+        this._editTodoArea = document.getElementById("edit-todo-area");
         this._filter = document.getElementById("edit-todo-filter");
         this._todolist = new Todolist(this._todoArea, this.createTodoCardTemplate());
         this.addEventOpenNewTodo();
@@ -51,11 +52,11 @@ export class TodoView {
     // ----- TODOのオープン/クローズ
     openTodo() {
         this._filter.classList.add("active");
-        this._todoArea.classList.add("active");
+        this._editTodoArea.classList.add("active");
     }
     closeTodo() {
         this._filter.classList.remove("active");
-        this._todoArea.classList.remove("active");
+        this._editTodoArea.classList.remove("active");
     }
     // ----- イベント制御
     stopPropagation() {
