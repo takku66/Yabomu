@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
 
@@ -17,7 +18,7 @@ import yabomu.trip.infrastructure.entity.CheckItemEntity;
 public interface CheckListMapper {
 
 
-	public List<CheckItemEntity> findById(Long todoId);
+	public List<CheckItemEntity> findById(TodoId todoId);
 
 	public List<CheckItemEntity> matching(CheckItemCondition param);
 

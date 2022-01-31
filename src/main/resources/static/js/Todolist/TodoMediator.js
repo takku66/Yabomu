@@ -19,5 +19,8 @@ export class TodoMediator {
     saveTodo(url, stringifiedJson) {
         this._ws.send(url, stringifiedJson);
     }
+    pushMessage(message, expireTime) {
+        this._msgr.pushMessage(message, expireTime);
+    }
 }
 //# sourceMappingURL=TodoMediator.js.map

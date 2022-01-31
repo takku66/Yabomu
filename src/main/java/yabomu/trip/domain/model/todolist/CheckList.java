@@ -6,11 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import yabomu.trip.domain.valueobject.TodoId;
+
 @SuppressWarnings({"rawtypes","unchecked"})
 public class CheckList implements List<CheckItem>{
 
 	private final List<CheckItem> checkList;
-	private Long todoId;
+	private TodoId todoId;
 
 	public CheckList () {
 		this.checkList = new ArrayList<CheckItem>();
@@ -21,7 +23,7 @@ public class CheckList implements List<CheckItem>{
 	}
 
 	public boolean isSameTodo(CheckItem e) {
-		if(this.todoId != null && this.todoId != e.todoId()) {
+		if(this.todoId != null && !this.todoId.equals(e.todoId())) {
 			throw new IllegalArgumentException("複数のチェックリストの中に、違うTODOIDが挿入されています。" +
 												"[追加先のtodoId=" + this.todoId +
 												"チェックリストのtodoId=" + e.todoId() + "]");

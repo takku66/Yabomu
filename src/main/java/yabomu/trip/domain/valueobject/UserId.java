@@ -24,10 +24,16 @@ public class UserId {
 	 * </pre>
 	 */
 	public UserId(Long id) {
-		if(id == null) {
-			throw new IllegalArgumentException("ユーザーIDが空です。");
+		if(id == null || id.longValue() <= 0) {
+			throw new IllegalArgumentException("ユーザーIDが不正です。[" + id + "]");
 		}
 		this.id = id;
+	}
+	public UserId(String id) {
+		if(id == null || "".equals(id)) {
+			throw new IllegalArgumentException("ユーザーIDが不正です。[" + id + "]");
+		}
+		this.id = Long.valueOf(id);
 	}
 
 	public long value() {
@@ -43,8 +49,12 @@ public class UserId {
 	}
 
 	public boolean equals(Object object) {
-		UserId userId = (UserId)object;
-		return this.id.equals(userId.value());
+		if(!(object instanceof UserId)){
+			throw new IllegalArgumentException
+			("比較する値がユーザーIDではありません。[" + object!=null ? null : object.getClass() + "]");
+		}
+		UserId id = (UserId)object;
+		return this.id.equals(id.value());
 	}
 
 }

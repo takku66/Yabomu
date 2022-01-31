@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 import yabomu.trip.domain.model.todolist.CheckItem;
 import yabomu.trip.domain.repository.todolist.ICheckListRepository;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 import yabomu.trip.infrastructure.converter.CheckItemEntityConverter;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
@@ -26,7 +27,7 @@ public class CheckListRepository implements ICheckListRepository {
 	private final CheckListMapper mapper;
 
 	@Override
-	public List<CheckItem> findById(Long todoId) {
+	public List<CheckItem> findById(TodoId todoId) {
 		List<CheckItemEntity> checkItemEntityList = mapper.findById(todoId);
 		return CheckItemEntityConverter.toDomain(checkItemEntityList);
 	}

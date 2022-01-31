@@ -14,6 +14,8 @@ import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.repository.todolist.ICheckListRepository;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 
 /**
@@ -31,8 +33,8 @@ public class TodoListService {
 
 	public TodoList findAll(){
 		TodoList todoList = new TodoList(todoListRepository.findAll());
-		Map<Long, Todo> todoMap = new HashMap<>();
-		Set<Long> todoIdSet = new HashSet<>();
+		Map<TodoId, Todo> todoMap = new HashMap<>();
+		Set<TodoId> todoIdSet = new HashSet<>();
 		for(Todo todo : todoList) {
 			todoMap.put(todo.todoId(), todo);
 			todoIdSet.add(todo.todoId());
@@ -47,13 +49,18 @@ public class TodoListService {
 		return todoList;
 	}
 
-	public Todo findById(Long todoId) {
-		return todoListRepository.findById(todoId);
+	public TodoList findByEventId(EventId eventId) {
+		return todoListRepository.findByEventId(eventId);
+	}
+	public Todo findByTodoId(TodoId todoId) {
+		return todoListRepository.findByTodoId(todoId);
 	}
 
 	public int save(Todo todo){
-		int todoListSaveCnt = todoListRepository.update(todo);
-//		int checkListSaveCnt = checkListRepository.insert(todo);
+		if(todo.todoId() == null){
+			new Todo(new TodoId(), todo);
+		}
+		int todoListSaveCnt = todoListRepository.save(todo);
 		return todoListSaveCnt;
 	}
 

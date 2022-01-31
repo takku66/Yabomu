@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
 import yabomu.trip.domain.repository.todolist.ICheckListRepository;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 import yabomu.trip.shared.YbmIdGenerator;
 
@@ -23,7 +25,7 @@ import yabomu.trip.shared.YbmIdGenerator;
 @Repository("Test-CheckList")
 public class CheckListRepository implements ICheckListRepository {
 
-	private final Map<Long, CheckItem> checkListData;
+	private final Map<TodoId, CheckItem> checkListData;
 
 	@Autowired
 	YbmIdGenerator idGenerator;
@@ -32,8 +34,8 @@ public class CheckListRepository implements ICheckListRepository {
 		this.checkListData = new HashMap<>();
 
 		for(int i = 0; i < 10; i++) {
-			Long eventId = YbmIdGenerator.generate();
-			Long todoId = YbmIdGenerator.generate();
+			EventId eventId = new EventId();
+			TodoId todoId = new TodoId();
 			for(int j = 0; j < i; j++) {
 				checkListData.put(todoId,
 						CheckItem.builder()
@@ -50,7 +52,7 @@ public class CheckListRepository implements ICheckListRepository {
 	}
 
 	@Override
-	public List<CheckItem> findById(Long todoId) {
+	public List<CheckItem> findById(TodoId todoId) {
 		return (List<CheckItem>) checkListData.values();
 	}
 

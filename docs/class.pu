@@ -63,20 +63,24 @@ package usecase {
 
 
 /' プレゼンテーション層の依存関係 '/
+i_cvtr ---> d_mdl
+i_cvtr -> i_ety
+i_im ...> d_rp
+i_pgsql ..> d_rp
+
 p_vw --> p_ctl
 p_vw --> p_fm
 p_ctl --> p_fm
 p_ctl --> p_cvtr
 p_cvtr -> p_fm
-p_cvtr --> d_mdl
-p_ctl ---> u_svc
-u_svc ---> d_rp
-u_svc ---> d_svc
+p_cvtr ---> d_mdl
+p_ctl --> u_svc
+
+u_svc --> d_rp
+u_svc --> d_svc
 d_svc --> d_rp
-d_mdl --> d_vo
-d_rp <.. i_im
-d_rp <.. i_pgsql
-i_cvtr ---> d_mdl
-i_cvtr -> i_ety
+d_mdl -> d_vo
+
+
 
 @enduml

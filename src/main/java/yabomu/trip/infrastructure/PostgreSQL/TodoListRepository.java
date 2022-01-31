@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.TodoCondition;
 import yabomu.trip.infrastructure.converter.TodoListEntityConverter;
 import yabomu.trip.infrastructure.entity.TodoEntity;
@@ -33,8 +35,14 @@ public class TodoListRepository implements ITodoListRepository {
 	}
 
 	@Override
-	public Todo findById(Long todoId) {
-		TodoEntity todoEntity = mapper.findById(todoId);
+	public TodoList findByEventId(EventId eventId) {
+		List<TodoEntity> todoEntityList = mapper.findByEventId(eventId);
+		return TodoListEntityConverter.toDomain(todoEntityList);
+	}
+
+	@Override
+	public Todo findByTodoId(TodoId todoId) {
+		TodoEntity todoEntity = mapper.findByTodoId(todoId);
 		return TodoListEntityConverter.toDomain(todoEntity);
 	}
 
@@ -45,14 +53,13 @@ public class TodoListRepository implements ITodoListRepository {
 	}
 
 	@Override
-	public int insert(Todo todo) {
-		return mapper.insert(TodoListEntityConverter.toEntity(todo));
+	public int save(Todo todo) {
+		Todo repoTodo = findByTodoId(todo.todoId());
+		if(repoTodo == null || repoTodo.todoId().equals(0)){
+			return mapper.insert(TodoListEntityConverter.toEntity(todo));
+		}else{
+			return mapper.update(TodoListEntityConverter.toEntity(todo));
+		}
 	}
-
-	@Override
-	public int update(Todo todo) {
-		return mapper.update(TodoListEntityConverter.toEntity(todo));
-	}
-
 
 }

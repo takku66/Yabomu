@@ -32,5 +32,7 @@ export class TodoMediator implements ITodoViewAdp, IEditTodoAdp{
 	public saveTodo(url: string, stringifiedJson: string){
 		this._ws.send(url, stringifiedJson);
 	}
-
+	public pushMessage(message: string, expireTime: number): void{
+		this._msgr.pushMessage(message, expireTime);
+	}
 }

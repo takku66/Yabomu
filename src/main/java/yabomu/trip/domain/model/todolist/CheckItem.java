@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -16,9 +18,9 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CheckItem {
 	@NonNull
-	private Long eventId;
+	private EventId eventId;
 	@NonNull
-	private Long todoId;
+	private TodoId todoId;
 	@NonNull
 	private Integer seq;
 	private String content;
@@ -27,10 +29,10 @@ public class CheckItem {
 	private YbmDate updateDateTime;
 
 
-	public Long eventId() {
+	public EventId eventId() {
 		return this.eventId;
 	}
-	public Long todoId() {
+	public TodoId todoId() {
 		return this.todoId;
 	}
 	public Integer seq() {

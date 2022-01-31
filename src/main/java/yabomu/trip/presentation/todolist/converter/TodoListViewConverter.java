@@ -6,6 +6,8 @@ import java.util.List;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
@@ -79,17 +81,17 @@ public class TodoListViewConverter {
 			return null;
 		}
 		Todo todo = Todo.builder()
-				.eventId(Long.valueOf(form.getEventId()))
-				.todoId(Long.valueOf(form.getTodoId()))
+				.eventId(new EventId(form.getEventId()))
+				.todoId(new TodoId(form.getTodoId()))
 				.title(form.getTitle())
 				.content(form.getContent())
 				.checkList(CheckListViewConverter.toDomain(form.getCheckList()))
 				.reminderNoticeTime(form.getReminderNoticeTime())
 				.reminderRepeat(form.getReminderRepeat())
 				.todoStartDateTime(new YbmDate(form.getTodoStartDate() + " " + form.getTodoStartTime(), YbmDate.FmtPtn.HYPHEN_DATE_HOUR_MINUTES))
-				.createUser(new YbmUser(new UserId(Long.valueOf(form.getCreateUserId())), new UserName(form.getCreateUserName())))
+				.createUser(new YbmUser(new UserId(form.getCreateUserId()), new UserName(form.getCreateUserName())))
 				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
-				.updateUser(new YbmUser(new UserId(Long.valueOf(form.getUpdateUserId())), new UserName(form.getUpdateUserName())))
+				.updateUser(new YbmUser(new UserId(form.getUpdateUserId()), new UserName(form.getUpdateUserName())))
 				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return todo;

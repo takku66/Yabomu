@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.presentation.todolist.viewadapter.CheckItemForm;
@@ -67,8 +69,8 @@ public class CheckListViewConverter {
 			return null;
 		}
 		CheckItem checkItem = CheckItem.builder()
-				.eventId(Long.valueOf(form.getEventId()))
-				.todoId(Long.valueOf(form.getTodoId()))
+				.eventId(new EventId(form.getEventId()))
+				.todoId(new TodoId(form.getTodoId()))
 				.seq(Integer.valueOf(form.getSeq()))
 				.content(form.getContent())
 				.completed(form.isCompleted())

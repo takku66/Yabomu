@@ -44,6 +44,7 @@ html {
 	border-radius: 4px;
 	right: 0;
 	cursor: pointer;
+	vertical-align: top;
 }
 .message-list {
 	list-style: none;
@@ -57,6 +58,11 @@ html {
 	transition-duration: 0.8s;
 	transition-timing-function: ease;
 	transition-delay: 0s;
+}
+.message .content {
+	display: inline-block;
+	min-width: 100px;
+	width: 15vw;
 }
 .message.hide {
 	display: none;

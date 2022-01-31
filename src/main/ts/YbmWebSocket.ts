@@ -1,5 +1,6 @@
 import * as SockJS from "sockjs-client";
 import * as Stomp from "stompjs";
+import { Messenger } from "./Messenger";
 
 export class YbmWebSocket {
 
@@ -28,5 +29,4 @@ export class YbmWebSocket {
 	send(url:string, json:string){
 		this._stompClient.send(url, {}, json);
 	}
-
 }

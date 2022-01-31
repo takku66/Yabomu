@@ -23,9 +23,8 @@ class TestUserId {
 	@Test
 	void isCreatable() {
 		assertEquals(999, new UserId((long)999).value());
-		assertEquals(0, new UserId((long)0).value());
+		assertEquals(1, new UserId((long)1).value());
 		assertEquals(Long.MAX_VALUE, new UserId((long)Long.MAX_VALUE).value());
-		assertEquals(Long.MIN_VALUE, new UserId((long)Long.MIN_VALUE).value());
 	}
 
 	@Test
@@ -36,7 +35,9 @@ class TestUserId {
 
 	@Test
 	void throwBlankError() {
-		assertThrows(IllegalArgumentException.class, () -> new UserId(null));
+		assertThrows(IllegalArgumentException.class, () -> new UserId(Long.valueOf(0)));
+		assertThrows(IllegalArgumentException.class, () -> new UserId(Long.MIN_VALUE));
+		assertThrows(IllegalArgumentException.class, () -> new UserId(""));
 	}
 
 

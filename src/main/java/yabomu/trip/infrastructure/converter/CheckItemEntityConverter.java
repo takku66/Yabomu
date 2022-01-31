@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
@@ -23,8 +25,8 @@ public class CheckItemEntityConverter {
 			return null;
 		}
 		CheckItem checkItem = CheckItem.builder()
-				.eventId(Long.valueOf(checkItemEntity.getEventId()))
-				.todoId(Long.valueOf(checkItemEntity.getTodoId()))
+				.eventId(new EventId(checkItemEntity.getEventId()))
+				.todoId(new TodoId(checkItemEntity.getTodoId()))
 				.seq(checkItemEntity.getSeq())
 				.content(checkItemEntity.getContent())
 				.completed(toBoolStatus(checkItemEntity.getCompleted()))
@@ -55,8 +57,8 @@ public class CheckItemEntityConverter {
 			return null;
 		}
 		CheckItemEntity entity = new CheckItemEntity();
-		entity.setEventId(checkItem.eventId());
-		entity.setTodoId(checkItem.todoId());
+		entity.setEventId(checkItem.eventId().value());
+		entity.setTodoId(checkItem.todoId().value());
 		entity.setSeq(checkItem.seq());
 		entity.setContent(checkItem.content());
 		entity.setCompleted(toStringStatus(checkItem.isCompleted()));

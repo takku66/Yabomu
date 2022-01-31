@@ -94,7 +94,7 @@ img.reminder-repeat {
 	width: 90%;
 }
 .edit-todo-area .edit-item {
-	margin: 0.5em;
+	padding: 0.5em;
 }
 .edit-todo-area p.content {
 	max-height: 70%;

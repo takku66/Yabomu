@@ -2,6 +2,7 @@ import * as util from "../Common";
 import { TodoView, TODO } from "./TodoView";
 import { ICheckItemData } from "./ICheckItemData";
 import { ITodoData } from "./ITodoData";
+import { TodoMediator } from "./TodoMediator";
 
 export interface IEditTodoAdp {
 	closeTodo(): void;
@@ -123,11 +124,11 @@ export class EditTodo {
 	addEventSave(){
 		// 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
 		this._saveTodoBtn.addEventListener("click", () => {
-			const json = this.createJson();
-			const url = "/pub/todolist/" + this._todoIdElm.value + "/save";
-			TODO.mediator.saveTodo(url, JSON.stringify(json));
+			// const json = this.createJson();
+			// const url = "/pub/todolist/" + this._todoIdElm.value + "/save";
+			// TODO.mediator.saveTodo(url, JSON.stringify(json));
 			// this._stompClient.send(url, {}, JSON.stringify(json));
-			//this.sendTodoJson();
+			this.sendTodoJson();
 		}, false);
 	}
 	addEventCancel(){
@@ -159,7 +160,7 @@ export class EditTodo {
 			return res.json();
 		}).then((data)=>{
 			console.log(data);
-			// MESSAGE_AREA.pushMessage(`${data.message}`, 10000);
+			TODO.mediator.pushMessage(`${data.message}`, 10000);
 		}).catch((reason)=>{
 			console.log(reason);
 		});

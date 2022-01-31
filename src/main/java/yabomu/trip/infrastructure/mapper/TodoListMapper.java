@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.TodoCondition;
 import yabomu.trip.infrastructure.entity.TodoEntity;
 
@@ -18,7 +20,9 @@ public interface TodoListMapper {
 
 	public List<TodoEntity> findAll();
 
-	public TodoEntity findById(Long todoId);
+	public List<TodoEntity> findByEventId(EventId eventId);
+
+	public TodoEntity findByTodoId(TodoId todoId);
 
 	public List<TodoEntity> matching(TodoCondition param);
 

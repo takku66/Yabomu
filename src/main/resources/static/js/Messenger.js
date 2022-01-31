@@ -1,20 +1,29 @@
 import * as util from "./Common";
 export class Messenger {
     constructor() {
-        this._elm = document.getElementById("message-area");
-        this._messageList = document.getElementById("message-list");
+        this.idlist = {
+            "messageArea": "message-area",
+            "messageList": "message-list",
+        };
+        this.classlist = {
+            "message": "message",
+            "content": "content",
+            "deleteBtnMessage": "delete-btn-message",
+            "hide": "hide",
+        };
+        this._elm = document.getElementById(this.idlist.messageArea);
+        this._messageList = document.getElementById(this.idlist.messageList);
         this._templateMsgItem = this.createTemplateMsgItem();
     }
     createTemplateMsgItem() {
         const li = document.createElement("li");
-        li.classList.add("message");
+        li.classList.add(this.classlist.message);
         const div = document.createElement("div");
-        div.classList.add("content");
+        div.classList.add(this.classlist.content);
         const delBtn = document.createElement("button");
         delBtn.type = "button";
-        delBtn.classList.add("delete-btn-message");
+        delBtn.classList.add(this.classlist.deleteBtnMessage);
         delBtn.innerText = "×";
-        this.addEventDeleteMessage(delBtn);
         li.appendChild(delBtn);
         li.appendChild(div);
         return li;
@@ -27,14 +36,16 @@ export class Messenger {
     }
     pushMessage(message, expireTime) {
         const msg = this._templateMsgItem.cloneNode(true);
-        msg.querySelector(".content").innerHTML = message;
+        const delBtn = msg.getElementsByClassName(this.classlist.deleteBtnMessage)[0];
+        this.addEventDeleteMessage(delBtn);
+        msg.getElementsByClassName(this.classlist.content)[0].innerHTML = message;
         this._messageList.appendChild(msg);
         setTimeout(() => {
             this.hideMessage(msg);
         }, expireTime);
     }
     hideMessage(msgElm) {
-        msgElm.classList.add("hide");
+        msgElm.classList.add(this.classlist.hide);
     }
 }
 //# sourceMappingURL=Messenger.js.map

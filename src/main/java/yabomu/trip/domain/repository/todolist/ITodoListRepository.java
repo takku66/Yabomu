@@ -1,10 +1,11 @@
 package yabomu.trip.domain.repository.todolist;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.model.todolist.TodoList;
+import yabomu.trip.domain.valueobject.EventId;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.TodoCondition;
 
 /**
@@ -22,7 +23,15 @@ public interface ITodoListRepository {
 	 * </pre>
 	 * @return List<Todo> todoList
 	 */
-	public List<Todo> findAll();
+	public TodoList findAll();
+
+	/**
+	 * <pre>
+	 * 指定されたイベントの全TODOリストを取得する
+	 * </pre>
+	 * @return
+	 */
+	public TodoList findByEventId(EventId eventId);
 
 	/**
 	 * <pre>
@@ -30,7 +39,7 @@ public interface ITodoListRepository {
 	 * </pre>
 	 * @return
 	 */
-	public Todo findById(Long todoId);
+	public Todo findByTodoId(TodoId todoId);
 
 	/**
 	 * <pre>
@@ -38,7 +47,7 @@ public interface ITodoListRepository {
 	 * </pre>
 	 * @return
 	 */
-	public List<Todo> matching(TodoCondition param);
+	public TodoList matching(TodoCondition param);
 
 	/**
 	 * <pre>
@@ -46,13 +55,6 @@ public interface ITodoListRepository {
 	 * </pre>
 	 * @return
 	 */
-	public int insert(Todo todo);
+	public int save(Todo todo);
 
-	/**
-	 * <pre>
-	 * TODOリストを更新する
-	 * </pre>
-	 * @return
-	 */
-	public int update(Todo todo);
 }

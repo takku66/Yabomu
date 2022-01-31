@@ -62,16 +62,24 @@
 		order by event_id, todo_id
 	</select>
 
-	<select id="findById" resultMap="TodoListResultMap" parameterType="java.lang.Long">
+	<select id="findByEventId" resultMap="TodoListResultMap" parameterType="java.lang.Long">
 		select
 			<include refid="Base_Column_List" />
 		from todo_list as tl
-		<if test="param != null" >
-			<include refid="Base_Where_Clause" />
-		</if>
-		<if test="orderByClause != null" >
+		where event_id = #{eventId}
+		<!-- <if test="orderByClause != null and orderByClause != ''" >
 			order by ${orderByClause}
-		</if>
+		</if> -->
+	</select>
+
+	<select id="findByTodoId" resultMap="TodoListResultMap" parameterType="java.lang.Long">
+		select
+			<include refid="Base_Column_List" />
+		from todo_list as tl
+		where todo_id = #{todoId}
+		<!-- <if test="orderByClause != null and orderByClause != ''" >
+			order by ${orderByClause}
+		</if> -->
 	</select>
 
 	<select id="matching" resultMap="TodoListResultMap" parameterType="yabomu.trip.infrastructure.condition.TodoCondition" >

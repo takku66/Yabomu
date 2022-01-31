@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 
 /**
@@ -22,7 +23,7 @@ public interface ICheckListRepository {
 	 * </pre>
 	 * @return
 	 */
-	public List<CheckItem> findById(Long todoId);
+	public List<CheckItem> findById(TodoId todoId);
 
 	/**
 	 * <pre>

@@ -6,8 +6,10 @@ import java.util.List;
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
@@ -28,8 +30,8 @@ public class TodoListEntityConverter {
 			return null;
 		}
 		Todo todo = Todo.builder()
-				.eventId(todoEntity.getEventId())
-				.todoId(todoEntity.getTodoId())
+				.eventId(new EventId(todoEntity.getEventId()))
+				.todoId(new TodoId(todoEntity.getTodoId()))
 				.title(todoEntity.getTitle())
 				.content(todoEntity.getContent())
 				.checkList(CheckItemEntityConverter.toDomain(todoEntity.getCheckList()))
@@ -73,8 +75,8 @@ public class TodoListEntityConverter {
 			return null;
 		}
 		TodoEntity entity = new TodoEntity();
-		entity.setEventId(todo.eventId());
-		entity.setTodoId(todo.todoId());
+		entity.setEventId(todo.eventId().value());
+		entity.setTodoId(todo.todoId().value());
 		entity.setCreateUserId(todo.createUser().id());
 		entity.setCreateUserName(todo.createUserName());
 		entity.setUpdateUserId(todo.updateUser().id());

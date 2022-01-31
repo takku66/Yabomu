@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
@@ -38,7 +39,7 @@ public class TodoListApiController {
 	public String getTodo(final @PathVariable("todoId") String todoId) {
 
 		// 指定されたTODOを取得する
-		Todo todo = todoListService.findById(Long.valueOf(todoId));
+		Todo todo = todoListService.findByTodoId(new TodoId(todoId));
 
 		// view用のデータに変換する
 		TodoListForm viewTodo = TodoListViewConverter.toView(todo);
@@ -70,7 +71,6 @@ public class TodoListApiController {
 		int savedCnt = todoListService.save(todo);
 		// view用のデータに変換する
 		TodoList todolist = todoListService.findAll();
-		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
 		return "{"
 				+ "\"message\": " + "\"" + savedCnt + "件の保存が完了しました。\""
 				+ "}";

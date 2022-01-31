@@ -8,8 +8,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -22,9 +24,9 @@ import yabomu.trip.domain.valueobject.YbmDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Todo {
 	@lombok.NonNull
-	private Long eventId;
+	private EventId eventId;
 	@lombok.NonNull
-	private Long todoId;
+	private TodoId todoId;
 	private YbmUser createUser;
 	private YbmUser updateUser;
 	private YbmDate createDateTime;
@@ -37,11 +39,27 @@ public class Todo {
 	private ReminderNoticeTime reminderNoticeTime;
 	private ReminderRepeat reminderRepeat;
 
+	public Todo(TodoId todoId, Todo todo){
+		this.eventId = todo.eventId();
+		this.todoId = todoId;
+		this.createUser = todo.createUser();
+		this.updateUser = todo.updateUser();
+		this.createDateTime = new YbmDate(todo.createDateTime());
+		this.updateDateTime = new YbmDate(todo.updateDateTime());
+		this.title = todo.title();
+		this.content = todo.content();
+		this.checkList = todo.checkList();
+		this.todoStartDateTime = new YbmDate(todo.todoStartDateTime());
+		this.todoEndDateTime = new YbmDate(todo.todoEndDateTime());
+		this.reminderNoticeTime = todo.reminderNoticeTime();
+		this.reminderRepeat = todo.reminderRepeat();
+	}
 
-	public Long eventId() {
+
+	public EventId eventId() {
 		return eventId;
 	}
-	public Long todoId() {
+	public TodoId todoId() {
 		return todoId;
 	}
 	public String title() {
