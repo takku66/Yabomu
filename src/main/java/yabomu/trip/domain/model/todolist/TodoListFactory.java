@@ -4,13 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.UserId;
-import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.shared.YbmIdGenerator;
 
@@ -43,9 +41,9 @@ public class TodoListFactory {
 							.checkList(clvaList)
 							.reminderNoticeTime(ReminderNoticeTime.selectBy(i*5))
 							.reminderRepeat(ReminderRepeat.selectBy("D" + i))
-							.createUser(new YbmUser(new UserId((long)i), new UserName("登録者名前" + i)))
+							.createUserId(new UserId((long)i))
 							.createDateTime(new YbmDate(LocalDateTime.now().plusDays(i)))
-							.updateUser(new YbmUser(new UserId((long)i), new UserName("更新者名前" + i)))
+							.updateUserId(new UserId((long)i))
 							.updateDateTime(new YbmDate(LocalDateTime.now().plusDays(i)))
 							.todoStartDateTime(new YbmDate(LocalDateTime.now().plusDays(i)))
 							.build();

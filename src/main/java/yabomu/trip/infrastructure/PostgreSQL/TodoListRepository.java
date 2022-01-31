@@ -55,7 +55,7 @@ public class TodoListRepository implements ITodoListRepository {
 	@Override
 	public int save(Todo todo) {
 		Todo repoTodo = findByTodoId(todo.todoId());
-		if(repoTodo == null || repoTodo.todoId().equals(0)){
+		if(repoTodo == null){
 			return mapper.insert(TodoListEntityConverter.toEntity(todo));
 		}else{
 			return mapper.update(TodoListEntityConverter.toEntity(todo));

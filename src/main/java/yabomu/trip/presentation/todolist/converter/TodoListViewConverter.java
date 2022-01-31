@@ -5,11 +5,9 @@ import java.util.List;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
-import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.UserId;
-import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
 
@@ -44,11 +42,12 @@ public class TodoListViewConverter {
 		form.setReminderRepeatEnum(todo.reminderRepeat());
 		form.setTodoStartDate(todo.todoStartDateStr());
 		form.setTodoStartTime(todo.todoStartTimeStr());
-		form.setCreateUserId(Long.toString(todo.createUser().id()));
-		form.setCreateUserName(todo.createUserName());
+		form.setCreateUserId(Long.toString(todo.createUserId().value()));
+		// TODO キャッシュから取得する
+		// form.setCreateUserName(todo.createUserName());
 		form.setCreateDateTime(todo.createDateTimeStr());
-		form.setUpdateUserId(Long.toString(todo.updateUser().id()));
-		form.setUpdateUserName(todo.updateUserName());
+		form.setUpdateUserId(Long.toString(todo.updateUserId().value()));
+		// form.setUpdateUserName(todo.updateUserName());
 		form.setUpdateDateTime(todo.updateDateTimeStr());
 		return form;
 	}
@@ -89,9 +88,9 @@ public class TodoListViewConverter {
 				.reminderNoticeTime(form.getReminderNoticeTime())
 				.reminderRepeat(form.getReminderRepeat())
 				.todoStartDateTime(new YbmDate(form.getTodoStartDate() + " " + form.getTodoStartTime(), YbmDate.FmtPtn.HYPHEN_DATE_HOUR_MINUTES))
-				.createUser(new YbmUser(new UserId(form.getCreateUserId()), new UserName(form.getCreateUserName())))
+				.createUserId(new UserId(form.getCreateUserId()))
 				.createDateTime(new YbmDate(form.getCreateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
-				.updateUser(new YbmUser(new UserId(form.getUpdateUserId()), new UserName(form.getUpdateUserName())))
+				.updateUserId(new UserId(form.getUpdateUserId()))
 				.updateDateTime(new YbmDate(form.getUpdateDateTime(), YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return todo;

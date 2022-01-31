@@ -34,17 +34,17 @@
 		<id column="event_id" property="eventId" jdbcType="BIGINT" />
 		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
 		<result column="create_date_time" property="createDateTime" jdbcType="TIMESTAMP" />
-		<result column="create_user" property="createUserId" jdbcType="INTEGER" />
+		<result column="create_user" property="createUserId" jdbcType="BIGINT" />
 		<result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
-		<result column="update_user" property="updateUserId" jdbcType="INTEGER" />
+		<result column="update_user" property="updateUserId" jdbcType="BIGINT" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="todo_start_date_time" property="todoStartDateTime" jdbcType="TIMESTAMP" />
 		<result column="todo_end_date_time" property="todoEndDateTime" jdbcType="TIMESTAMP" />
 		<result column="reminder_repeat" property="reminderRepeat" jdbcType="CHAR" />
 		<result column="reminder_notice_time" property="reminderNoticeTime" jdbcType="INTEGER" />
-		<result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
-		<result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+		<!-- <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+		<result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" /> -->
 	</resultMap>
 
 <!-- データ量が少ないうちはいいが、多くなってパフォーマンスが危なくなってきたらどうするか？ -->
@@ -52,17 +52,17 @@
 <!-- TODO:ダミーテストデータを使って実行計画みてみる -->
 	<select id="findAll" resultMap="TodoListResultMap">
 		select
-			<include refid="Base_Column_List" />,
-			<include refid="User_Column_List" />
+			<include refid="Base_Column_List" />
+			<!-- <include refid="User_Column_List" /> -->
 		from todo_list as tl
-		left outer join users as u1
+		<!-- left outer join users as u1
 		on tl.create_user = u1.user_id
 		left outer join users as u2
-		on tl.update_user = u2.user_id
+		on tl.update_user = u2.user_id -->
 		order by event_id, todo_id
 	</select>
 
-	<select id="findByEventId" resultMap="TodoListResultMap" parameterType="java.lang.Long">
+	<select id="findByEventId" resultMap="TodoListResultMap" parameterType="yabomu.trip.domain.valueobject.EventId">
 		select
 			<include refid="Base_Column_List" />
 		from todo_list as tl
@@ -72,7 +72,7 @@
 		</if> -->
 	</select>
 
-	<select id="findByTodoId" resultMap="TodoListResultMap" parameterType="java.lang.Long">
+	<select id="findByTodoId" resultMap="TodoListResultMap" parameterType="yabomu.trip.domain.valueobject.TodoId">
 		select
 			<include refid="Base_Column_List" />
 		from todo_list as tl

@@ -106,7 +106,12 @@ export class EditTodo {
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content || "";
         const token = document.querySelector('meta[name="_csrf"]')?.content || "";
         const todoId = json.todoId;
-        fetch(`/todolist/${todoId}/save`, {
+        // デフォルトは登録用の処理
+        let url = `/todolist/save`;
+        if (todoId) {
+            url = `/todolist/${todoId}/save`;
+        }
+        fetch(url, {
             //			credentials: "same-origin",
             method: "POST",
             headers: {

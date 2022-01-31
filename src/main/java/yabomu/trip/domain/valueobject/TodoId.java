@@ -10,14 +10,14 @@ import yabomu.trip.shared.YbmIdGenerator;
  */
 public class TodoId {
 
-	private Long id;
+	private Long todoId;
 
 	/**<pre>
 	 * 新しいIDを生成する
 	 * </pre>
 	 */
 	public TodoId() {
-		this.id = YbmIdGenerator.generate();
+		this.todoId = YbmIdGenerator.generate();
 	}
 	/**<pre>
 	 * 引数に渡されたIDを設定する
@@ -27,26 +27,26 @@ public class TodoId {
 		if(id == null || id.longValue() <= 0) {
 			throw new IllegalArgumentException("TodoIDが不正です。[" + id + "]");
 		}
-		this.id = id;
+		this.todoId = id;
 	}
 	public TodoId(String id) {
 		if(id == null || "".equals(id)) {
 			throw new IllegalArgumentException("TodoIDが不正です。[" + id + "]");
 		}
-		this.id = Long.valueOf(id);
+		this.todoId = Long.valueOf(id);
 	}
 	
 
 	public long value() {
-		return this.id;
+		return this.todoId;
 	}
 
 	public int hashCode() {
-		return id.hashCode();
+		return this.todoId.hashCode();
 	}
 
 	public String toString() {
-		return this.id.toString();
+		return this.todoId.toString();
 	}
 
 	public boolean equals(Object object) {
@@ -55,7 +55,7 @@ public class TodoId {
 			("比較する値がTodoIDではありません。[" + object!=null ? null : object.getClass() + "]");
 		}
 		TodoId id = (TodoId)object;
-		return this.id.equals(id.value());
+		return this.todoId.equals(id.value());
 	}
 
 }

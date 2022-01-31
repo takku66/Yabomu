@@ -10,14 +10,14 @@ import yabomu.trip.shared.YbmIdGenerator;
  */
 public class EventId {
 
-	private Long id;
+	private Long eventId;
 
 	/**<pre>
 	 * 新しいIDを生成する
 	 * </pre>
 	 */
 	public EventId() {
-		this.id = YbmIdGenerator.generate();
+		this.eventId = YbmIdGenerator.generate();
 	}
 	/**<pre>
 	 * 引数に渡されたIDを設定する
@@ -27,25 +27,25 @@ public class EventId {
 		if(id == null || id.longValue() <= 0) {
 			throw new IllegalArgumentException("イベントIDが不正です。[" + id + "]");
 		}
-		this.id = id;
+		this.eventId = id;
 	}
 	public EventId(String id) {
 		if(id == null || "".equals(id)) {
 			throw new IllegalArgumentException("イベントIDが不正です。[" + id + "]");
 		}
-		this.id = Long.valueOf(id);
+		this.eventId = Long.valueOf(id);
 	}
 
 	public long value() {
-		return this.id;
+		return this.eventId;
 	}
 
 	public int hashCode() {
-		return id.hashCode();
+		return this.eventId.hashCode();
 	}
 
 	public String toString() {
-		return this.id.toString();
+		return this.eventId.toString();
 	}
 
 	public boolean equals(Object object) {
@@ -54,7 +54,7 @@ public class EventId {
 			("比較する値がイベントIDではありません。[" + object!=null ? null : object.getClass() + "]");
 		}
 		EventId id = (EventId)object;
-		return this.id.equals(id.value());
+		return this.eventId.equals(id.value());
 	}
 
 }

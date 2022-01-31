@@ -10,14 +10,14 @@ import yabomu.trip.shared.YbmIdGenerator;
  */
 public class UserId {
 
-	private Long id;
+	private Long userId;
 
 	/**<pre>
 	 * 新しいIDを生成する
 	 * </pre>
 	 */
 	public UserId() {
-		this.id = YbmIdGenerator.generate();
+		this.userId = YbmIdGenerator.generate();
 	}
 	/**<pre>
 	 * 引数に渡されたIDを設定する
@@ -27,25 +27,25 @@ public class UserId {
 		if(id == null || id.longValue() <= 0) {
 			throw new IllegalArgumentException("ユーザーIDが不正です。[" + id + "]");
 		}
-		this.id = id;
+		this.userId = id;
 	}
 	public UserId(String id) {
 		if(id == null || "".equals(id)) {
 			throw new IllegalArgumentException("ユーザーIDが不正です。[" + id + "]");
 		}
-		this.id = Long.valueOf(id);
+		this.userId = Long.valueOf(id);
 	}
 
 	public long value() {
-		return this.id;
+		return this.userId;
 	}
 
 	public int hashCode() {
-		return id.hashCode();
+		return this.userId.hashCode();
 	}
 
 	public String toString() {
-		return this.id.toString();
+		return this.userId.toString();
 	}
 
 	public boolean equals(Object object) {
@@ -54,7 +54,7 @@ public class UserId {
 			("比較する値がユーザーIDではありません。[" + object!=null ? null : object.getClass() + "]");
 		}
 		UserId id = (UserId)object;
-		return this.id.equals(id.value());
+		return this.userId.equals(id.value());
 	}
 
 }

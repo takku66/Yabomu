@@ -7,11 +7,11 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.TodoId;
+import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
 
 /**
@@ -27,8 +27,8 @@ public class Todo {
 	private EventId eventId;
 	@lombok.NonNull
 	private TodoId todoId;
-	private YbmUser createUser;
-	private YbmUser updateUser;
+	private UserId createUserId;
+	private UserId updateUserId;
 	private YbmDate createDateTime;
 	private YbmDate updateDateTime;
 	private String title;
@@ -42,8 +42,8 @@ public class Todo {
 	public Todo(TodoId todoId, Todo todo){
 		this.eventId = todo.eventId();
 		this.todoId = todoId;
-		this.createUser = todo.createUser();
-		this.updateUser = todo.updateUser();
+		this.createUserId = todo.createUserId();
+		this.updateUserId = todo.updateUserId();
 		this.createDateTime = new YbmDate(todo.createDateTime());
 		this.updateDateTime = new YbmDate(todo.updateDateTime());
 		this.title = todo.title();
@@ -68,18 +68,14 @@ public class Todo {
 	public String content() {
 		return content;
 	}
-	public YbmUser createUser() {
-		return createUser;
+	public UserId createUserId() {
+		return createUserId;
 	}
-	public String createUserName() {
-		return createUser.name().toString();
+	
+	public UserId updateUserId() {
+		return updateUserId;
 	}
-	public YbmUser updateUser() {
-		return updateUser;
-	}
-	public String updateUserName() {
-		return updateUser.name().toString();
-	}
+	
 	public LocalDateTime createDateTime() {
 		return createDateTime.value();
 	}
