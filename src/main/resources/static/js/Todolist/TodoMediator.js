@@ -9,7 +9,7 @@ export class TodoMediator {
         this._ws.connectWebSocket("/sub/todolist/eventId/save", this._todoView.receiveUpdatedTodo);
     }
     openTodo(elm) {
-        this._editTodo.setUp(elm);
+        this._editTodo.setUpEditCard(elm);
         this._todoView.openTodo();
     }
     closeTodo() {

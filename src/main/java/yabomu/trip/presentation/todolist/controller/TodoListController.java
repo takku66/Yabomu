@@ -20,8 +20,10 @@ import org.thymeleaf.util.StringUtils;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
+import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
@@ -61,7 +63,9 @@ public class TodoListController {
 								final TodoListForm todolistForm) {
 
 		// 全TODOリストを取得する
-		TodoList todolist = todoListService.findAll();
+		// TODO 暫定対応初期表示に使うイベントIDをどこかで連携しないといけない
+		EventId eventId = new EventId(1628434631798000001L);
+		TodoList todolist = todoListService.findByEventId(eventId);
 
 		// view用のデータに変換する
 		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
@@ -71,6 +75,9 @@ public class TodoListController {
 		mv.addObject("reminderNoticeTimeList", ReminderNoticeTime.values());
 		mv.addObject("reminderRepeatList", ReminderRepeat.values());
 
+		// TODO 暫定対応
+		mv.addObject("selectedEventId", eventId);
+		
 		// 遷移先のhtml名を設定する
 		mv.setViewName("todolist.html");
 		return mv;
@@ -89,7 +96,10 @@ public class TodoListController {
 			return mapper.writeValueAsString(info);
 		}
 		// TodoリストのIDを採番し、Domain用のオブジェクトに変換する
-		todolistForm.setTodoId(Long.toString(YbmIdGenerator.generate()));
+		todolistForm.setTodoId((new TodoId()).toString());
+		// TODO ログインユーザー管理機能の実装前暫定
+		todolistForm.setCreateUserId("1234567890");
+		todolistForm.setUpdateUserId("1234567890");
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
 		// 全TODOリストを取得する
 		int savedCnt = todoListService.save(todo);

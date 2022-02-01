@@ -21,8 +21,8 @@ export class TodoMediator implements ITodoViewAdp, IEditTodoAdp{
 	public connectWebSocekt(){
 		this._ws.connectWebSocket("/sub/todolist/eventId/save", this._todoView.receiveUpdatedTodo);
 	}
-	public openTodo(elm: Element | null){
-		this._editTodo.setUp(elm);
+	public openTodo(elm: Element | ""){
+		this._editTodo.setUpEditCard(elm);
 		this._todoView.openTodo();
 	}
 	public closeTodo(){

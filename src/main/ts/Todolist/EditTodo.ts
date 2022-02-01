@@ -60,17 +60,19 @@ export class EditTodo {
 		this._saveTodoBtn = <HTMLElement>document.getElementById("btn-save-todo");
 		this._cancelBtn = <HTMLElement>document.getElementById("btn-cancel-todo");
 		this._checklistTemplate = <HTMLElement>this.createTemplateCheckItem();
-		this.addEventAddCheckList();
-		this.addEventSave();
-		this.addEventCancel();
+		this._addEventAddCheckList();
+		this._addEventSave();
+		this._addEventCancel();
 	}
-	setUp(elm:Element | null){
-		// this._cancelBtn.onclick = callback_closeFunction;
-		if(elm === null){
-			// callback_openFunction();
-			return;
+	setUpEditCard(elm:Element | ""){
+		this._eventIdElm.value = document.querySelector<HTMLInputElement>(".choose-event.select")?.value || "";
+		if(!this._eventIdElm.value){throw new Error("イベントIDがありません。");}
+		if(elm !== ""){
+			this._copyToEditCard(elm);
 		}
-		this._eventIdElm.value = elm.querySelector<HTMLInputElement>(".event-id")?.value || "";
+		this._addEventDeleteCheckItemBtn();
+	}
+	private _copyToEditCard(elm:Element){		
 		this._todoIdElm.value = elm.querySelector<HTMLInputElement>(".todo-id")?.value || "";
 		this._titleElm.value = elm.querySelector<HTMLInputElement>(".text.title")?.value || "";
 		this._contentElm.value= elm.querySelector<HTMLInputElement>(".text.content")?.value || "";
@@ -88,8 +90,8 @@ export class EditTodo {
 		for(let checkItem of checklist){
 			this._checklistArea.appendChild(checkItem.cloneNode(true));
 		}
-		this.addEventDeleteCheckItemBtn();
 	}
+	
 	clear(){
 		this._eventIdElm.value = "";
 		this._todoIdElm.value = "";
@@ -111,17 +113,17 @@ export class EditTodo {
 	}
 
 	// 各ボタンのイベントを定義する
-	addEventAddCheckList(){
+	private _addEventAddCheckList(){
 		// 追加ボタンクリック時は、チェックボックス要素を追加する
 		this._addCheckBoxBtn.addEventListener("click", () => {
 			const cloneCheckItem = <HTMLElement>this._checklistTemplate.cloneNode(true);
 			this._checklistArea.appendChild(cloneCheckItem);
 			const delBtn = cloneCheckItem.querySelector<HTMLElement>(".delete-btn-checklist");
 			if(delBtn === null) return;
-			this.applyEventDeleteCheckItem(delBtn);
+			this._applyEventDeleteCheckItem(delBtn);
 		}, false);
 	}
-	addEventSave(){
+	private _addEventSave(){
 		// 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
 		this._saveTodoBtn.addEventListener("click", () => {
 			// const json = this.createJson();
@@ -131,13 +133,13 @@ export class EditTodo {
 			this.sendTodoJson();
 		}, false);
 	}
-	addEventCancel(){
+	private _addEventCancel(){
 		// キャンセルボタンクリック時は、現在編集中の内容を破棄して閉じる
 		this._cancelBtn.addEventListener("click", () => {
 			TODO.mediator.closeTodo();
 		}, false);
 	}
-	sendTodoJson(){
+	public sendTodoJson(){
 		const json = this.createJson();
 		console.log(json);
 		const csrfHeader = document.querySelector<HTMLMetaElement>('meta[name="_csrf_header"]')?.content || "";
@@ -172,13 +174,13 @@ export class EditTodo {
 	}
 
 	// チェックアイテム横にある、削除ボタンのイベントを定義する
-	addEventDeleteCheckItemBtn(){
+	private _addEventDeleteCheckItemBtn(){
 		const checkItemDeleteBtns = this._checklistArea.querySelectorAll<HTMLElement>(".delete-btn-checklist");
 		for(let btn of checkItemDeleteBtns){
-			this.applyEventDeleteCheckItem(btn);
+			this._applyEventDeleteCheckItem(btn);
 		}
 	}
-	applyEventDeleteCheckItem(elm: HTMLElement){
+	private _applyEventDeleteCheckItem(elm: HTMLElement){
 		elm.addEventListener("click", () => {
 			let delElm = <HTMLElement>util.findParent(elm, "li");
 			if(delElm === null) return;
@@ -223,7 +225,7 @@ export class EditTodo {
 		li.appendChild(label2);
 		return li;
 	}
-	createJson(): ITodoData{
+	public createJson(): ITodoData{
 		const json:ITodoData = {
 			eventId:	this._eventIdElm.value,
 			todoId:		this._todoIdElm.value,

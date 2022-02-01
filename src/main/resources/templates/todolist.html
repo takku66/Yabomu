@@ -12,6 +12,17 @@
 </head>
 <body layout:fragment="content" th:remove="tag">
 	<main>
+		<section id="choose-event-container" class="choose-event-container">
+			<select class="choose-event select"
+					th:value="${selectedEventId}">
+					<option th:value="${selectedEventId}" th:selected="${selectedEventId}">テストイベント</option>
+				<!-- <option th:each="event : ${eventList}"
+						th:value="${event.id}"
+						th:text="${event.name}"
+						th:selected="${event.id == selectedEventId}"> -->
+				</option>
+			</select>
+		</section>
 <!-- 	TODOリスト -->
 		<section id="todolist-container" class="todolist-container">
 			<th:block th:each="vForm,it : ${formlist}">
@@ -155,14 +166,14 @@
 					<input type="time" id="txt-edit-start-time" class="todo-start-time text" />
 				</p>
 				<p class="todo-create-info">
-					<input type="hidden" id="hid-edit-create-user-id" class="todo-create-user-id" />
-					<input type="hidden" id="hid-edit-create-user-name" class="todo-create-user-name" />
-					<input type="hidden" id="hid-edit-create-datetime" class="todo-create-datetime" />
+					<input type="hidden" id="hid-edit-create-user-id" class="edit-todo-create-user-id" />
+					<input type="hidden" id="hid-edit-create-user-name" class="edit-todo-create-user-name" />
+					<input type="hidden" id="hid-edit-create-datetime" class="edit-todo-create-datetime" />
 				</p>
 				<p class="todo-update-info">
-					<input type="hidden" id="hid-edit-update-user-id" class="todo-update-user-id" />
-					<input type="hidden" id="hid-edit-update-user-name" class="todo-update-user-name" />
-					<input type="hidden" id="hid-edit-update-datetime" class="todo-update-datetime" />
+					<input type="hidden" id="hid-edit-update-user-id" class="edit-todo-update-user-id" />
+					<input type="hidden" id="hid-edit-update-user-name" class="edit-todo-update-user-name" />
+					<input type="hidden" id="hid-edit-update-datetime" class="edit-todo-update-datetime" />
 				</p>
 			</div>
 			<div class="bottom-area">
