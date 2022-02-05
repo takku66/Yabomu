@@ -6,6 +6,7 @@ import java.util.List;
 import yabomu.trip.domain.model.todolist.CheckItem;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
+import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
@@ -30,6 +31,9 @@ public class CheckItemEntityConverter {
 				.seq(checkItemEntity.getSeq())
 				.content(checkItemEntity.getContent())
 				.completed(toBoolStatus(checkItemEntity.getCompleted()))
+				.createUserId(new UserId(checkItemEntity.getCreateUserId()))
+				.createDateTime(new YbmDate(checkItemEntity.getCreateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
+				.updateUserId(new UserId(checkItemEntity.getUpdateUserId()))
 				.updateDateTime(new YbmDate(checkItemEntity.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return checkItem;
@@ -62,6 +66,9 @@ public class CheckItemEntityConverter {
 		entity.setSeq(checkItem.seq());
 		entity.setContent(checkItem.content());
 		entity.setCompleted(toStringStatus(checkItem.isCompleted()));
+		entity.setCreateUserId(checkItem.createUserId().value());
+		entity.setCreateDateTime(checkItem.createDateTime());
+		entity.setUpdateUserId(checkItem.updateUserId().value());
 		entity.setUpdateDateTime(checkItem.updateDateTime());
 		return entity;
 	}

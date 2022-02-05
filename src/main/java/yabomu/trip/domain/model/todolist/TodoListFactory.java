@@ -10,16 +10,15 @@ import yabomu.trip.domain.valueobject.ReminderRepeat;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
-import yabomu.trip.shared.YbmIdGenerator;
 
 public class TodoListFactory {
 
 	public static final TodoList createTodoListForTest(){
 		TodoList testlist = new TodoList();
-		EventId eventId = new EventId(YbmIdGenerator.generate());
+		EventId eventId = new EventId();
 		for(int i = 1; i <= 10; i++) {
 			List<CheckItem> clvaList = new ArrayList<CheckItem>();
-			if(i%3==0) {eventId = new EventId(YbmIdGenerator.generate());}
+			if(i%3==0) {eventId = new EventId();}
 			TodoId todoId = new TodoId();
 			for(int j = 1; j <= 10; j++) {
 				CheckItem clva = CheckItem.builder()
@@ -28,6 +27,9 @@ public class TodoListFactory {
 									.seq(i)
 									.content("内容" + i + "-" + j)
 									.completed(i+j%3==0)
+									.createUserId(new UserId((long)i))
+									.updateUserId(new UserId((long)i))
+									.createDateTime(new YbmDate(LocalDateTime.now().plusDays(i).plusNanos(i*1000)))
 									.updateDateTime(new YbmDate(LocalDateTime.now().plusDays(i).plusNanos(i*1000)))
 									.build();
 				clvaList.add(clva);

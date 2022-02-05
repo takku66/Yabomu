@@ -2,6 +2,6 @@ export interface ICheckItemData {
 	eventId: string;
 	todoId: string;
 	seq: number;
-	status: string;
+	completed: string;
 	content: string;
 }

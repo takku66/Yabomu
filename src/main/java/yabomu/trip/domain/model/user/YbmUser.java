@@ -48,6 +48,9 @@ public class YbmUser {
 	public long id() {
 		return this.id.value();
 	}
+	public UserId userId() {
+		return this.id;
+	}
 	public String name() {
 		return name.toString();
 	}

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import yabomu.trip.domain.model.todolist.CheckItem;
+import yabomu.trip.domain.model.todolist.Todo;
+import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 
@@ -19,11 +21,26 @@ public interface ICheckListRepository {
 
 	/**
 	 * <pre>
+	 * 指定されたEventIDキーのチェックリストを取得する
+	 * </pre>
+	 * @return
+	 */
+	public List<CheckItem> findByEventId(EventId eventId);
+
+	/**
+	 * <pre>
 	 * 指定されたTODOIDキーのチェックリストを取得する
 	 * </pre>
 	 * @return
 	 */
-	public List<CheckItem> findById(TodoId todoId);
+	public List<CheckItem> findByTodoId(TodoId todoId);
+
+	/**
+	 * <pre>
+	 * 指定されたTodoIDと連番でチェックリストを取得する
+	 * </pre>
+	 */
+	public CheckItem findByTodoSeq(TodoId todoId, int seq);
 
 	/**
 	 * <pre>
@@ -33,19 +50,21 @@ public interface ICheckListRepository {
 	 */
 	public List<CheckItem> matching(CheckItemCondition param);
 
-	/**
-	 * <pre>
-	 * チェックリストを登録する
-	 * </pre>
-	 * @return
-	 */
-	public int insert(CheckItem checkItem);
 
 	/**
 	 * <pre>
-	 * チェックリストを更新する
+	 * チェックリストを保存する
 	 * </pre>
 	 * @return
 	 */
-	public int update(CheckItem checkItem);
+	public int save(Todo todo);
+
+	/**
+	 * <pre>
+	 * チェックリストを保存する
+	 * </pre>
+	 * @return
+	 */
+	public int save(CheckItem checkItem);
+
 }

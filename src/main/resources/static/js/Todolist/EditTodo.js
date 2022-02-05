@@ -237,7 +237,7 @@ export class EditTodo {
                 eventId: checkItemEventId,
                 todoId: checkItemTodoId,
                 seq: numCheckItemSeq,
-                status: checkItemStatus,
+                completed: String(checkItemStatus) === "on" ? "true" : "false",
                 content: checkItemContent
             });
         }
@@ -252,7 +252,7 @@ export class EditTodo {
                 eventId: checkItemEventId,
                 todoId: checkItemTodoId,
                 seq: checkItemSeq,
-                status: String(checkItemStatus),
+                completed: String(checkItemStatus) === "on" ? "true" : "false",
                 content: checkItemContent
             });
         }

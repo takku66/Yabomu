@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="yabomu.trip.infrastructure.mapper.CheckListMapper" >
 
-	<sql id="Base_Column_List">
+	<sql id="Check_List_Column_List">
 		cl.event_id,
 		cl.todo_id,
 		cl.seq,
 		cl.content,
+		cl.create_user,
+		cl.create_date_time,
+		cl.update_user,
 		cl.update_date_time,
 		cl.is_completed
 	</sql>
@@ -23,29 +26,40 @@
 		<id column="event_id" property="eventId" jdbcType="BIGINT" />
 		<id column="todo_id" property="todoId" jdbcType="BIGINT" />
 		<id column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="create_user" property="createUserId" jdbcType="BIGINT" />
+		<result column="create_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUserId" jdbcType="BIGINT" />
 		<result column="update_date_time" property="updateDateTime" jdbcType="TIMESTAMP" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="is_completed" property="completed" jdbcType="CHAR" />
 	</resultMap>
 
-<!-- データ量が少ないうちはいいが、多くなってパフォーマンスが危なくなってきたらどうするか？ -->
-<!-- ユーザー情報だけでも別SQLで取得した方がよいか。。。？ -->
-<!-- TODO:ダミーテストデータを使って実行計画みてみる -->
-	<select id="findById" resultMap="CheckListResultMap">
+	<select id="findByEventId" resultMap="CheckListResultMap" parameterType="yabomu.trip.domain.valueobject.EventId">
 		select
-			<include refid="Base_Column_List" />
+			<include refid="Check_List_Column_List" />
 		from check_list as cl
-		<if test="param != null" >
-			<include refid="Base_Where_Clause" />
-		</if>
-		<if test="orderByClause != null" >
-			order by ${orderByClause}
-		</if>
+		where event_id = #{eventId}
+	</select>
+
+
+	<select id="findByTodoId" resultMap="CheckListResultMap" parameterType="yabomu.trip.domain.valueobject.TodoId">
+		select
+			<include refid="Check_List_Column_List" />
+		from check_list as cl
+		where todo_id = #{todoId}
+	</select>
+
+	
+	<select id="findByTodoSeq" resultMap="CheckListResultMap">
+		select
+			<include refid="Check_List_Column_List" />
+		from check_list as cl
+		where todo_id = #{todoId} and seq = #{seq}
 	</select>
 
 	<select id="matching" resultMap="CheckListResultMap" parameterType="yabomu.trip.infrastructure.condition.CheckItemCondition" >
 		select
-			<include refid="Base_Column_List" />
+			<include refid="Check_List_Column_List" />
 		from check_list as cl
 		<if test="param != null" >
 			<include refid="Base_Where_Clause" />
@@ -55,25 +69,51 @@
 		</if>
 	</select>
 
-	<insert id="insert"
-		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
-		flushCache="true"
-		statementType="PREPARED"
-		keyProperty=""
-		keyColumn=""
-		useGeneratedKeys="false"
-		timeout="180">
+	<insert id="insert" parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity">
+	  insert into check_list (
+		event_id,
+		todo_id,
+		seq,
+		create_date_time,
+		create_user,
+		update_date_time,
+		update_user,
+		content,
+		is_completed
+	  )
+	  values (
+	  	#{eventId},
+		#{todoId},
+		#{seq},
+		current_timestamp,
+		#{createUserId},
+		current_timestamp,
+		#{updateUserId},
+		#{content},
+		#{completed}
+	  )
 	</insert>
-	<update id="update"
-		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
-		flushCache="true"
-		statementType="PREPARED"
-		timeout="180">
+
+	<update id="update" parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity">
+		update check_list set
+			event_id = #{eventId},
+			todo_id = #{todoId},
+			seq = #{seq},
+			update_user = #{updateUserId},
+			update_date_time = current_timestamp,
+			content = #{content},
+			is_completed = #{completed}
+		where
+			event_id = #{eventId} AND
+			todo_id = #{todoId} AND
+			seq = #{seq}
 	</update>
-	<delete id="delete"
-		parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity"
-		flushCache="true"
-		statementType="PREPARED"
-		timeout="180">
+	<delete id="delete" parameterType="yabomu.trip.infrastructure.entity.CheckItemEntity">
+		delete 
+		from check_list 
+		where
+			event_id = #{eventId} AND
+			todo_id = #{todoId} AND
+			seq = #{seq}
 	</delete>
 </mapper>

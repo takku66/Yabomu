@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="yabomu.trip.infrastructure.mapper.TodoListMapper" >
 
-	<sql id="Base_Column_List">
+	<sql id="Todo_List_Column_List">
 		tl.event_id,
 		tl.todo_id,
 		tl.create_date_time,
@@ -52,8 +52,7 @@
 <!-- TODO:ダミーテストデータを使って実行計画みてみる -->
 	<select id="findAll" resultMap="TodoListResultMap">
 		select
-			<include refid="Base_Column_List" />
-			<!-- <include refid="User_Column_List" /> -->
+			<include refid="Todo_List_Column_List" />
 		from todo_list as tl
 		<!-- left outer join users as u1
 		on tl.create_user = u1.user_id
@@ -64,7 +63,7 @@
 
 	<select id="findByEventId" resultMap="TodoListResultMap" parameterType="yabomu.trip.domain.valueobject.EventId">
 		select
-			<include refid="Base_Column_List" />
+			<include refid="Todo_List_Column_List" />
 		from todo_list as tl
 		where event_id = #{eventId}
 		<!-- <if test="orderByClause != null and orderByClause != ''" >
@@ -74,7 +73,7 @@
 
 	<select id="findByTodoId" resultMap="TodoListResultMap" parameterType="yabomu.trip.domain.valueobject.TodoId">
 		select
-			<include refid="Base_Column_List" />
+			<include refid="Todo_List_Column_List" />
 		from todo_list as tl
 		where todo_id = #{todoId}
 		<!-- <if test="orderByClause != null and orderByClause != ''" >
@@ -84,7 +83,7 @@
 
 	<select id="matching" resultMap="TodoListResultMap" parameterType="yabomu.trip.infrastructure.condition.TodoCondition" >
 		select
-			<include refid="Base_Column_List" />
+			<include refid="Todo_List_Column_List" />
 		from todo_list
 		where
 			todo_id = #{todoId}

@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import yabomu.trip.domain.model.todolist.CheckItem;
@@ -26,6 +28,7 @@ import yabomu.trip.infrastructure.condition.CheckItemCondition;
  */
 @Service
 @AllArgsConstructor
+@Transactional
 public class TodoListService {
 
 	final private ITodoListRepository todoListRepository;
@@ -49,19 +52,37 @@ public class TodoListService {
 		return todoList;
 	}
 
-	public TodoList findByEventId(EventId eventId) {
-		return todoListRepository.findByEventId(eventId);
+	public TodoList findTodoOf(EventId eventId) {
+		TodoList todolist = todoListRepository.findByEventId(eventId);
+		List<CheckItem> checkList = checkListRepository.findByEventId(eventId);
+		Map<TodoId, Todo> todoMap = todolist.stream().collect(Collectors.toMap(Todo::todoId, e -> e));
+		for(CheckItem checkItem : checkList){
+			if(todoMap.containsKey(checkItem.todoId())){
+				todoMap.get(checkItem.todoId()).addCheckList(checkItem);
+			}
+		}
+		return todolist;
 	}
-	public Todo findByTodoId(TodoId todoId) {
-		return todoListRepository.findByTodoId(todoId);
+	public Todo findTodoOf(TodoId todoId) {
+		Todo todo = todoListRepository.findByTodoId(todoId);
+		List<CheckItem> checkList = checkListRepository.findByTodoId(todoId);
+		for(CheckItem checkItem : checkList){
+			if(todo.todoId().equals(checkItem.todoId())){
+				todo.addCheckList(checkItem);
+			}
+		}
+		return todo;
 	}
 
+	
 	public int save(Todo todo){
 		if(todo.todoId() == null){
 			new Todo(new TodoId(), todo);
 		}
 		int todoListSaveCnt = todoListRepository.save(todo);
-		return todoListSaveCnt;
+		int checkListSaveCnt = checkListRepository.save(todo);
+
+		return checkListSaveCnt;
 	}
 
 }

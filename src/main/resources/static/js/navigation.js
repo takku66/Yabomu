@@ -46,7 +46,7 @@ const NAV = {
 		const requestMap = {
 			"nav-home":"/home",
 			"nav-album":"/album",
-			"nav-todolist":"/todolist",
+			"nav-todolist":"/todolist/1628434631798000001", // TODO 暫定対応
 			"nav-spot":"/spot",
 			"nav-traffic":"/traffic",
 			"nav-schedule":"/schedule"

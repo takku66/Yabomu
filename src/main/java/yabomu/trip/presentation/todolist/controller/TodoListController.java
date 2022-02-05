@@ -1,6 +1,7 @@
 package yabomu.trip.presentation.todolist.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +31,6 @@ import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
 import yabomu.trip.shared.TransactionCodes;
 import yabomu.trip.shared.TransactionInfo;
-import yabomu.trip.shared.YbmIdGenerator;
 import yabomu.trip.usecase.todolist.TodoListService;
 
 /**
@@ -58,14 +58,20 @@ public class TodoListController {
 		this.messagingTemplate = messagingTemplate;
 	}
 
-	@RequestMapping(path=YbmUrls.TODOLIST, method= RequestMethod.POST)
-	public ModelAndView init(final ModelAndView mv,
-								final TodoListForm todolistForm) {
+	@RequestMapping(path=YbmUrls.TODOLIST + "/{eventId}", method= RequestMethod.POST)
+	public ModelAndView init(final ModelAndView mv, final TodoListForm todolistForm,
+								final @PathVariable("eventId") String paramEventId) {
 
 		// 全TODOリストを取得する
-		// TODO 暫定対応初期表示に使うイベントIDをどこかで連携しないといけない
-		EventId eventId = new EventId(1628434631798000001L);
-		TodoList todolist = todoListService.findByEventId(eventId);
+		EventId eventId;
+		if(Objects.nonNull(paramEventId) && "".equals(paramEventId)){
+			eventId = new EventId(paramEventId);
+		}else{
+			// TODO 暫定対応。正式にはエラーで返す。
+			eventId = new EventId(1628434631798000001L);
+		}
+		 
+		TodoList todolist = todoListService.findTodoOf(eventId);
 
 		// view用のデータに変換する
 		List<TodoListForm> convertedTodolist = TodoListViewConverter.toView(todolist);
@@ -95,13 +101,19 @@ public class TodoListController {
 			info.setError(true);
 			return mapper.writeValueAsString(info);
 		}
+		String loginUserId = session.loginUserId().toString();
+
 		// TodoリストのIDを採番し、Domain用のオブジェクトに変換する
 		todolistForm.setTodoId((new TodoId()).toString());
-		// TODO ログインユーザー管理機能の実装前暫定
-		todolistForm.setCreateUserId("1234567890");
-		todolistForm.setUpdateUserId("1234567890");
+
+		todolistForm.setCreateUserId(loginUserId);
+		todolistForm.setUpdateUserId(loginUserId);
+		todolistForm.getCheckList().stream()
+									.forEach(item -> {
+										item.setCreateUserId(loginUserId);
+										item.setUpdateUserId(loginUserId);
+									});
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		// 全TODOリストを取得する
 		int savedCnt = todoListService.save(todo);
 
 		info.setCode(TransactionCodes.CM00001_I.code());
@@ -123,9 +135,15 @@ public class TodoListController {
 			info.setError(true);
 			return mapper.writeValueAsString(info);
 		}
+		String loginUserId = session.loginUserId().toString();
+		todolistForm.getCheckList().stream()
+									.forEach(item -> {
+										// TODO: 本当はDBに保存されている値そのまま使うべき。user情報は引数に渡して、repository側で入れるか？
+										item.setCreateUserId(loginUserId);
+										item.setUpdateUserId(loginUserId);
+									});
 		// Domain用のオブジェクトに変換する
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		// 全TODOリストを取得する
 		int savedCnt = todoListService.save(todo);
 		
 		info.setCode(TransactionCodes.CM00001_I.code());

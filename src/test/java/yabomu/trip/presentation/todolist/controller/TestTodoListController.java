@@ -37,7 +37,6 @@ import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
-import yabomu.trip.shared.YbmIdGenerator;
 import yabomu.trip.usecase.todolist.TodoListService;
 
 @SpringBootTest
@@ -93,7 +92,9 @@ class TestTodoListController {
 	 */
 	@Test
 	void init() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST))
+		TodoList todolist = todoListRepository.findAll();
+		EventId eventId = todolist.get(0).eventId();
+		MvcResult mvcResult = mockMvc.perform(post(YbmUrls.TODOLIST + "/" + eventId.toString()))
 					.andDo(print())
 					.andExpect(status().isOk())
 					.andExpect(view().name("todolist.html"))
@@ -237,7 +238,7 @@ class TestTodoListController {
 					.andReturn();
 
 		// 更新されたかどうかを確認する。
-		Todo updatedTodo = todoListService.findByTodoId(todo.todoId());
+		Todo updatedTodo = todoListService.findTodoOf(todo.todoId());
 		assertEquals("タイトル更新テスト", updatedTodo.title());
 		
 	}

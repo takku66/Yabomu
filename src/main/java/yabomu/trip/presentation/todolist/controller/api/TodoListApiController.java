@@ -39,7 +39,7 @@ public class TodoListApiController {
 	public String getTodo(final @PathVariable("todoId") String todoId) {
 
 		// 指定されたTODOを取得する
-		Todo todo = todoListService.findByTodoId(new TodoId(todoId));
+		Todo todo = todoListService.findTodoOf(new TodoId(todoId));
 
 		// view用のデータに変換する
 		TodoListForm viewTodo = TodoListViewConverter.toView(todo);

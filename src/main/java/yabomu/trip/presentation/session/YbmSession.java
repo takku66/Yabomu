@@ -5,6 +5,11 @@ import java.io.Serializable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
+import yabomu.trip.domain.model.user.YbmUser;
+import yabomu.trip.domain.valueobject.UserId;
+import yabomu.trip.domain.valueobject.UserName;
 
 
 /**
@@ -14,17 +19,25 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  */
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@SessionScope
 public class YbmSession implements Serializable {
 
 	/** ユーザー情報 */
-	// private YbmUser user;
+	private YbmUser loginUser;
 	
 	/** 現在表示中の画面 */
 	private String nowShowingMenu;
 
 	public YbmSession() {
+		
+	}
 
+	public UserId loginUserId(){
+		return this.loginUser.userId();
+	}
+
+	public void setLoginUserInfo(YbmUser loginUser){
+		this.loginUser = loginUser;
 	}
 
 	/**

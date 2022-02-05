@@ -6,6 +6,7 @@ import java.util.List;
 import yabomu.trip.domain.model.todolist.CheckItem;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
+import yabomu.trip.domain.valueobject.UserId;
 import yabomu.trip.domain.valueobject.YbmDate;
 import yabomu.trip.domain.valueobject.YbmDate.FmtPtn;
 import yabomu.trip.presentation.todolist.viewadapter.CheckItemForm;
@@ -37,6 +38,9 @@ public class CheckListViewConverter {
 		form.setSeq(checkItem.seq().toString());
 		form.setContent(checkItem.content());
 		form.setCompleted(checkItem.isCompleted());
+		form.setCreateUserId(checkItem.createUserId().toString());
+		form.setCreateDateTime(checkItem.createDateTime());
+		form.setUpdateUserId(checkItem.updateUserId().toString());
 		form.setUpdateDateTime(checkItem.updateDateTime());
 		return form;
 	}
@@ -74,6 +78,9 @@ public class CheckListViewConverter {
 				.seq(Integer.valueOf(form.getSeq()))
 				.content(form.getContent())
 				.completed(form.isCompleted())
+				.createUserId(new UserId(form.getCreateUserId()))
+				.createDateTime(new YbmDate(form.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
+				.updateUserId(new UserId(form.getUpdateUserId()))
 				.updateDateTime(new YbmDate(form.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
 				.build();
 		return checkItem;

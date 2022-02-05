@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.stereotype.Repository;
 
@@ -80,7 +81,9 @@ public class TodoListRepository implements ITodoListRepository {
 
 	@Override
 	public TodoList findByEventId(EventId eventId) {
-		return TodoListEntityConverter.toDomain(new ArrayList<>(this.eventListData.get(eventId).values()));
+		Map<TodoId, TodoEntity> todoMap = this.eventListData.get(eventId);
+		if(Objects.isNull(todoMap)){ return new TodoList(); }
+		return TodoListEntityConverter.toDomain(new ArrayList<>(todoMap.values()));
 	}
 
 	@Override
@@ -90,7 +93,7 @@ public class TodoListRepository implements ITodoListRepository {
 
 	@Override
 	public TodoList matching(TodoCondition param) {
-		return TodoListEntityConverter.toDomain(new ArrayList<TodoEntity>());
+		return new TodoList();
 	}
 
 	@Override

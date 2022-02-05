@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -27,8 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/login")
-				.permitAll()
+				.loginPage("/login").permitAll()
+				.successForwardUrl("/ybmlogin").permitAll()
 				.and()
 			.logout()
 				.permitAll();
