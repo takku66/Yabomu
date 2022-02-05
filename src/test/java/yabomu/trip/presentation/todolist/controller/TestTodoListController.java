@@ -28,11 +28,14 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import yabomu.trip.domain.model.todolist.Todo;
 import yabomu.trip.domain.model.todolist.TodoList;
+import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.repository.todolist.ICheckListRepository;
 import yabomu.trip.domain.repository.todolist.ITodoListRepository;
 import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.ReminderNoticeTime;
 import yabomu.trip.domain.valueobject.ReminderRepeat;
+import yabomu.trip.domain.valueobject.UserId;
+import yabomu.trip.domain.valueobject.UserName;
 import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
@@ -70,6 +73,13 @@ class TestTodoListController {
     public void setUp() {
 
     	session = new YbmSession();
+		YbmUser loginUser = YbmUser.builder()
+									.id(new UserId(1234567890L))
+									.name(new UserName("JUnit テスト 太郎"))
+									.email("test.ybm@aaa.bbb.ccc")
+									.tellNo("000-1111-2222")
+									.build();
+		session.setLoginUserInfo(loginUser);
     	todoListService = new TodoListService(todoListRepository, checkListRepository);
     	controller = new TodoListController(todoListService, session, messagingTemplate);
     	mockMvc = MockMvcBuilders.standaloneSetup(controller).build();

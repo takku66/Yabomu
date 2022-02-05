@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -40,11 +41,15 @@ public class CheckListRepository implements ICheckListRepository {
 
 	@Override
 	public List<CheckItem> findByEventId(EventId eventId) {
-		return (List<CheckItem>)checkListData.get(eventId).values().stream()	// Map<Integer, CheckItem>をstreamに流し
-																	.map(e -> e.values())	// CheckItemだけを取り出し
-																	.filter(e -> e instanceof CheckItemEntity)	// インスタンスの型チェックをし
-																	.map(e -> CheckItemEntityConverter.toDomain((CheckItemEntity)e))	// 型キャストし
-																	.toList();	// リストにして返す
+		Map<TodoId, Map<Integer, CheckItemEntity>> checkListMap = checkListData.get(eventId);
+		if(Objects.isNull(checkListMap)){
+			return new ArrayList<CheckItem>();
+		}
+		return (List<CheckItem>)checkListMap.values().stream()	// Map<Integer, CheckItem>をstreamに流し
+													.map(e -> e.values())	// CheckItemだけを取り出し
+													.filter(e -> e instanceof CheckItemEntity)	// インスタンスの型チェックをし
+													.map(e -> CheckItemEntityConverter.toDomain((CheckItemEntity)e))	// 型キャストし
+													.toList();	// リストにして返す
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class CheckListRepository implements ICheckListRepository {
 		if(Objects.isNull(checkListMap)){
 			return new ArrayList<CheckItem>();
 		}
-		return CheckItemEntityConverter.toDomain((List<CheckItemEntity>) checkListMap.values());
+		return CheckItemEntityConverter.toDomain(new ArrayList<CheckItemEntity>(checkListMap.values()));
 	}
 
 	@Override
@@ -77,19 +82,30 @@ public class CheckListRepository implements ICheckListRepository {
 
 	@Override
 	public int save(Todo todo) {
+		int sum = 0;
 		List<CheckItem> repoCheckItem = findByTodoId(todo.todoId());
-		Map<Integer, CheckItem> repoSeqSet = (Map<Integer, CheckItem>)repoCheckItem.stream().collect(Collectors.toMap(CheckItem::seq, e -> e));
+		Map<Integer, CheckItem> repoSeqMap = (Map<Integer, CheckItem>)repoCheckItem.stream().collect(Collectors.toMap(CheckItem::seq, e -> e));
 		for(CheckItem wantSaveItem : todo.checkList()){
-			if(repoSeqSet.containsKey(wantSaveItem.seq())){
-				if(Objects.deepEquals(repoSeqSet.get(wantSaveItem.seq()), wantSaveItem)){
-					return 0;
+			if(repoSeqMap.containsKey(wantSaveItem.seq())){
+				if(wantSaveItem.equals(repoSeqMap.get(wantSaveItem.seq()))){
+					continue;
 				}
-				return update(CheckItemEntityConverter.toEntity(wantSaveItem));
+				repoSeqMap.remove(wantSaveItem.seq());
+				sum += update(CheckItemEntityConverter.toEntity(wantSaveItem));
 			}else{
-				return insert(CheckItemEntityConverter.toEntity(wantSaveItem));
+				sum += insert(CheckItemEntityConverter.toEntity(wantSaveItem));
 			}
 		}
-		return 0;
+		// update対象にならなかったものは、削除する
+		for(Entry<Integer, CheckItem> entry : repoSeqMap.entrySet()){
+			if(checkListData.containsKey(entry.getValue().eventId())){
+				Map<TodoId, Map<Integer, CheckItemEntity>> todoMap = checkListData.get(entry.getValue().eventId());
+				if(todoMap.containsKey(entry.getValue().todoId())){
+					todoMap.get(entry.getValue().todoId()).remove(entry.getValue().seq());
+				}
+			}
+		}
+		return sum;
 	}
 
 	@Override
