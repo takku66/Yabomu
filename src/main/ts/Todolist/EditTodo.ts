@@ -2,7 +2,6 @@ import * as util from "../Common";
 import { TodoView, TODO } from "./TodoView";
 import { ICheckItemData } from "./ICheckItemData";
 import { ITodoData } from "./ITodoData";
-import { TodoMediator } from "./TodoMediator";
 
 export interface IEditTodoAdp {
 	closeTodo(): void;
@@ -64,10 +63,10 @@ export class EditTodo {
 		this._addEventSave();
 		this._addEventCancel();
 	}
-	setUpEditCard(elm:Element | ""){
+	setUpEditCard(elm:Element | undefined){
 		this._eventIdElm.value = document.querySelector<HTMLInputElement>(".choose-event.select")?.value || "";
 		if(!this._eventIdElm.value){throw new Error("イベントIDがありません。");}
-		if(elm !== ""){
+		if(elm !== undefined){
 			this._copyToEditCard(elm);
 		}
 		this._addEventDeleteCheckItemBtn();
@@ -150,6 +149,7 @@ export class EditTodo {
 		if(todoId){
 			url = `/todolist/${todoId}/save`
 		}
+		TODO.mediator.quePublisherTodo(json.eventId, json.todoId);
 		fetch(url,{
 	//			credentials: "same-origin",
 			method: "POST",
@@ -167,6 +167,7 @@ export class EditTodo {
 			return res.json();
 		}).then((data)=>{
 			console.log(data);
+			TODO.mediator.requestPublishTodo();
 			TODO.mediator.pushMessage(`${data.message}`, 10000);
 		}).catch((reason)=>{
 			console.log(reason);

@@ -2,14 +2,11 @@ package yabomu.trip.presentation.session;
 
 import java.io.Serializable;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import yabomu.trip.domain.model.user.YbmUser;
 import yabomu.trip.domain.valueobject.UserId;
-import yabomu.trip.domain.valueobject.UserName;
 
 
 /**

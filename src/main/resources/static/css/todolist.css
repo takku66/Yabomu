@@ -17,11 +17,14 @@
 	top: 0;
 	right: 0;
 	opacity: 0;
+	width: 1.5em;
+	text-align: right;
 	transition-property: all ;
 	transition-duration: 0.3s;
-	transition-delay: 0;
+	padding: 0.2em;
 }
 img.save-todo,
+img.delete-todo,
 img.start-datetime,
 img.reminder-notice-time,
 img.reminder-repeat {
@@ -49,7 +52,7 @@ img.reminder-repeat {
 	box-shadow: 0 0 3px 2px silver;
 }
 
-.todo-box>*{
+.todo-box>*:not(.todo-controle){
 	margin-bottom: 0.2em;
 	border-radius: 5px;
 	background-color: rgb(240,240,240);
@@ -75,12 +78,39 @@ img.reminder-repeat {
 	overflow: hidden;
 }
 
+
 /* ************************/
-/* 新規TODOリストの作成エリア */
+/* サブエリア */
 /* ************************/
-.new-todo {
-	padding: 0.5em 0;
+.todo-sub-container {
+	display: flex;
+	flex-direction: row;
 }
+.choose-event-container {
+	padding: 0.5em;
+}
+.new-todo-container {
+	padding: 0.5em;
+}
+.new-todo-container .new-todo-button {
+	text-align: center;
+	line-height: 1.5em;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+	color: white;
+	background-color: var(--color-main-dark);
+	box-shadow: 0 0 1px 1px lightgray;
+}
+.new-todo-container .new-todo-button:hover {
+	box-shadow: 0 0 3px 2px lightgray;
+}
+
+
+
+/* ************************/
+/* 編集用のTODOリスト */
+/* ************************/
 .edit-todo-area {
 	display: none;
 }

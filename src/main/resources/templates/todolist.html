@@ -12,23 +12,29 @@
 </head>
 <body layout:fragment="content" th:remove="tag">
 	<main>
-		<section id="choose-event-container" class="choose-event-container">
-			<select class="choose-event select"
-					th:value="${selectedEventId}">
-					<option th:value="${selectedEventId}" th:selected="${selectedEventId}">テストイベント</option>
-				<!-- <option th:each="event : ${eventList}"
-						th:value="${event.id}"
-						th:text="${event.name}"
-						th:selected="${event.id == selectedEventId}"> -->
-				</option>
-			</select>
-		</section>
+		<div class="todo-sub-container">
+			<section id="choose-event-container" class="choose-event-container">
+				<select class="choose-event select"
+						th:value="${selectedEventId}">
+						<option th:value="${selectedEventId}" th:selected="${selectedEventId}">テストイベント</option>
+					<!-- <option th:each="event : ${eventList}"
+							th:value="${event.id}"
+							th:text="${event.name}"
+							th:selected="${event.id == selectedEventId}"> -->
+					</option>
+				</select>
+			</section>
+			<section id="new-todo-container" class="new-todo-container">
+				<button type="button" id="btn-open-new-todo" class="new-todo-button">＋TODOを追加</button>
+			</section>
+		</div>
 <!-- 	TODOリスト -->
 		<section id="todolist-container" class="todolist-container">
 			<th:block th:each="vForm,it : ${formlist}">
 				<div class="todo-box" th:data-idx="${it.index}">
 					<div class="todo-controle">
 						<img th:src="@{/img/save.svg}" id="img-save-todo" class="save-todo" title="保存する" />
+						<img th:src="@{/img/delete.svg}" id="img-delete-todo" class="delete-todo" title="削除する" />
 					</div>
 					<input type="hidden" class="event-id" th:value="${vForm.eventId}" />
 					<input type="hidden" class="todo-id" th:value="${vForm.todoId}" />
@@ -119,10 +125,7 @@
 			</th:block>
 		</section>
 
-		<!-- 新規TODO作成 -->
-		<section class="new-todo">
-			<button type="button" id="btn-open-new-todo" class="new-todolist">＋新しいTODOリスト</button>
-		</section>
+		<!-- TODO編集用のカード -->
 		<div id="edit-todo-area" class="edit-todo-area">
 			<div class="edit-area">
 				<p>

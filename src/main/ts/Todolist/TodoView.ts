@@ -60,7 +60,7 @@ export class TodoView {
 	// ----- 新規TODO作成 周りのイベントを定義
 	addEventOpenNewTodo():void{
 		this._btnOpenNewTodo.addEventListener("click", () => {
-			TODO.mediator.openTodo("");
+			TODO.mediator.openTodo(undefined);
 		}, false);
 	}
 

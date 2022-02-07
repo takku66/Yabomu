@@ -32,7 +32,7 @@ export class EditTodo {
         if (!this._eventIdElm.value) {
             throw new Error("イベントIDがありません。");
         }
-        if (elm !== "") {
+        if (elm !== undefined) {
             this._copyToEditCard(elm);
         }
         this._addEventDeleteCheckItemBtn();
