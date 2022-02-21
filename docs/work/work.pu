@@ -1,0 +1,31 @@
+@startuml
+
+
+participant Client as c
+participant Browser as b
+participant DNS as dns
+participant WebServer as webs
+participant "Servlet \n Container" as sc
+participant "Dispatcher \n Servlet" as dps
+participant "ServletWeb \n ApplicationContext" as swac
+participant "RootWeb \n ApplicationContext" as rwac
+participant "Controller" as ctrl
+participant DatabaseServer as dbs
+
+
+c -> b: action
+b -> dns: Resolve
+b <- dns: IPAddress
+
+b -> webs: req
+webs -> sc: req
+sc -> dps: req
+dps -> swac: req
+swac -> ctrl
+
+c <- b: Response
+b <- webs: Response
+webs <- sc: Response
+sc <- dbs: Response
+
+@enduml

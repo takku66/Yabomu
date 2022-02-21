@@ -37,6 +37,9 @@ export class EditTodo {
         }
         this._addEventDeleteCheckItemBtn();
     }
+    copyToEditCard(elm) {
+        this._copyToEditCard(elm);
+    }
     _copyToEditCard(elm) {
         this._todoIdElm.value = elm.querySelector(".todo-id")?.value || "";
         this._titleElm.value = elm.querySelector(".text.title")?.value || "";
@@ -90,10 +93,6 @@ export class EditTodo {
     _addEventSave() {
         // 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
         this._saveTodoBtn.addEventListener("click", () => {
-            // const json = this.createJson();
-            // const url = "/pub/todolist/" + this._todoIdElm.value + "/save";
-            // TODO.mediator.saveTodo(url, JSON.stringify(json));
-            // this._stompClient.send(url, {}, JSON.stringify(json));
             this.sendTodoJson();
         }, false);
     }
@@ -105,15 +104,16 @@ export class EditTodo {
     }
     sendTodoJson() {
         const json = this.createJson();
+        const todoId = json.todoId;
+        let url = `/todolist/${json.eventId}/new/save`;
+        if (todoId) {
+            url = `/todolist/${json.eventId}/${json.todoId}/save`;
+        }
+        // TODO.mediator.saveTodo(url, JSON.stringify(json));
         console.log(json);
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content || "";
         const token = document.querySelector('meta[name="_csrf"]')?.content || "";
-        const todoId = json.todoId;
-        // デフォルトは登録用の処理
-        let url = `/todolist/save`;
-        if (todoId) {
-            url = `/todolist/${todoId}/save`;
-        }
+        TODO.mediator.queuePublisherTodo(json.eventId, json.todoId);
         fetch(url, {
             //			credentials: "same-origin",
             method: "POST",
@@ -131,6 +131,7 @@ export class EditTodo {
             return res.json();
         }).then((data) => {
             console.log(data);
+            TODO.mediator.requestPublishTodo();
             TODO.mediator.pushMessage(`${data.message}`, 10000);
         }).catch((reason) => {
             console.log(reason);

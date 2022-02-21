@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,41 +93,8 @@ public class TodoListController {
 
 	// TODO: charsetをつけないとJUnitテストの時になぜかISO8859-1に変換される
 	@ResponseBody
-	@RequestMapping(path=YbmUrls.TODOLIST + "/save", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-	public String regist(final @RequestBody TodoListForm todolistForm) throws JsonProcessingException {
-
-		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
-			info.setCode(TransactionCodes.CM00001_E.code());
-			info.setCount(0);
-			info.setMessage(TransactionCodes.CM00001_E.message());
-			info.setError(true);
-			return mapper.writeValueAsString(info);
-		}
-		String loginUserId = session.loginUserId().toString();
-
-		// TodoリストのIDを採番し、Domain用のオブジェクトに変換する
-		todolistForm.setTodoId((new TodoId()).toString());
-
-		todolistForm.setCreateUserId(loginUserId);
-		todolistForm.setUpdateUserId(loginUserId);
-		todolistForm.getCheckList().stream()
-									.forEach(item -> {
-										item.setCreateUserId(loginUserId);
-										item.setUpdateUserId(loginUserId);
-									});
-		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		int savedCnt = todoListService.save(todo);
-
-		info.setCode(TransactionCodes.CM00001_I.code());
-		info.setCount(savedCnt);
-		info.setMessage(TransactionCodes.CM00001_I.message());
-		info.setError(false);
-		return mapper.writeValueAsString(info);
-	}
-
-	@ResponseBody
 	@RequestMapping(path=YbmUrls.TODOLIST + "/{id}/save", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-	public String update(final @RequestBody TodoListForm todolistForm,
+	public String save(final @RequestBody TodoListForm todolistForm,
 						final @PathVariable("id") String todoId) throws JsonProcessingException {
 
 		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
@@ -136,6 +105,13 @@ public class TodoListController {
 			return mapper.writeValueAsString(info);
 		}
 		String loginUserId = session.loginUserId().toString();
+
+		if("new".equals(todoId)){
+			todolistForm.setTodoId((new TodoId()).toString());
+			todolistForm.setCreateUserId(loginUserId);
+			todolistForm.setUpdateUserId(loginUserId);
+		}
+
 		todolistForm.getCheckList().stream()
 									.forEach(item -> {
 										// TODO: 本当はDBに保存されている値そのまま使うべき。user情報は引数に渡して、repository側で入れるか？
@@ -153,23 +129,52 @@ public class TodoListController {
 		return mapper.writeValueAsString(info);
 	}
 
-	@MessageMapping(YbmUrls.TODOLIST + "/{id}/provideTodo")
-	public void provide(final @RequestBody TodoListForm todolistForm,
-						final @PathVariable("id") String todoId) {
-
-		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
-			messagingTemplate.convertAndSend("sub" + YbmUrls.TODOLIST + "/{id}/save", "ERROR");
+	// @MessageMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/save")
+	@ResponseBody
+	@RequestMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/save")
+	public String save(final @RequestBody TodoListForm todolistForm,
+						final @PathVariable("eventId") String eventId,
+						final @PathVariable("todoId") String todoId) throws JsonProcessingException {
+		if(StringUtils.isEmptyOrWhitespace(eventId) || StringUtils.isEmptyOrWhitespace(todoId)) {
+			messagingTemplate.convertAndSend("sub" + YbmUrls.TODOLIST + "/" + eventId, "情報の取得に失敗しました。");
 		}
+		String loginUserId = session.loginUserId().toString();
+		if("new".equals(todoId)){
+			todolistForm.setTodoId((new TodoId()).toString());
+			todolistForm.setCreateUserId(loginUserId);
+			todolistForm.setUpdateUserId(loginUserId);
+		}
+		todolistForm.getCheckList().stream()
+		.forEach(item -> {
+			// TODO: 本当はDBに保存されている値そのまま使うべき。user情報は引数に渡して、repository側で入れるか？
+			item.setCreateUserId(loginUserId);
+			item.setUpdateUserId(loginUserId);
+		});
 		// Domain用のオブジェクトに変換する
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		// TODO情報を保存する
 		int savedCnt = todoListService.save(todo);
-		// View用に変換する
-		TodoListForm savedTodoForm = TodoListViewConverter.toView(todo);
+		
+		info.setCode(TransactionCodes.CM00001_I.code());
+		info.setCount(savedCnt);
+		info.setMessage(TransactionCodes.CM00001_I.message());
+		info.setError(false);
+		
+		// Todo savedTodo = todoListService.findTodoOf(new TodoId(todoId));
+		// TodoListForm todoform = TodoListViewConverter.toView(savedTodo);
+		// messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, todoform);
+		return mapper.writeValueAsString(info);
+	}
 
-		// TODO:今のままだと全てのユーザーに共有されてしまう。イベントごとのTODO画面へ返せるようにする
-		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/eventId/save", savedTodoForm);
 
+	@MessageMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/publish")
+	public void publish(final @DestinationVariable("eventId") String eventId,
+						final @DestinationVariable("todoId") String todoId) {
+		if(StringUtils.isEmptyOrWhitespace(eventId) || StringUtils.isEmptyOrWhitespace(todoId)) {
+			messagingTemplate.convertAndSend("sub" + YbmUrls.TODOLIST + "/" + eventId, "情報の取得に失敗しました。");
+		}
+		Todo todo = todoListService.findTodoOf(new TodoId(todoId));
+		TodoListForm todoform = TodoListViewConverter.toView(todo);
+		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, todoform);
 	}
 
 }

@@ -9,4 +9,5 @@ public class TransactionInfo {
     private int count;
     private String message;
     private boolean isError = false;
+    private Object body;
 }

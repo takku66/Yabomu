@@ -71,6 +71,9 @@ export class EditTodo {
 		}
 		this._addEventDeleteCheckItemBtn();
 	}
+	public copyToEditCard(elm:Element){
+		this._copyToEditCard(elm);
+	}
 	private _copyToEditCard(elm:Element){		
 		this._todoIdElm.value = elm.querySelector<HTMLInputElement>(".todo-id")?.value || "";
 		this._titleElm.value = elm.querySelector<HTMLInputElement>(".text.title")?.value || "";
@@ -125,10 +128,6 @@ export class EditTodo {
 	private _addEventSave(){
 		// 保存ボタンクリック時は、現在編集中のTODOリストの内容をサーバーに送信して、TODOリストに反映させる
 		this._saveTodoBtn.addEventListener("click", () => {
-			// const json = this.createJson();
-			// const url = "/pub/todolist/" + this._todoIdElm.value + "/save";
-			// TODO.mediator.saveTodo(url, JSON.stringify(json));
-			// this._stompClient.send(url, {}, JSON.stringify(json));
 			this.sendTodoJson();
 		}, false);
 	}
@@ -140,16 +139,18 @@ export class EditTodo {
 	}
 	public sendTodoJson(){
 		const json = this.createJson();
+		const todoId = json.todoId;
+		let url = `/todolist/${json.eventId}/new/save`;
+		if(todoId){
+			url = `/todolist/${json.eventId}/${json.todoId}/save`;
+		}
+		// TODO.mediator.saveTodo(url, JSON.stringify(json));
+
 		console.log(json);
 		const csrfHeader = document.querySelector<HTMLMetaElement>('meta[name="_csrf_header"]')?.content || "";
 		const token = document.querySelector<HTMLMetaElement>('meta[name="_csrf"]')?.content || "";
-		const todoId = json.todoId;
-		// デフォルトは登録用の処理
-		let url = `/todolist/save`;
-		if(todoId){
-			url = `/todolist/${todoId}/save`
-		}
-		TODO.mediator.quePublisherTodo(json.eventId, json.todoId);
+		
+		TODO.mediator.queuePublisherTodo(json.eventId, json.todoId);
 		fetch(url,{
 	//			credentials: "same-origin",
 			method: "POST",

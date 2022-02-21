@@ -14,7 +14,7 @@
 	<main>
 		<div class="todo-sub-container">
 			<section id="choose-event-container" class="choose-event-container">
-				<select class="choose-event select"
+				<select id="choose-event" class="choose-event select"
 						th:value="${selectedEventId}">
 						<option th:value="${selectedEventId}" th:selected="${selectedEventId}">テストイベント</option>
 					<!-- <option th:each="event : ${eventList}"
