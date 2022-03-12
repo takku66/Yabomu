@@ -1,7 +1,9 @@
+import { TransactionInfo } from "../Common";
 import { Messenger } from "../Messenger";
 import { YbmWebSocket } from "../YbmWebSocket";
 import { EditTodo } from "./EditTodo";
 import { ITodoData } from "./ITodoData";
+import { TodoElement } from "./TodoElement";
 import { Todolist } from "./Todolist";
 import { TodoMediator } from "./TodoMediator";
 
@@ -28,7 +30,7 @@ export class TODO {
 		if(eventIdElm.value){
 			TODO.mediator.connectWebSocket(eventIdElm.value);
 		}else{
-			throw new Error(`イベントIDが取得できないため、STOMP通信を開始できません。[eventId: ${eventIdElm.value}]`);
+			throw new Error(`イベントIDが取得できないため、WebSocket通信を開始できません。[eventId: ${eventIdElm.value}]`);
 		}
 	}
 }
@@ -57,34 +59,55 @@ export class TodoView {
 
 		this._todolist = new Todolist(this._todoArea, this.createTodoCardTemplate());
 		this.addEventOpenNewTodo();
-		this.addEventOpenEditTodo();
+		this.addEventTodoList();
 		this.addEventChangeEvent();
 		this.stopPropagation();
 	}
 
 	// ----- TODO画面のTODOカードのテンプレート
 	private createTodoCardTemplate():HTMLElement{
-		const elm = document.createElement("div");
-		return elm;
+		const todo_box = <HTMLElement>this._todoArea.getElementsByClassName("todo-box")[0].cloneNode(true);
+		const todoCard = new TodoElement(todo_box);
+		todoCard.clear();
+		return todo_box;
 	}
 	
-	// ----- 新規TODO作成 周りのイベントを定義
+	// ----- TODO作成ボタンのイベント周り
 	private addEventOpenNewTodo():void{
 		this._btnOpenNewTodo.addEventListener("click", () => {
 			TODO.mediator.openTodo(undefined);
 		}, false);
 	}
-
-	// ----- TODO更新 周りのイベントを定義
-	private addEventOpenEditTodo():void{
+	// ----- TODOリストのイベント周り
+	private addEventTodoList():void{
 		for(let elm of this._todolist.getTodolist()){
-			elm.addEventListener("click", () => {
-				TODO.mediator.openTodo(elm);
-			}, false);
+			// TODOリストをクリックした時は、編集用エリアを開く
+			this.addEventTodo(<HTMLElement>elm);
 		}
 	}
+	private addEventTodo(elm: HTMLElement):void{
+		
+		// TODOリストをクリックした時は、編集用エリアを開く
+		elm.addEventListener("click", () => {
+			TODO.mediator.openTodo(elm);
+		}, false);
 
-	// ----- イベントの変更を検知
+		const saveBtn = <HTMLElement>elm.getElementsByClassName("save-todo")[0];
+		saveBtn.addEventListener("click", () => {
+			const eventId = (<HTMLInputElement>elm.getElementsByClassName("event-id")[0]).value;
+			const todoId = (<HTMLInputElement>elm.getElementsByClassName("todo-id")[0]).value;
+			TODO.mediator.requestPublishTodo(eventId, todoId);
+		}, false);
+
+		const deleteBtn = <HTMLElement>elm.getElementsByClassName("delete-todo")[0];
+		deleteBtn.addEventListener("click", () => {
+			const eventId = (<HTMLInputElement>elm.getElementsByClassName("event-id")[0]).value;
+			const todoId = (<HTMLInputElement>elm.getElementsByClassName("todo-id")[0]).value;
+			TODO.mediator.requestPublishDeleteTodo(eventId, todoId);
+		});
+	}
+
+	// ----- 表示中のイベントプルダウンの変更を検知
 	private addEventChangeEvent(){
 		const selectEventIdElm = <HTMLSelectElement>document.getElementById("choose-event");
 		selectEventIdElm.addEventListener("change", function(){
@@ -93,6 +116,7 @@ export class TodoView {
 			// TODO 今のTodolist情報を、そのイベントように洗替する処理
 		}, false);
 	}
+
 
 	// ----- TODOのオープン/クローズ
 	public openTodo():void{
@@ -126,25 +150,44 @@ export class TodoView {
 	receiveUpdatedTodo(data: any){
 		console.log("web socket成功");
 		console.log(data);
-		const todo: ITodoData = JSON.parse(data.body);
+		// データの連携がなければ、TOODリストには何もせずに処理を終了する
+		const transactionInfo: TransactionInfo<ITodoData> = new TransactionInfo<ITodoData>(data.body);
+		if(transactionInfo.isNonData()) return;
+
+		const todo: ITodoData = <ITodoData>transactionInfo.getData();
+
+		// 連携データのmethodによって、TODOリストへの処理をわける
+		if(transactionInfo.getMethod()?.toUpperCase() === "DELETE"){
+			this._todolist.deleteTodoCard(todo);
+			return;
+		}
 		if(this._todolist.contains(todo.todoId)){
 			this._todolist.updateTodoCard(todo);
 		}else{
-			this._todolist.createTodoCard(todo);
+			const newCard = this._todolist.createTodoCard(todo);
+			this.addEventTodo(newCard);
 		}
 	}
 
-	private stopClickPropagation(elm: HTMLElement){
+	/**
+	 * 子要素のイベントが親要素に伝わらないようにする
+	 * @param elm 
+	 */
+	private stopClickPropagation(elm: HTMLElement): void{
 		if(!elm){
-			return false;
+			return;
 		}
 		elm.addEventListener("click", function(e){
 			e.stopPropagation();
 		}, false);
 	}
-	public isEditing(): boolean{
+
+	/**
+	 * 編集エリアを開いているかどうかを返す
+	 * @returns 
+	 */
+	public isOpeningEditArea(): boolean{
 		return this._editing;
 	}
 
 }
-

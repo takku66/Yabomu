@@ -82,7 +82,16 @@ public class TodoListService {
 		int todoListSaveCnt = todoListRepository.save(todo);
 		int checkListSaveCnt = checkListRepository.save(todo);
 
-		return checkListSaveCnt;
+		return todoListSaveCnt;
+	}
+
+	public int delete(Todo todo){
+		if(todo.todoId() == null){
+			return 0;
+		}
+		int todoListDeleteCnt = todoListRepository.delete(todo);
+		int checkListDeleteCnt = checkListRepository.delete(todo);
+		return todoListDeleteCnt;
 	}
 
 }

@@ -109,4 +109,15 @@ public class TodoListRepository implements ITodoListRepository {
 		}
 	}
 
+	@Override
+	public int delete(Todo todo){
+		Todo repoTodo = findByTodoId(todo.todoId());
+		if(repoTodo == null){
+			return 0;
+		}else{
+			todoListData.remove(todo.todoId());
+			return 1;
+		}
+	}
+
 }

@@ -1,3 +1,4 @@
+import { TodoElement } from "./TodoElement";
 import { TODO } from "./TodoView";
 export class Todolist {
     constructor(todoArea, cardTemplate) {
@@ -13,55 +14,65 @@ export class Todolist {
             }
         }
     }
+    /**
+     * @param todoId
+     * @returns
+     */
     contains(todoId) {
         if (!todoId)
             return false;
         return this._map.has(todoId);
     }
-    reflectTodo(todoCard, todo) {
-        todoCard.getElementsByClassName("event-id")[0].value = todo.eventId;
-        todoCard.getElementsByClassName("todo-id")[0].value = todo.todoId;
-        todoCard.getElementsByClassName("text title")[0].value = todo.title;
-        todoCard.getElementsByClassName("label title")[0].innerText = todo.title;
-        todoCard.getElementsByClassName("text content")[0].value = todo.content;
-        todoCard.getElementsByClassName("label content")[0].innerText = todo.content;
-        todoCard.getElementsByClassName("select reminder-notice-time")[0].value = todo.reminderNoticeTime;
-        todoCard.getElementsByClassName("select reminder-repeat")[0].value = todo.reminderRepeat;
-        todoCard.getElementsByClassName("text todo-start-date")[0].value = todo.todoStartDate;
-        todoCard.getElementsByClassName("text todo-start-time")[0].value = todo.todoStartTime;
-        todoCard.getElementsByClassName("hid todo-create-user-id")[0].value = todo.createUserId;
-        todoCard.getElementsByClassName("hid todo-create-user-name")[0].value = todo.createUserName;
-        todoCard.getElementsByClassName("hid todo-create-datetime")[0].value = todo.createDatetime;
-        todoCard.getElementsByClassName("hid todo-update-user-id")[0].value = todo.updateUserId;
-        todoCard.getElementsByClassName("hid todo-update-user-name")[0].value = todo.updateUserName;
-        todoCard.getElementsByClassName("hid todo-update-datetime")[0].value = todo.updateDatetime;
-        const checklistArea = document.querySelector("#checklist-area ul.checklist");
-        const checklist = todoCard.querySelectorAll("ul.checklist li");
-        for (let checkItem of checklist) {
-            checklistArea.appendChild(checkItem.cloneNode(true));
-        }
+    // TODO: 他のテンプレートが入ってきた時に対応できない
+    buildTodoCard(todoCard, todo) {
+        const card = new TodoElement(todoCard);
+        card.copyFrom(todo);
     }
+    /**
+     * 指定のTODOデータを元に、TODOリストに新しいTODOカードを追加する
+     * @param todo 追加したいTODOデータ
+     * @returns 新しく作成されたTODOカード
+     */
     createTodoCard(todo) {
         // 新規のTODOを、引数のobjの情報を元に作成する
         const newCard = this._cardTemplate.cloneNode(true);
-        this.reflectTodo(newCard, todo);
+        this.buildTodoCard(newCard, todo);
         this._todoArea.appendChild(newCard);
+        this._map.set(todo.todoId, newCard);
         return newCard;
     }
+    /**
+     * 指定のTODOデータを元に、TODOリスト内の情報を更新する
+     * @param todo 更新したいTODOデータ
+     * @returns 更新後のTODOカード
+     */
     updateTodoCard(todo) {
         // 既存のTODOを引数のオブジェクトのtodoIdを元に引っ張り出し、
         // 引数のtodoオブジェクトで上書きする。
         const updateCard = this._map.get(todo.todoId);
-        this.reflectTodo(updateCard, todo);
-        if (TODO.mediator.isEditing()) {
+        this.buildTodoCard(updateCard, todo);
+        if (TODO.mediator.isOpeningEditArea()) {
             TODO.mediator.copyEditTodo(updateCard);
         }
         return updateCard;
     }
+    /**
+     * TODOリストから指定のTODOカードを削除する
+     * @param todo 削除対象のTODOデータ
+     * @returns 削除されたTODOカード
+     */
+    deleteTodoCard(todo) {
+        const deleteCard = this._map.get(todo.todoId);
+        this._todoArea.removeChild(deleteCard);
+        this._map.delete(todo.todoId);
+        return deleteCard;
+    }
+    /**
+     *
+     * @returns TODO LIST
+     */
     getTodolist() {
         return this._list;
     }
-}
-class TodoCard {
 }
 //# sourceMappingURL=Todolist.js.map

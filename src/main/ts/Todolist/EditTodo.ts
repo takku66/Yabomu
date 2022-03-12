@@ -2,6 +2,9 @@ import * as util from "../Common";
 import { TodoView, TODO } from "./TodoView";
 import { ICheckItemData } from "./ICheckItemData";
 import { ITodoData } from "./ITodoData";
+import { TransactionInfo } from "../Common";
+import { TodoElement } from "./TodoElement";
+import { CheckItemElement, CheckListElement } from "./CheckListElement";
 
 export interface IEditTodoAdp {
 	closeTodo(): void;
@@ -16,7 +19,8 @@ export class EditTodo {
 	_todoIdElm: HTMLInputElement;
 	_titleElm: HTMLInputElement;
 	_contentElm: HTMLInputElement;
-	_checklistArea: HTMLInputElement;
+	_checklistArea: HTMLElement;
+	_checklist: CheckListElement;
 	_reminderNoticeTimeElm: HTMLInputElement;
 	_reminderRepeatElm: HTMLInputElement;
 	_startDateElm: HTMLInputElement;
@@ -27,6 +31,7 @@ export class EditTodo {
 	_addCheckBoxBtn: HTMLElement;
 	_saveTodoBtn: HTMLElement;
 	_cancelBtn: HTMLElement;
+	_deleteBtn: HTMLElement;
 	// 作成情報
 	_createUserIdElm: HTMLInputElement;
 	_createUserNameElm: HTMLInputElement;
@@ -36,35 +41,61 @@ export class EditTodo {
 	_updateUserNameElm: HTMLInputElement;
 	_updateDatetimeElm: HTMLInputElement;
 	
+    static ET_IDS = {
+		eventIdElm: "hid-edit-event-id",
+		todoIdElm: "hid-edit-todo-id",
+		createUserIdElm: "hid-edit-create-user-id",
+		createUserNameElm: "hid-edit-create-user-name",
+		createDatetimeElm: "hid-edit-create-datetime",
+		updateUserIdElm: "hid-edit-update-user-id",
+		updateUserNameElm: "hid-edit-update-user-name",
+		updateDatetimeElm: "hid-edit-update-datetime",
+		areaElm: "edit-todo-area",
+		titleElm: "txt-edit-todo-title",
+		contentElm: "txta-edit-todo-content",
+		checklistArea: "checklist-edit-list-area",
+		addCheckBoxBtn: "btn-add-checklist",
+		reminderNoticeTimeElm: "slct-edit-reminder-notice-time",
+		reminderRepeatElm: "slct-edit-reminder-repeat",
+		startDateElm: "txt-edit-start-date",
+		startTimeElm: "txt-edit-start-time",
+		saveTodoBtn: "btn-save-todo",
+		cancelBtn: "btn-cancel-todo",
+		deleteBtn: "btn-delete-todo",
+    };
+
 	// 初期化処理
 	constructor(){
-		this._eventIdElm = <HTMLInputElement>document.getElementById("hid-edit-event-id");
-		this._todoIdElm = <HTMLInputElement>document.getElementById("hid-edit-todo-id");
-		this._createUserIdElm = <HTMLInputElement>document.getElementById("hid-edit-create-user-id");
-		this._createUserNameElm = <HTMLInputElement>document.getElementById("hid-edit-create-user-name");
-		this._createDatetimeElm = <HTMLInputElement>document.getElementById("hid-edit-create-datetime");
-		this._updateUserIdElm = <HTMLInputElement>document.getElementById("hid-edit-update-user-id");
-		this._updateUserNameElm = <HTMLInputElement>document.getElementById("hid-edit-update-user-name");
-		this._updateDatetimeElm = <HTMLInputElement>document.getElementById("hid-edit-update-datetime");
+		this._eventIdElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.eventIdElm);
+		this._todoIdElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.todoIdElm);
+		this._createUserIdElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.createUserIdElm);
+		this._createUserNameElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.createUserNameElm);
+		this._createDatetimeElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.createDatetimeElm);
+		this._updateUserIdElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.updateUserIdElm);
+		this._updateUserNameElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.updateUserNameElm);
+		this._updateDatetimeElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.updateDatetimeElm);
 
-		this._areaElm = <HTMLElement>document.getElementById("edit-todo-area");
-		this._titleElm = <HTMLInputElement>document.getElementById("txt-edit-todo-title");
-		this._contentElm = <HTMLInputElement>document.getElementById("txta-edit-todo-content");
-		this._checklistArea = <HTMLInputElement>document.querySelector<HTMLInputElement>("#checklist-area ul.checklist");
-		this._addCheckBoxBtn = <HTMLElement>document.getElementById("btn-add-checklist");
-		this._reminderNoticeTimeElm = <HTMLInputElement>document.getElementById("slct-edit-reminder-notice-time");
-		this._reminderRepeatElm = <HTMLInputElement>document.getElementById("slct-edit-reminder-repeat");
-		this._startDateElm = <HTMLInputElement>document.getElementById("txt-edit-start-date");
-		this._startTimeElm = <HTMLInputElement>document.getElementById("txt-edit-start-time");
-		this._saveTodoBtn = <HTMLElement>document.getElementById("btn-save-todo");
-		this._cancelBtn = <HTMLElement>document.getElementById("btn-cancel-todo");
-		this._checklistTemplate = <HTMLElement>this.createTemplateCheckItem();
+		this._areaElm = <HTMLElement>document.getElementById(EditTodo.ET_IDS.areaElm);
+		this._titleElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.titleElm);
+		this._contentElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.contentElm);
+		this._checklistArea = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.checklistArea);
+		this._checklist = new CheckListElement(this._areaElm);
+		this._addCheckBoxBtn = <HTMLElement>document.getElementById(EditTodo.ET_IDS.addCheckBoxBtn);
+		this._reminderNoticeTimeElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.reminderNoticeTimeElm);
+		this._reminderRepeatElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.reminderRepeatElm);
+		this._startDateElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.startDateElm);
+		this._startTimeElm = <HTMLInputElement>document.getElementById(EditTodo.ET_IDS.startTimeElm);
+		this._saveTodoBtn = <HTMLElement>document.getElementById(EditTodo.ET_IDS.saveTodoBtn);
+		this._cancelBtn = <HTMLElement>document.getElementById(EditTodo.ET_IDS.cancelBtn);
+		this._deleteBtn = <HTMLElement>document.getElementById(EditTodo.ET_IDS.deleteBtn);
+		this._checklistTemplate = CheckItemElement.createTemplateCheckItem();
 		this._addEventAddCheckList();
 		this._addEventSave();
 		this._addEventCancel();
+		this._addEventDelete();
 	}
 	setUpEditCard(elm:Element | undefined){
-		this._eventIdElm.value = document.querySelector<HTMLInputElement>(".choose-event.select")?.value || "";
+		this._eventIdElm.value = (<HTMLInputElement>document.getElementsByClassName("choose-event select")[0])?.value || "";
 		if(!this._eventIdElm.value){throw new Error("イベントIDがありません。");}
 		if(elm !== undefined){
 			this._copyToEditCard(elm);
@@ -137,6 +168,12 @@ export class EditTodo {
 			TODO.mediator.closeTodo();
 		}, false);
 	}
+	private _addEventDelete(){
+		this._deleteBtn.addEventListener("click", () => {
+			TODO.mediator.requestPublishDeleteTodo(this._eventIdElm.value, this._todoIdElm.value);
+		}, false);
+	}
+
 	public sendTodoJson(){
 		const json = this.createJson();
 		const todoId = json.todoId;
@@ -150,7 +187,6 @@ export class EditTodo {
 		const csrfHeader = document.querySelector<HTMLMetaElement>('meta[name="_csrf_header"]')?.content || "";
 		const token = document.querySelector<HTMLMetaElement>('meta[name="_csrf"]')?.content || "";
 		
-		TODO.mediator.queuePublisherTodo(json.eventId, json.todoId);
 		fetch(url,{
 	//			credentials: "same-origin",
 			method: "POST",
@@ -165,11 +201,13 @@ export class EditTodo {
 				throw new Error(`${res.status}${res.statusText}`);
 			}
 			console.log(res);
-			return res.json();
+			return res.text();
 		}).then((data)=>{
 			console.log(data);
-			TODO.mediator.requestPublishTodo();
-			TODO.mediator.pushMessage(`${data.message}`, 10000);
+			const transactionInfo: TransactionInfo<ITodoData> = new TransactionInfo<ITodoData>(data);
+			const returnTodo = <ITodoData>transactionInfo.getData();
+			TODO.mediator.requestPublishTodo(returnTodo.eventId, returnTodo.todoId);
+			TODO.mediator.pushMessage(`${transactionInfo.getMessage()}`, 10000);
 		}).catch((reason)=>{
 			console.log(reason);
 		});
@@ -190,43 +228,7 @@ export class EditTodo {
 		}, false);
 	}
 	
-	// チェックリストのテンプレート要素を作成する
-	createTemplateCheckItem(): HTMLElement{
-		const li = document.createElement("li");
-		const hidseq = document.createElement("input");
-		hidseq.type = "hidden";
-		hidseq.classList.add("checklist");
-		hidseq.classList.add("seq");
-		const label1 = document.createElement("label");
-		const label2 = document.createElement("label");
-		const textNode = document.createTextNode("\r\n");
-		const span = document.createElement("span");
-		span.classList.add("label");
-		const checkbox = document.createElement("input");
-		checkbox.type = "checkbox";
-		checkbox.classList.add("checklist");
-		checkbox.classList.add("checkbox");
-		checkbox.classList.add("status");
-		const text = document.createElement("input");
-		text.type="text";
-		text.classList.add("checklist");
-		text.classList.add("text");
-		text.placeholder = "◯◯を買う。";
-		const delBtn = document.createElement("button");
-		delBtn.type="button";
-		delBtn.classList.add("delete-btn-checklist");
-		delBtn.innerText = "×";
-		label1.appendChild(checkbox);
-		label2.appendChild(span);
-		label2.appendChild(text);
-		label2.appendChild(textNode.cloneNode(true));
-		label2.appendChild(delBtn);
-		li.appendChild(hidseq);
-		li.appendChild(label1);
-		li.appendChild(textNode.cloneNode(true));
-		li.appendChild(label2);
-		return li;
-	}
+
 	public createJson(): ITodoData{
 		const json:ITodoData = {
 			eventId:	this._eventIdElm.value,
@@ -248,6 +250,7 @@ export class EditTodo {
 		};
 		return json;
 	}
+	// TODO CheckListElementに移す
 	// チェックリストの配列を返す。配列内の要素はJson形式
 	collectCheckItems(todoArea: HTMLElement): Array<ICheckItemData>{
 		if(todoArea === null) return new Array<ICheckItemData>();

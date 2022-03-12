@@ -29,7 +29,15 @@ import yabomu.trip.infrastructure.entity.CheckItemEntity;
 @Repository("Test-CheckList")
 public class CheckListRepository implements ICheckListRepository {
 
+	/**
+	 * key  :EventId
+	 * value:Map<TodoId, Map<Integer, CheckItemEntity>>
+	 */
 	private final Map<EventId, Map<TodoId, Map<Integer, CheckItemEntity>>> checkListData;
+	/**
+	 * key  :TodoId
+	 * value:Map<Integer, CheckItemEntity>
+	 */
 	private final Map<TodoId, Map<Integer, CheckItemEntity>> checkListTodoMap;
 
 
@@ -87,7 +95,7 @@ public class CheckListRepository implements ICheckListRepository {
 		Map<Integer, CheckItem> repoSeqMap = (Map<Integer, CheckItem>)repoCheckItem.stream().collect(Collectors.toMap(CheckItem::seq, e -> e));
 		for(CheckItem wantSaveItem : todo.checkList()){
 			if(repoSeqMap.containsKey(wantSaveItem.seq())){
-				if(wantSaveItem.equals(repoSeqMap.get(wantSaveItem.seq()))){
+				if(wantSaveItem.deepEquals(repoSeqMap.get(wantSaveItem.seq()))){
 					continue;
 				}
 				repoSeqMap.remove(wantSaveItem.seq());
@@ -113,6 +121,26 @@ public class CheckListRepository implements ICheckListRepository {
 		return 0;
 	}
 
+
+	@Override
+	public int delete(Todo todo) {
+		this.checkListTodoMap.remove(todo.todoId());
+		this.checkListData.get(todo.eventId()).remove(todo.todoId());
+		return todo.checkList().size();
+	}
+
+
+	@Override
+	public int delete(CheckItem checkItem) {
+		this.checkListTodoMap.get(checkItem.todoId())
+							.remove(checkItem.seq());
+		this.checkListData.get(checkItem.eventId())
+							.get(checkItem.todoId())
+							.remove(checkItem.seq());
+		return 0;
+	}
+
+
 	private int insert(CheckItemEntity entity){
 		Map<Integer, CheckItemEntity> seqMap = new HashMap<>();
 		seqMap.put(entity.getSeq(), entity);
@@ -127,5 +155,7 @@ public class CheckListRepository implements ICheckListRepository {
 		this.checkListData.put(new EventId(entity.getEventId()), this.checkListTodoMap);
 		return 1;
 	}
+
+
 
 }

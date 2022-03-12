@@ -39,9 +39,9 @@ public class CheckListViewConverter {
 		form.setContent(checkItem.content());
 		form.setCompleted(checkItem.isCompleted());
 		form.setCreateUserId(checkItem.createUserId().toString());
-		form.setCreateDateTime(checkItem.createDateTime());
+		form.setCreateDateTime(checkItem.createDateTimeStr());
 		form.setUpdateUserId(checkItem.updateUserId().toString());
-		form.setUpdateDateTime(checkItem.updateDateTime());
+		form.setUpdateDateTime(checkItem.updateDateTimeStr());
 		return form;
 	}
 	/**

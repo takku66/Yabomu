@@ -31,7 +31,7 @@ import yabomu.trip.presentation.YbmUrls;
 import yabomu.trip.presentation.session.YbmSession;
 import yabomu.trip.presentation.todolist.converter.TodoListViewConverter;
 import yabomu.trip.presentation.todolist.viewadapter.TodoListForm;
-import yabomu.trip.shared.TransactionCodes;
+import yabomu.trip.shared.YbmMessages;
 import yabomu.trip.shared.TransactionInfo;
 import yabomu.trip.usecase.todolist.TodoListService;
 
@@ -48,8 +48,7 @@ public class TodoListController {
 	private final TodoListService todoListService;
 	private final YbmSession session;
 	private final SimpMessageSendingOperations messagingTemplate;
-	private final ObjectMapper mapper = new ObjectMapper();
-	private final TransactionInfo info = new TransactionInfo();
+	private final ObjectMapper mapper;
 
 	@Autowired
 	public TodoListController(TodoListService todoListService,
@@ -58,6 +57,7 @@ public class TodoListController {
 		this.todoListService = todoListService;
 		this.session = session;
 		this.messagingTemplate = messagingTemplate;
+		this.mapper = new ObjectMapper();
 	}
 
 	@RequestMapping(path=YbmUrls.TODOLIST + "/{eventId}", method= RequestMethod.POST)
@@ -93,45 +93,7 @@ public class TodoListController {
 
 	// TODO: charsetをつけないとJUnitテストの時になぜかISO8859-1に変換される
 	@ResponseBody
-	@RequestMapping(path=YbmUrls.TODOLIST + "/{id}/save", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-	public String save(final @RequestBody TodoListForm todolistForm,
-						final @PathVariable("id") String todoId) throws JsonProcessingException {
-
-		if(StringUtils.isEmptyOrWhitespace(todolistForm.getEventId())) {
-			info.setCode(TransactionCodes.CM00001_E.code());
-			info.setCount(0);
-			info.setMessage(TransactionCodes.CM00001_E.message());
-			info.setError(true);
-			return mapper.writeValueAsString(info);
-		}
-		String loginUserId = session.loginUserId().toString();
-
-		if("new".equals(todoId)){
-			todolistForm.setTodoId((new TodoId()).toString());
-			todolistForm.setCreateUserId(loginUserId);
-			todolistForm.setUpdateUserId(loginUserId);
-		}
-
-		todolistForm.getCheckList().stream()
-									.forEach(item -> {
-										// TODO: 本当はDBに保存されている値そのまま使うべき。user情報は引数に渡して、repository側で入れるか？
-										item.setCreateUserId(loginUserId);
-										item.setUpdateUserId(loginUserId);
-									});
-		// Domain用のオブジェクトに変換する
-		Todo todo = TodoListViewConverter.toDomain(todolistForm);
-		int savedCnt = todoListService.save(todo);
-		
-		info.setCode(TransactionCodes.CM00001_I.code());
-		info.setCount(savedCnt);
-		info.setMessage(TransactionCodes.CM00001_I.message());
-		info.setError(false);
-		return mapper.writeValueAsString(info);
-	}
-
-	// @MessageMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/save")
-	@ResponseBody
-	@RequestMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/save")
+	@RequestMapping(path = YbmUrls.TODOLIST + "/{eventId}/{todoId}/save", method = RequestMethod.POST)
 	public String save(final @RequestBody TodoListForm todolistForm,
 						final @PathVariable("eventId") String eventId,
 						final @PathVariable("todoId") String todoId) throws JsonProcessingException {
@@ -154,14 +116,12 @@ public class TodoListController {
 		Todo todo = TodoListViewConverter.toDomain(todolistForm);
 		int savedCnt = todoListService.save(todo);
 		
-		info.setCode(TransactionCodes.CM00001_I.code());
-		info.setCount(savedCnt);
-		info.setMessage(TransactionCodes.CM00001_I.message());
-		info.setError(false);
-		
-		// Todo savedTodo = todoListService.findTodoOf(new TodoId(todoId));
-		// TodoListForm todoform = TodoListViewConverter.toView(savedTodo);
-		// messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, todoform);
+		var info = TransactionInfo.<TodoListForm>builder()
+									.code(YbmMessages.CM00001_I.code())
+									.message(savedCnt + "件" + YbmMessages.CM00001_I.message())
+									.isError(false)
+									.object(TodoListViewConverter.toView(todo))
+									.build();
 		return mapper.writeValueAsString(info);
 	}
 
@@ -174,7 +134,41 @@ public class TodoListController {
 		}
 		Todo todo = todoListService.findTodoOf(new TodoId(todoId));
 		TodoListForm todoform = TodoListViewConverter.toView(todo);
-		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, todoform);
+
+		var info = TransactionInfo.<TodoListForm>builder()
+									.code(YbmMessages.CM00001_I.code())
+									.isError(false)
+									.object(todoform)
+									.build();
+		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, info);
+	}
+
+	@MessageMapping(YbmUrls.TODOLIST + "/{eventId}/{todoId}/publish/delete")
+	public void publishDelete(final @DestinationVariable("eventId") String eventId,
+						final @DestinationVariable("todoId") String todoId) {
+		if(StringUtils.isEmptyOrWhitespace(eventId) || StringUtils.isEmptyOrWhitespace(todoId)) {
+			messagingTemplate.convertAndSend("sub" + YbmUrls.TODOLIST + "/" + eventId, "情報の取得に失敗しました。");
+		}
+
+		Todo todo = todoListService.findTodoOf(new TodoId(todoId));
+		if(todo == null){
+			var info = TransactionInfo.<TodoListForm>builder()
+									.code(YbmMessages.CM00001_I.code())
+									.isError(false)
+									.object(new TodoListForm())
+									.build();
+			messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, info);	
+		}
+		int deleteCnt = todoListService.delete(todo);
+		TodoListForm todoform = TodoListViewConverter.toView(todo);
+
+		var info = TransactionInfo.<TodoListForm>builder()
+									.code(YbmMessages.CM00001_I.code())
+									.isError(false)
+									.object(todoform)
+									.method("delete")
+									.build();
+		messagingTemplate.convertAndSend("/sub" + YbmUrls.TODOLIST + "/" + eventId, info);
 	}
 
 }

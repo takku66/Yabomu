@@ -32,9 +32,9 @@ public class CheckItemEntityConverter {
 				.content(checkItemEntity.getContent())
 				.completed(toBoolStatus(checkItemEntity.getCompleted()))
 				.createUserId(new UserId(checkItemEntity.getCreateUserId()))
-				.createDateTime(new YbmDate(checkItemEntity.getCreateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
+				.createDateTime(new YbmDate(checkItemEntity.getCreateDateTime()))
 				.updateUserId(new UserId(checkItemEntity.getUpdateUserId()))
-				.updateDateTime(new YbmDate(checkItemEntity.getUpdateDateTime(), FmtPtn.HYPHEN_DATE_TIMEML6))
+				.updateDateTime(new YbmDate(checkItemEntity.getUpdateDateTime()))
 				.build();
 		return checkItem;
 	}

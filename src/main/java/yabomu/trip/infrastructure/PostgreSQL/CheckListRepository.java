@@ -15,6 +15,7 @@ import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 import yabomu.trip.infrastructure.converter.CheckItemEntityConverter;
+import yabomu.trip.infrastructure.converter.TodoListEntityConverter;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
 import yabomu.trip.infrastructure.mapper.CheckListMapper;
 
@@ -55,6 +56,7 @@ public class CheckListRepository implements ICheckListRepository {
 		return CheckItemEntityConverter.toDomain(checkItemEntityList);
 	}
 
+	
 	@Override
 	public int save(Todo todo) {
 		int sum = 0;
@@ -62,7 +64,7 @@ public class CheckListRepository implements ICheckListRepository {
 		Map<Integer, CheckItem> repoSeqMap = (Map<Integer, CheckItem>)repoCheckItem.stream().collect(Collectors.toMap(CheckItem::seq, e -> e));
 		for(CheckItem wantSaveItem : todo.checkList()){
 			if(repoSeqMap.containsKey(wantSaveItem.seq())){
-				if(wantSaveItem.equals(repoSeqMap.get(wantSaveItem.seq()))){
+				if(wantSaveItem.deepEquals(repoSeqMap.get(wantSaveItem.seq()))){
 					continue;
 				}
 				repoSeqMap.remove(wantSaveItem.seq());
@@ -88,6 +90,16 @@ public class CheckListRepository implements ICheckListRepository {
 			return mapper.update(CheckItemEntityConverter.toEntity(checkItem));
 		}
 
+	}
+
+	@Override
+	public int delete(CheckItem checkItem) {
+		return mapper.delete(CheckItemEntityConverter.toEntity(checkItem));
+	}
+
+	@Override
+	public int delete(Todo todo) {
+		return mapper.deleteAllCheckItem(TodoListEntityConverter.toEntity(todo));
 	}
 
 }

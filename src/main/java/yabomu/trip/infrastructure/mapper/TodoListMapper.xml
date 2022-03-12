@@ -157,10 +157,11 @@
 <!-- 		statementType="PREPARED" -->
 <!-- 		timeout="180"> -->
 <!-- 	</update> -->
-	<delete id="delete"
-		parameterType="yabomu.trip.domain.model.todolist.Todo"
-		flushCache="true"
-		statementType="PREPARED"
-		timeout="180">
+	<delete id="delete">
+		delete 
+		from todo_list 
+		where
+			event_id = #{eventId} AND
+			todo_id = #{todoId}
 	</delete>
 </mapper>

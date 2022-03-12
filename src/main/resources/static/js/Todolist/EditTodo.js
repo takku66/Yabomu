@@ -1,34 +1,39 @@
 import * as util from "../Common";
 import { TODO } from "./TodoView";
+import { TransactionInfo } from "../Common";
+import { CheckItemElement, CheckListElement } from "./CheckListElement";
 export class EditTodo {
     // 初期化処理
     constructor() {
-        this._eventIdElm = document.getElementById("hid-edit-event-id");
-        this._todoIdElm = document.getElementById("hid-edit-todo-id");
-        this._createUserIdElm = document.getElementById("hid-edit-create-user-id");
-        this._createUserNameElm = document.getElementById("hid-edit-create-user-name");
-        this._createDatetimeElm = document.getElementById("hid-edit-create-datetime");
-        this._updateUserIdElm = document.getElementById("hid-edit-update-user-id");
-        this._updateUserNameElm = document.getElementById("hid-edit-update-user-name");
-        this._updateDatetimeElm = document.getElementById("hid-edit-update-datetime");
-        this._areaElm = document.getElementById("edit-todo-area");
-        this._titleElm = document.getElementById("txt-edit-todo-title");
-        this._contentElm = document.getElementById("txta-edit-todo-content");
-        this._checklistArea = document.querySelector("#checklist-area ul.checklist");
-        this._addCheckBoxBtn = document.getElementById("btn-add-checklist");
-        this._reminderNoticeTimeElm = document.getElementById("slct-edit-reminder-notice-time");
-        this._reminderRepeatElm = document.getElementById("slct-edit-reminder-repeat");
-        this._startDateElm = document.getElementById("txt-edit-start-date");
-        this._startTimeElm = document.getElementById("txt-edit-start-time");
-        this._saveTodoBtn = document.getElementById("btn-save-todo");
-        this._cancelBtn = document.getElementById("btn-cancel-todo");
-        this._checklistTemplate = this.createTemplateCheckItem();
+        this._eventIdElm = document.getElementById(EditTodo.ET_IDS.eventIdElm);
+        this._todoIdElm = document.getElementById(EditTodo.ET_IDS.todoIdElm);
+        this._createUserIdElm = document.getElementById(EditTodo.ET_IDS.createUserIdElm);
+        this._createUserNameElm = document.getElementById(EditTodo.ET_IDS.createUserNameElm);
+        this._createDatetimeElm = document.getElementById(EditTodo.ET_IDS.createDatetimeElm);
+        this._updateUserIdElm = document.getElementById(EditTodo.ET_IDS.updateUserIdElm);
+        this._updateUserNameElm = document.getElementById(EditTodo.ET_IDS.updateUserNameElm);
+        this._updateDatetimeElm = document.getElementById(EditTodo.ET_IDS.updateDatetimeElm);
+        this._areaElm = document.getElementById(EditTodo.ET_IDS.areaElm);
+        this._titleElm = document.getElementById(EditTodo.ET_IDS.titleElm);
+        this._contentElm = document.getElementById(EditTodo.ET_IDS.contentElm);
+        this._checklistArea = document.getElementById(EditTodo.ET_IDS.checklistArea);
+        this._checklist = new CheckListElement(this._areaElm);
+        this._addCheckBoxBtn = document.getElementById(EditTodo.ET_IDS.addCheckBoxBtn);
+        this._reminderNoticeTimeElm = document.getElementById(EditTodo.ET_IDS.reminderNoticeTimeElm);
+        this._reminderRepeatElm = document.getElementById(EditTodo.ET_IDS.reminderRepeatElm);
+        this._startDateElm = document.getElementById(EditTodo.ET_IDS.startDateElm);
+        this._startTimeElm = document.getElementById(EditTodo.ET_IDS.startTimeElm);
+        this._saveTodoBtn = document.getElementById(EditTodo.ET_IDS.saveTodoBtn);
+        this._cancelBtn = document.getElementById(EditTodo.ET_IDS.cancelBtn);
+        this._deleteBtn = document.getElementById(EditTodo.ET_IDS.deleteBtn);
+        this._checklistTemplate = CheckItemElement.createTemplateCheckItem();
         this._addEventAddCheckList();
         this._addEventSave();
         this._addEventCancel();
+        this._addEventDelete();
     }
     setUpEditCard(elm) {
-        this._eventIdElm.value = document.querySelector(".choose-event.select")?.value || "";
+        this._eventIdElm.value = document.getElementsByClassName("choose-event select")[0]?.value || "";
         if (!this._eventIdElm.value) {
             throw new Error("イベントIDがありません。");
         }
@@ -102,6 +107,11 @@ export class EditTodo {
             TODO.mediator.closeTodo();
         }, false);
     }
+    _addEventDelete() {
+        this._deleteBtn.addEventListener("click", () => {
+            TODO.mediator.requestPublishDeleteTodo(this._eventIdElm.value, this._todoIdElm.value);
+        }, false);
+    }
     sendTodoJson() {
         const json = this.createJson();
         const todoId = json.todoId;
@@ -113,7 +123,6 @@ export class EditTodo {
         console.log(json);
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content || "";
         const token = document.querySelector('meta[name="_csrf"]')?.content || "";
-        TODO.mediator.queuePublisherTodo(json.eventId, json.todoId);
         fetch(url, {
             //			credentials: "same-origin",
             method: "POST",
@@ -128,11 +137,13 @@ export class EditTodo {
                 throw new Error(`${res.status}${res.statusText}`);
             }
             console.log(res);
-            return res.json();
+            return res.text();
         }).then((data) => {
             console.log(data);
-            TODO.mediator.requestPublishTodo();
-            TODO.mediator.pushMessage(`${data.message}`, 10000);
+            const transactionInfo = new TransactionInfo(data);
+            const returnTodo = transactionInfo.getData();
+            TODO.mediator.requestPublishTodo(returnTodo.eventId, returnTodo.todoId);
+            TODO.mediator.pushMessage(`${transactionInfo.getMessage()}`, 10000);
         }).catch((reason) => {
             console.log(reason);
         });
@@ -151,43 +162,6 @@ export class EditTodo {
                 return;
             delElm.remove();
         }, false);
-    }
-    // チェックリストのテンプレート要素を作成する
-    createTemplateCheckItem() {
-        const li = document.createElement("li");
-        const hidseq = document.createElement("input");
-        hidseq.type = "hidden";
-        hidseq.classList.add("checklist");
-        hidseq.classList.add("seq");
-        const label1 = document.createElement("label");
-        const label2 = document.createElement("label");
-        const textNode = document.createTextNode("\r\n");
-        const span = document.createElement("span");
-        span.classList.add("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.classList.add("checklist");
-        checkbox.classList.add("checkbox");
-        checkbox.classList.add("status");
-        const text = document.createElement("input");
-        text.type = "text";
-        text.classList.add("checklist");
-        text.classList.add("text");
-        text.placeholder = "◯◯を買う。";
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.classList.add("delete-btn-checklist");
-        delBtn.innerText = "×";
-        label1.appendChild(checkbox);
-        label2.appendChild(span);
-        label2.appendChild(text);
-        label2.appendChild(textNode.cloneNode(true));
-        label2.appendChild(delBtn);
-        li.appendChild(hidseq);
-        li.appendChild(label1);
-        li.appendChild(textNode.cloneNode(true));
-        li.appendChild(label2);
-        return li;
     }
     createJson() {
         const json = {
@@ -210,6 +184,7 @@ export class EditTodo {
         };
         return json;
     }
+    // TODO CheckListElementに移す
     // チェックリストの配列を返す。配列内の要素はJson形式
     collectCheckItems(todoArea) {
         if (todoArea === null)
@@ -263,4 +238,26 @@ export class EditTodo {
         return !(this._todoIdElm.value);
     }
 }
+EditTodo.ET_IDS = {
+    eventIdElm: "hid-edit-event-id",
+    todoIdElm: "hid-edit-todo-id",
+    createUserIdElm: "hid-edit-create-user-id",
+    createUserNameElm: "hid-edit-create-user-name",
+    createDatetimeElm: "hid-edit-create-datetime",
+    updateUserIdElm: "hid-edit-update-user-id",
+    updateUserNameElm: "hid-edit-update-user-name",
+    updateDatetimeElm: "hid-edit-update-datetime",
+    areaElm: "edit-todo-area",
+    titleElm: "txt-edit-todo-title",
+    contentElm: "txta-edit-todo-content",
+    checklistArea: "checklist-edit-list-area",
+    addCheckBoxBtn: "btn-add-checklist",
+    reminderNoticeTimeElm: "slct-edit-reminder-notice-time",
+    reminderRepeatElm: "slct-edit-reminder-repeat",
+    startDateElm: "txt-edit-start-date",
+    startTimeElm: "txt-edit-start-time",
+    saveTodoBtn: "btn-save-todo",
+    cancelBtn: "btn-cancel-todo",
+    deleteBtn: "btn-delete-todo",
+};
 //# sourceMappingURL=EditTodo.js.map

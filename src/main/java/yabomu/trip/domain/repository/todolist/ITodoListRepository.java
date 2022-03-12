@@ -35,7 +35,7 @@ public interface ITodoListRepository {
 
 	/**
 	 * <pre>
-	 * 指定されたキーのTODOリストを取得する
+	 * 指定されたキーのTODOデータを取得する
 	 * </pre>
 	 * @return
 	 */
@@ -51,10 +51,19 @@ public interface ITodoListRepository {
 
 	/**
 	 * <pre>
-	 * TODOリストを登録する
+	 * TODOデータを保存する
 	 * </pre>
 	 * @return
 	 */
 	public int save(Todo todo);
+
+	/**
+	 * <pre>
+	 * TODOデータを削除する
+	 * </pre>
+	 * @param todo
+	 * @return
+	 */
+	public int delete(Todo todo);
 
 }

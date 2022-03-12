@@ -30,4 +30,6 @@ public interface TodoListMapper {
 
 	public int update(TodoEntity entity);
 
+	public int delete(TodoEntity entity);
+
 }

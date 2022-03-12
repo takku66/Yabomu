@@ -1,5 +1,8 @@
 package yabomu.trip.domain.model.todolist;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,17 +66,23 @@ public class CheckItem {
 	public UserId createUserId() {
 		return this.createUserId;
 	}
-	public String createDateTime() {
+	public String createDateTimeStr() {
 		return this.createDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6);
 	}
-	public String updateDateTime() {
+	public LocalDateTime createDateTime() {
+		return this.createDateTime.value();
+	}
+	public String updateDateTimeStr() {
 		return this.updateDateTime.valueOf(YbmDate.FmtPtn.HYPHEN_DATE_TIMEML6);
+	}
+	public LocalDateTime updateDateTime() {
+		return this.updateDateTime.value();
 	}
 
 	/**
 	 * ユーザー情報や作成日時以外で等しければ、trueを返す
 	 */
-	public boolean equals(CheckItem checkItem){
+	public boolean deepEquals(CheckItem checkItem){
 		if(!checkItem.eventId().equals	(this.eventId)) return false;
 		if(!checkItem.todoId().equals	(this.todoId)) return false;
 		if(!checkItem.seq().equals		(this.seq)) return false;

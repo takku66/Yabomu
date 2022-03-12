@@ -31,44 +31,44 @@
 <!-- 	TODOリスト -->
 		<section id="todolist-container" class="todolist-container">
 			<th:block th:each="vForm,it : ${formlist}">
-				<div class="todo-box" th:data-idx="${it.index}">
+				<div class="todo-box">
 					<div class="todo-controle">
-						<img th:src="@{/img/save.svg}" id="img-save-todo" class="save-todo" title="保存する" />
-						<img th:src="@{/img/delete.svg}" id="img-delete-todo" class="delete-todo" title="削除する" />
+						<img th:src="@{/img/save.svg}" id="img-save-todo" class="img save-todo" title="保存する" />
+						<img th:src="@{/img/delete.svg}" id="img-delete-todo" class="img delete-todo" title="削除する" />
 					</div>
 					<input type="hidden" class="event-id" th:value="${vForm.eventId}" />
 					<input type="hidden" class="todo-id" th:value="${vForm.todoId}" />
-<!-- 					タイトル -->
+					<!-- タイトル -->
 					<p class="title">
-						<label th:data-idx="${it.index}" class="title label">
+						<label class="title label">
 							<th:block th:text="${vForm.title}"></th:block>
 						</label>
 						<label>
 							<input type="text" class="title text"
-									th:data-idx="${it.index}" th:value="${vForm.title}" />
+									th:value="${vForm.title}" />
 						</label>
 					</p>
-<!-- 					内容 -->
+					<!-- 内容 -->
 					<p class="content">
-						<label th:data-idx="${it.index}" class="content label"><th:block ybm:brtext="${vForm.content}"></th:block></label>
-						<textarea class="content text" th:data-idx="${it.index}"><th:block th:text="${vForm.content}"></th:block></textarea>
+						<label class="content label"><th:block ybm:brtext="${vForm.content}"></th:block></label>
+						<textarea class="content text"><th:block th:text="${vForm.content}"></th:block></textarea>
 					</p>
-<!-- 					チェックリスト -->
-					<ul class="checklist">
-						<li th:each="vCheckList,clIt : ${vForm.checkList}">
-							<input type="hidden" class="checklist seq" th:value="${vCheckList.seq}" />
+					<!-- チェックリスト -->
+					<ul class="checklist checklist-area">
+						<li class="check_item" th:each="vCheckList,clIt : ${vForm.checkList}">
+							<input type="hidden" class="checklist seq hid" th:value="${vCheckList.seq}" />
 							<label>
 								<input type="checkbox" class="checklist checkbox status" th:checked="${vCheckList.completed}" />
 							</label>
 							<label>
-								<span class="label"><th:block th:text="${vCheckList.content}"></th:block></span>
-								<input type="text" class="checklist text" th:data-idx="${it.index}" th:value="${vCheckList.content}" />
+								<span class="check_item_content label"><th:block th:text="${vCheckList.content}"></th:block></span>
+								<input type="text" class="checklist text" th:value="${vCheckList.content}" />
 								<button type="button" class="delete-btn-checklist">×</button>
 							</label>
 						</li>
 					</ul>
-<!-- 					リマインダー設定 -->
-					<p class="reminder" th:data-idx="${it.index}">
+					<!-- リマインダー設定 -->
+					<p class="reminder">
 						<div>
 							<img th:src="@{/img/timer.svg}" id="img-reminder-notice-time" class="reminder-notice-time" title="タイマー設定" />
 							<select class="reminder-notice-time select"
@@ -92,34 +92,26 @@
 							</select>
 						</div>
 					</p>
-<!-- 					開始日時 -->
+					<!-- 開始日時 -->
 					<p class="todo-start-datetime">
 						<img th:src="@{/img/calendar.svg}" id="img-start-datetime" class="start-datetime" title="予定日時" />
-						<label th:data-idx="${it.index}" class="todo-start-datetime label">
+						<label class="todo-start-datetime label">
 							<th:block th:text="${vForm.todoStartDate}"></th:block>
 							&nbsp;
 							<th:block th:text="${vForm.todoStartTime}"></th:block>
 						</label>
-						<input type="date" class="todo-start-date text"
-								th:data-idx="${it.index}" th:value="${vForm.todoStartDate}" />
-						<input type="time" class="todo-start-time text"
-								th:data-idx="${it.index}" th:value="${vForm.todoStartTime}" />
+						<input type="date" class="todo-start-date text" th:value="${vForm.todoStartDate}" />
+						<input type="time" class="todo-start-time text" th:value="${vForm.todoStartTime}" />
 					</p>
 					<p class="todo-create-info">
-						<input type="hidden" class="todo-create-user-id hid"
-								th:data-idx="${it.index}" th:value="${vForm.createUserId}" />
-						<input type="hidden" class="todo-create-user-name hid"
-								th:data-idx="${it.index}" th:value="${vForm.createUserName}" />
-						<input type="hidden" class="todo-create-datetime hid"
-								th:data-idx="${it.index}" th:value="${vForm.createDateTime}" />
+						<input type="hidden" class="todo-create-user-id hid" th:value="${vForm.createUserId}" />
+						<input type="hidden" class="todo-create-user-name hid" th:value="${vForm.createUserName}" />
+						<input type="hidden" class="todo-create-datetime hid" th:value="${vForm.createDateTime}" />
 					</p>
 					<p class="todo-update-info">
-						<input type="hidden" class="todo-update-user-id hid"
-								th:data-idx="${it.index}" th:value="${vForm.updateUserId}" />
-						<input type="hidden" class="todo-update-user-name hid"
-								th:data-idx="${it.index}" th:value="${vForm.updateUserName}" />
-						<input type="hidden" class="todo-update-datetime hid"
-								th:data-idx="${it.index}" th:value="${vForm.updateDateTime}" />
+						<input type="hidden" class="todo-update-user-id hid" th:value="${vForm.updateUserId}" />
+						<input type="hidden" class="todo-update-user-name hid" th:value="${vForm.updateUserName}" />
+						<input type="hidden" class="todo-update-datetime hid" th:value="${vForm.updateDateTime}" />
 					</p>
 				</div>
 			</th:block>
@@ -138,9 +130,8 @@
 				<p class="content edit-item">
 					<textarea id="txta-edit-todo-content" class="content" placeholder="内容" ></textarea>
 				</p>
-				<div id="checklist-area" class="checklist-area edit-item">
-					<ul class="checklist">
-					</ul>
+				<div id="checklist-edit-area" class="checklist-area edit-item">
+					<ul id="checklist-edit-list-area" class="checklist"></ul>
 					<button type="button" id="btn-add-checklist" class="btn-add-checklist">＋追加</button>
 				</div>
 				<p class="reminder">
@@ -180,17 +171,28 @@
 				</p>
 			</div>
 			<div class="bottom-area">
-				<button type="button" id="btn-save-todo">保存</button>
-				<button type="button" id="btn-cancel-todo">キャンセル</button>
+				<button type="button" id="btn-save-todo" class="btn save-todo">保存</button>
+				<button type="button" id="btn-cancel-todo" class="btn cancel-todo">キャンセル</button>
+				<button type="button" id="btn-delete-todo" class="btn delete-todo">削除</button>
 			</div>
 		</div>
-		<div id="edit-todo-filter" class="base-filter filter">
-		</div>
+		<div id="edit-todo-filter" class="base-filter filter"></div>
 
 <!-- 		いずれ共通化する -->
 		<div id="message-area" class="message-area">
 			<ul id="message-list" class="message-list">
 			</ul>
+		</div>
+		<div>
+			<li id="checkItemTemplate" class="check-item hidden">
+				<input type="hidden" class="checklist seq hid" value="">
+				<label><input type="checkbox" class="checklist checkbox status"></label>
+				<label>
+					<span class="check-item-content label"></span>
+					<input type="text" class="checklist text" value="" placeholder="○○を買う">
+					<button type="button" class="delete-btn-checklist">×</button>
+				</label>
+			</li>
 		</div>
 	</main>
 </body>

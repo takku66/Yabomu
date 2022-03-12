@@ -8,6 +8,7 @@ import yabomu.trip.domain.valueobject.EventId;
 import yabomu.trip.domain.valueobject.TodoId;
 import yabomu.trip.infrastructure.condition.CheckItemCondition;
 import yabomu.trip.infrastructure.entity.CheckItemEntity;
+import yabomu.trip.infrastructure.entity.TodoEntity;
 
 /**
  * <pre>
@@ -31,4 +32,6 @@ public interface CheckListMapper {
 	public int update(CheckItemEntity entity);
 
 	public int delete(CheckItemEntity entity);
+	
+	public int deleteAllCheckItem(TodoEntity entity);
 }

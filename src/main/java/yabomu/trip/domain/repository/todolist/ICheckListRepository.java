@@ -53,7 +53,7 @@ public interface ICheckListRepository {
 
 	/**
 	 * <pre>
-	 * チェックリストを保存する
+	 * 指定されたTODOに紐づくチェックリストを全て保存する
 	 * </pre>
 	 * @return
 	 */
@@ -61,10 +61,27 @@ public interface ICheckListRepository {
 
 	/**
 	 * <pre>
-	 * チェックリストを保存する
+	 * 指定されたチェック項目のみを保存する
 	 * </pre>
 	 * @return
 	 */
 	public int save(CheckItem checkItem);
+
+	/**
+	 * <pre>
+	 * 指定されたTODOに紐づくチェックリストを全て削除する
+	 * </pre>
+	 * @return
+	 */
+	public int delete(Todo todo);
+
+	
+	/**
+	 * <pre>
+	 * 指定されたチェック項目のみを削除する
+	 * </pre>
+	 * @return
+	 */
+	public int delete(CheckItem checkItem);
 
 }

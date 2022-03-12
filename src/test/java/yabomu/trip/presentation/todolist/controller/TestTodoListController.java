@@ -240,7 +240,7 @@ class TestTodoListController {
 		// 指定のURLはJSONで受け付けるため、JSONへの変換処理を行う。
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(form);
-		MvcResult mvcResult = mockMvc.perform((post(YbmUrls.TODOLIST + "/" + todo.todoId() + "/save"))
+		MvcResult mvcResult = mockMvc.perform((post(YbmUrls.TODOLIST + "/" + todo.eventId() + "/" + todo.todoId() + "/save"))
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(json))
 					.andDo(print())

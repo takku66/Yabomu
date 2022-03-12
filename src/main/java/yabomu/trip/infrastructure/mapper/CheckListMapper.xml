@@ -116,4 +116,11 @@
 			todo_id = #{todoId} AND
 			seq = #{seq}
 	</delete>
+	<delete id="deleteAllCheckItem" parameterType="yabomu.trip.infrastructure.entity.TodoEntity">
+		delete 
+		from check_list 
+		where
+			event_id = #{eventId} AND
+			todo_id = #{todoId}
+	</delete>
 </mapper>

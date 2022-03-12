@@ -1,5 +1,7 @@
 package yabomu.trip.infrastructure.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -11,7 +13,7 @@ public class CheckItemEntity {
 	private String completed;
 	private Long createUserId;
 	private Long updateUserId;
-	private String createDateTime;
-	private String updateDateTime;
+	private LocalDateTime createDateTime;
+	private LocalDateTime updateDateTime;
 
 }

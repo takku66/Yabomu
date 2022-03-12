@@ -1,13 +1,22 @@
 package yabomu.trip.shared;
 
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class TransactionInfo {
+@Builder
+@Component
+@RequestScope
+public class TransactionInfo<T> {
     private String code;
-    private int count;
     private String message;
+    @Builder.Default
     private boolean isError = false;
-    private Object body;
+    private String method;
+    private T object;
+
 }
