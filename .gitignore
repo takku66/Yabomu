@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /logs/*.log
+/out/
 *.code-workspace
 
 ### STS ###

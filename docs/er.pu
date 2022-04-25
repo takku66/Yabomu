@@ -1,0 +1,122 @@
+@startuml Yabom TRIP ER
+
+hide circle
+
+skinparam linetype ortho
+
+entity "イベント" as event {
+  * event_id : number 
+  --
+  owner_id : number
+  name : text
+  content : text
+  place: text
+  start_date_time
+  end_date_time
+}
+
+entity "イベント参加" as event_join {
+    * event_id : number
+    * user_id : number
+    --
+    canceled : boolean
+    created_at : datetime
+}
+
+entity "TODO" as todo {
+  * event_id : number 
+  * todo_id : number 
+  --
+  title : text 
+  content : text
+}
+
+entity "チェックリスト" as checklist {
+  * event_id : number 
+  * todo_id : number 
+  * seq : number 
+  --
+  content : text
+  completed : boolean
+}
+
+entity "スケジュール" as schedule {
+  * event_id : number 
+  * date : date
+  * seq : number 
+  --
+  title : text
+  detail : text
+  start_time : text
+  end_time : text
+}
+
+entity "見どころ" as spot {
+  * event_id : number 
+  * spot_id : number
+  --
+  create_user_id : number
+  name : text 
+  content : text
+}
+entity "見どころコメント" as comment_to_spot {
+  * event_id : number 
+  * spot_id : number
+  * comment_seq : number
+  --
+  comment_user_id : number
+  content : text
+}
+
+
+entity "交通情報" as traffic {
+  * event_id : number 
+  * traffic_id : number
+  * seq : number
+  --
+  create_user_id : number
+  name : text 
+  content : text
+}
+
+
+
+entity "アルバム" as album {
+  * event_id : number 
+  * album_id : number
+  * seq : number
+  --
+  create_user_id : number
+  name : text 
+  content : text
+}
+entity "アルバムコメント" as comment_to_album {
+  * event_id : number 
+  * album_id : number
+  * comment_seq : number
+  --
+  comment_user_id : number
+  content : text
+}
+
+entity "ユーザー" as user {
+  * user_id : number 
+  --
+  name : text
+  mail_address : text
+}
+
+event ||..o{ todo
+event ||..o{ schedule
+event ||..o{ spot
+event ||..o{ traffic
+event ||..o{ album
+event ||..o{ event_join
+user ||..o{ event_join
+
+spot ||..o{ comment_to_spot
+album ||..o{ comment_to_album
+todo ||..o{ checklist
+
+
+@enduml
