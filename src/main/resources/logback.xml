@@ -1,7 +1,22 @@
 <configuration>
     <property name="logDir" value="./logs/" />
     <property name="fileName" value="ybm.log" />
+    <property name="error_fileName" value="error_ybm.log" />
     <property name="format1" value="%d{yyyy/MM/dd HH:mm:ss.SSS} [%-4p] [%c] %m%n" />
+
+    <appender name="ERR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}${error_fileName}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}${error_fileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${format1}</pattern>
+        </encoder>
+    </appender>
+
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}${fileName}</file>
 
@@ -21,8 +36,13 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <root>
         <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <root level="error">
+        <appender-ref ref="ERR_FILE" />
         <appender-ref ref="STDOUT" />
     </root>
 
