@@ -161,3 +161,44 @@ e.preventDefault()で、デフォルトの挙動は抑止するようにする�
 
 
 ■Auth0導入　続き
+前にも出てきているが、以下を参考に実装する
+・Spring側
+https://ti-tomo-knowledge.hatenablog.com/entry/2018/06/12/235720
+https://morioh.com/p/6c821d3350ac
+
+・React側
+
+
+まずはSpring側だけで認証する方法で試してみる。
+Reactは使用せず、Thymeleafの部品を使って認証画面を実装してみる。
+-----------------------------------------------------------------
+1.Auth0の導入時に設定したURL周りを、localhost:8080に向くように修正する
+コールバックのURLは、以下のように設定
+http://localhost:8080/login/oauth2/code/auth0
+
+2.WebSecurityConfigをコピーして、OAuthSecurityConfig的なものを作る
+WebSecurityConfigurerAdapterを使っているところが２つ以上あるので、
+@Orderをつけて、順番を指定してあげる。
+
+3.中身の実装。一旦単純にhttp.oauth2Login();とするだけ。
+ログアウト処理は後で実装する。
+
+4.次はフロント側。index.htmlを作って、
+sec:authorize="!isAuthenticated() で認証されていなかった場合に
+@{/oauth2/authorization/auth0} へ飛ばしてあげうようにする。
+
+5.後は、index.htmlに飛ぶようにコントローラを設定してあげて、実際に打鍵してみる
+-----------------------------------------------------------------
+次はログアウト処理。通常のSpringSecurityだけでも、WEBアプリ上のセッションは破棄されるが、
+Auth0上のログイン情報は、残り続けてしまう。ので、ログアウト処理を実装する。
+1.SecurityContextLogoutHandlerを継承した、LogoutHandler.javaを新しく作成する。
+2.OAuthSecurityConfigに、1で作成したLogoutHandlerをコンストラクタでインジェクションするようにし、
+configureのログアウト処理の中で使用する用に設定する
+3.Auth0で設定したAllowed Logout URLとあっているか確認する
+※最後に/を入れていないとエラーになるので注意
+-----------------------------------------------------------------
+
+前提として、
+
+認証・認可の流れ
+１．
