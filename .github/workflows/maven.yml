@@ -38,11 +38,11 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $APP_PROP >> ./src/main/resources/application-sec.properties
-          cat ./src/main/resources/application.properties
-          cat ./src/main/resources/application-sec.properties
+          echo $APP_PROP >> ./src/main/resources/application-sec.yml
+          cat ./src/main/resources/application.yml
+          cat ./src/main/resources/application-sec.yml
           cd ./src/main/resources
-          grep jdbc:postgresql://localhost:5432 application-sec.properties
+          grep jdbc:postgresql://localhost:5432 application-sec.yml
       shell: bash
       env:
         APP_PROP: ${{ secrets.APP_PROP }}
