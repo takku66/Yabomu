@@ -46,6 +46,7 @@ jobs:
           echo $OAUTH_SCOPE >> ./src/main/resources/application-sec.properties
           echo $OAUTH_PROVIDER >> ./src/main/resources/application-sec.properties
           cat ./src/main/resources/application.properties
+          cat ./src/main/resources/application-sec.properties
       shell: bash
       env:
         DB_URL: ${{ secrets.DATASOURCE_URL }}
