@@ -38,25 +38,13 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $DB_URL >> ./src/main/resources/application-sec.properties
-          echo $DB_USER >> ./src/main/resources/application-sec.properties
-          echo $DB_PASS >> ./src/main/resources/application-sec.properties
-          echo $OAUTH_CL_ID >> ./src/main/resources/application-sec.properties
-          echo $OAUTH_CL_SEC >> ./src/main/resources/application-sec.properties
-          echo $OAUTH_SCOPE >> ./src/main/resources/application-sec.properties
-          echo $OAUTH_PROVIDER >> ./src/main/resources/application-sec.properties
+          echo $APP_PROP >> ./src/main/resources/application-sec.properties
           cat ./src/main/resources/application.properties
           cat ./src/main/resources/application-sec.properties
           cd ./src/main/resources
           grep jdbc:postgresql://localhost:5432 application-sec.properties
       shell: bash
       env:
-        DB_URL: ${{ secrets.DATASOURCE_URL }}
-        DB_USER: ${{ secrets.DATASOURCE_USER_NAME }}
-        DB_PASS: ${{ secrets.DATASOURCE_PASSWORD }}
-        OAUTH_CL_ID: ${{ secrets.OAUTH_CLIENT_ID }}
-        OAUTH_CL_SEC: ${{ secrets.OAUTH_CLIENT_SECRET }}
-        OAUTH_SCOPE: ${{ secrets.OAUTH_SCOPE }}
-        OAUTH_PROVIDER: ${{ secrets.OAUTH_PROVIDER_URI }}
+        APP_PROP: ${{ secrets.APP_PROP }}
     - name: Build with Maven
       run: mvn -B -e -X package --file pom.xml

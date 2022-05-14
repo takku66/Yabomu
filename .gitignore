@@ -39,4 +39,5 @@ build/
 ### NodeJS ###
 /frontend/node_modules/
 
-application.yml
+application-sec.yml
+application-sec.properties

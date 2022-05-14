@@ -1,0 +1,10 @@
+
+mapper-locations: classpath*:/yabomu/trip/infrastructure/mapper/*.xml
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+  profiles:
+    active: sec
+
+debug: false
