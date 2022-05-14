@@ -1,0 +1,31 @@
+@startuml React Spring 想定開発フロー
+
+
+participant Developer as developer
+participant FrontendSrc as frontendsrc
+participant Browser as browser
+participant PackageJson as packagejson
+participant ReactServer as react
+participant Proxy as proxy
+participant SpringServer as spring
+participant BackendSrc as backendsrc
+
+developer -> react:サーバー起動(3000)
+developer -> frontendsrc:修正
+developer <-- frontendsrc:自動ビルド
+developer -> browser:反映確認
+group Springへのリソース連携
+    developer -> packagejson:ビルド実行
+    packagejson --> frontendsrc:Spring用のリソースとして取得
+    packagejson -> spring:取得したリソースの配置
+end
+developer -> spring:サーバー起動(8080)
+developer -> backendsrc:修正
+spring <-- backendsrc:自動ビルド
+developer -> browser:反映確認
+browser -> proxy:8080へリクエスト
+proxy -> spring:リクエスト
+proxy <- spring:レスポンス
+browser <- proxy:レスポンス
+
+@enduml

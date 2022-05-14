@@ -1,0 +1,22 @@
+@startuml React Spring 認証フロー(cookie方式)
+
+
+participant User as user
+participant Browser as browser
+participant Application as app
+
+user -> browser:ログインページアクセス
+user -> browser:認証情報入力
+browser -> app:ログイン処理
+app -> app:セッションID発行
+note over app:session id=hogehoge
+browser <- app:セッションID
+browser -> browser:CookieにセッションIDを格納
+note over browser:Cookie:session id=hogehoge
+user -> browser:検索・登録等
+browser -> app:Cookie:session id=hogehoge
+app -> app:セッション情報取得
+browser <- app:処理結果
+note over browser: Cookie:session id=hogehoge
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml React Spring 認証フロー(OpenID Connect方式)
+
+
+participant User as user
+participant ClientApp as clientapp
+box OpenIDプロバイダーには、\nGoogleのAPIだったり、\nAuth0を使用することで\n認証・認可の実装部分は\nある程度省くことができる #White
+participant OpenID_Provider as provider
+end box
+
+clientapp ->o provider:認証認可リクエスト
+note right :認可エンドポイント
+user <-- provider:本人確認（認証）
+note left :〇〇アプリに□□な権限を\n与えてもいいですか？
+user --> provider:承認・拒否
+clientapp <- provider:認可コード
+note over clientapp: 認可コード
+clientapp ->o provider:トークンリクエスト
+note right :トークンエンドポイント
+clientapp <- provider:IDトークン\nアクセストークン
+note over clientapp :IDトークン\nアクセストークン
+
+@enduml

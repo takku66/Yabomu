@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import yabomu.trip.usecase.todolist.TodoListService;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin
 public class TodoListApiController {
 	final private TodoListService todoListService;
 	ObjectMapper mapper;

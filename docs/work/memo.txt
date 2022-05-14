@@ -1,0 +1,163 @@
+■Auth0導入編
+参考URL:
+https://dev.classmethod.jp/articles/oidc-integration-with-auth0/
+https://qiita.com/hisashiyamaguchi/items/2d0bcae052077f6ae4a4
+
+ここで無料プランでAuth0で構築スタートクリック
+https://auth0.com/jp/pricing
+
+テナントを日本に設定して、名前も指定
+dev-tk001.jp.auth0.com
+
+Create Applicationをクリック
+
+アプリケーションの名前を設定し、アプリの種類を選択
+Regular Web Application
+
+Settigsタブで下記入力
+・Application Login URI
+・Allowed Callback URLs：認証後に遷移させるページ
+・Allowed Logout URLs：ログアウトした後に遷移させるページ
+・Allowed Web Origins：
+・Allowed Origins (CORS)
+
+
+■Reactでログイン試行編
+Node.jsサーバー立ち上げる必要があるっぽいので、
+src/main配下に、reactフォルダを作成してそこで動作させる
+
+・前提条件
+Nodejsのインストール
+
+・手順
+★★★ここからの手順は飛ばしてよし
+React.jsを落とす
+npm install react --save
+
+npm install gulp --save
+npm install browserify --save
+npm install reactify --save
+npm install vinyl-source-stream --save
+※まとめて以下でもよし
+npm install gulp browserify reactify vinyl-source-stream --save
+
+gulpだけはグローバルで扱えるようにしたいので、以下
+npm install gulp -g
+
+npm install react-dom --save
+
+npm install create-react-class --save-dev
+npm install prop-types  --save-dev
+★★★ここまで
+
+create-react-appしたフォルダにあるpackage.jsonから、
+必要そうなものを引っ張ってきて、作成したいプロジェクトのpackage.json
+に貼り付け。
+そこで、npm installすれば、必要なものをインストールしてくれる。
+
+だが、インストールはできても、肝心のサーバーの立ち上げで困る
+実際にやってみると、npm startは、package.jsonと同ディレクトリを
+見に行ってしまうため、MyApp\Yabomu\publicを探しにいってエラーとなる。
+
+そこで、フォルダ構成を変更しても大丈夫なように、以下をインストール
+npm install react-app-rewired --save-dev
+これで、フォルダ構成を変えても、その変更した構成で読み込ませることができる。
+https://www.luku.work/create-react-app-rename-src
+
+でもやっぱりpublicの位置の変え方とかはわからなかったから、結局プロジェクトの
+ディレクトリ直下に、直接public/index.htmlを置くことにした。
+
+。。。色々やってみたけど失敗。。。
+プロジェクトディレクトリ直下にpublicとsrcを配置して、
+でもsrcがSpringBootのディレクトリ構成と被るため、
+srcフォルダをclientにして、config-overrides.jsを配置。
+でも、ES Moduleでコンパイルしようとしたが、
+パッケージ内でCommonJSを使用しているものもあり、えらー。
+
+アプリ自体の構成を鑑みて、以下でもよいかと思ったので、これでいく。
+プロジェクトフォルダ
+└サーバー側のフォルダ類（src）
+└フロント側のフォルダ類（frontend）
+
+実際、SPAを目指すのであれば、サーバー側はSpringで行く前提なので、
+Nodejsを使用する必要がない。
+Nodejsを使用するのは、フロント側でよい。
+実際にデプロイを考えるときになったら、フロント側のソースフォルダから、
+ビルドのタイミングでサーバー側に配置できるようにすればよいかと思う。
+行けるかわからないが、、、
+
+■Spring Boot と React間でのログイン
+まずはpom.xmlに以下を追加する必要がある。
+参考：https://auth0.com/docs/quickstart/webapp/java-spring-boot/01-login
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+以下は必要に応じて
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
+
+そしてログイン機能を作りたいが、、、
+今あるID/パスワード方式の認証もそのままなくしてしまいたくはない
+実際２つの方式でログインできるアプリケーションだってある。
+それを実装する方針にする。
+
+Spring Securityを使っている場合だと、
+WebSecurityConfigurerAdapter を継承してクラスを用意する必要がある。
+そのクラス内でconfigureメソッドを実装してあげれば、認証処理を
+行うことができるわけだが、今回は２つのルートがあるので、
+２つのクラスを作る必要がある。
+参考：https://ti-tomo-knowledge.hatenablog.com/entry/2018/06/12/235720
+
+これを見る感じだと、既存のログインについては、
+.antMatcher("/**") 的なものをつけてあげて、
+auto0用のログインについては、
+.antMatcher("/auth/**") 的なものをつけてあげればいけるか？
+後は、@Orderをつけてあげるだけ。順番には気をつけよう。
+
+ここの実装は後でする
+
+一旦ログインは考えずに、ReactとSpringBoot間でAPI連携ができることを確認する
+
+■Spring BootとReact間でのAPI連携
+まずはログイン機能を無効化する
+WebSecurityConfigクラスの、.anyRequest().authenticated()をコメントアウト
+
+ここからAPI連携
+まずReact側から、以下のURLを呼び出す処理を追加してあげる
+http://localhost:8080/api/todolist/XXX...
+
+単純にこのURLを叩くと、JSONがちゃんと返される
+
+なので、今度はReactからsubmitでこのURLを叩く
+→ちゃんと画面遷移されて、JSONが返される
+
+今度はAPI連携っぽく、fetchを使ってみる
+→エラー。403。Forbiddenが帰ってくる
+CORSエラーで、サーバー側のレスポンスヘッダーに、以下を設定してあげないといけないみたい
+"Access-Control-Allow-Origin" : "*",
+
+ここがとても参考になる。
+https://b1san-blog.com/post/spring/spring-cors/
+SpringBootでは、アノテーションをつける方法か、configクラスで定義する方法があり、
+前者は限定的、後者は広範囲に適用できる
+今回は、一旦前者の方法で実装
+
+。。。うまくいかない
+なんかネットワークタブみると、取り消されました　とか表示されている。
+
+よくよく調べてみると、form内にボタンがある状態でajax通信をしようとすると、
+ajaxの非同期通信とは別に、通常のリクエスト処理も走ってしまうみたい
+https://www.web-dev-qa-db-ja.com/ja/debugging/chrome%e3%83%87%e3%83%99%e3%83%ad%e3%83%83%e3%83%91%e3%83%bc%e3%83%84%e3%83%bc%e3%83%ab%e3%81%a7%e3%81%af%e3%80%81%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e3%81%ab%e5%af%be%e3%81%97%e3%81%a6status-cancelled%e3%81%a8%e3%81%af%e3%81%a9%e3%81%86%e3%81%84%e3%81%86%e6%84%8f%e5%91%b3%e3%81%a7%e3%81%99%e3%81%8b%ef%bc%9f/1067713247/
+e.preventDefault()で、デフォルトの挙動は抑止するようにする。
+
+
+
+■Auth0導入　続き
