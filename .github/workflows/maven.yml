@@ -47,6 +47,8 @@ jobs:
           echo $OAUTH_PROVIDER >> ./src/main/resources/application-sec.properties
           cat ./src/main/resources/application.properties
           cat ./src/main/resources/application-sec.properties
+          cd ./src/main/resources
+          grep jdbc:postgresql://localhost:5432
       shell: bash
       env:
         DB_URL: ${{ secrets.DATASOURCE_URL }}
