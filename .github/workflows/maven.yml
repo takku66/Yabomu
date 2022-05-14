@@ -35,5 +35,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+
+    - name: Adding secret
+      run: |
+          echo $APP_PROP_FILE >> src/main/resources/application.properties
+          cat src/main/resources/application.properties
+      shell: bash
+      env:
+        APP_PROP_FILE: ${{secrets.APPLICATION_PROPERTIES}}
     - name: Build with Maven
       run: mvn -B -e -X package --file pom.xml
