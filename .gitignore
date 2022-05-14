@@ -40,4 +40,4 @@ build/
 /frontend/node_modules/
 
 application.yml
-application.properties
+application-sec.properties

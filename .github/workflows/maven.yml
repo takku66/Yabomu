@@ -38,10 +38,22 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $APP_PROP_FILE >> ./src/main/resources/application.properties
+          echo $DB_URL >> ./src/main/resources/application-sec.properties
+          echo $DB_USER >> ./src/main/resources/application-sec.properties
+          echo $DB_PASS >> ./src/main/resources/application-sec.properties
+          echo $OAUTH_CL_ID >> ./src/main/resources/application-sec.properties
+          echo $OAUTH_CL_SEC >> ./src/main/resources/application-sec.properties
+          echo $OAUTH_SCOPE >> ./src/main/resources/application-sec.properties
+          echo $OAUTH_PROVIDER >> ./src/main/resources/application-sec.properties
           cat ./src/main/resources/application.properties
       shell: bash
       env:
-        APP_PROP_FILE: ${{ secrets.APPLICATION_PROPERTIES }}
+        DB_URL: ${{ secrets.DATASOURCE_URL }}
+        DB_USER: ${{ secrets.DATASOURCE_USER_NAME }}
+        DB_PASS: ${{ secrets.DATASOURCE_PASSWORD }}
+        OAUTH_CL_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+        OAUTH_CL_SEC: ${{ secrets.OAUTH_CLIENT_SECRET }}
+        OAUTH_SCOPE: ${{ secrets.OAUTH_SCOPE }}
+        OAUTH_PROVIDER: ${{ secrets.OAUTH_PROVIDER_URI }}
     - name: Build with Maven
       run: mvn -B -e -X package --file pom.xml
