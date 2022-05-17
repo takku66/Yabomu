@@ -38,13 +38,11 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $APP_PROP >> ./src/main/resources/application-sec.yml
-          cat ./src/main/resources/application.yml
-          cat ./src/main/resources/application-sec.yml
+          sudo gpg --batch --passphrase-fd $GPG_PASS --output ./src/main/resources/application-sec.yml --decrypt ./src/main/resources/application-sec.yml.gpg
           cd ./src/main/resources
           grep jdbc:postgresql://localhost:5432 application-sec.yml
       shell: bash
       env:
-        APP_PROP: ${{ secrets.APP_PROP }}
+        GPG_PASS: ${{ secrets.GPG_PASSPHRASE }}
     - name: Build with Maven
       run: mvn -B -e -X package --file pom.xml
