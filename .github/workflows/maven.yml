@@ -38,7 +38,7 @@ jobs:
 
     - name: Adding secret
       run: |
-          sudo gpg --batch --passphrase-fd $GPG_PASS --output ./src/main/resources/application-sec.yml --decrypt ./src/main/resources/application-sec.yml.gpg
+          echo "$GPG_PASS" | sudo gpg --batch --passphrase-fd  --output ./src/main/resources/application-sec.yml --decrypt ./src/main/resources/application-sec.yml.gpg
           cd ./src/main/resources
           grep jdbc:postgresql://localhost:5432 application-sec.yml
       shell: bash
