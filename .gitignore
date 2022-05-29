@@ -41,3 +41,5 @@ build/
 
 application-sec.yml
 application-sec.properties
+
+secrets.txt
